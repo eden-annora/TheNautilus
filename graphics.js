@@ -14,7 +14,8 @@ var forceblocklist = [];
 
 function draw(dtime) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = "10 Arial";
+  ctx.fillStyle = "#34ebba"
+  ctx.font = "12px Courier New"
   ctx.fillText("total spores:", 10, 35);
   ctx.fillText("spore cap: 100", 10, 20);
   ctx.fillText(sporelist.length, 100, 35);
@@ -90,9 +91,9 @@ function spawnspores(){
 
 function init() {
   player1 = new player(0,0);
-  tmp = new scannable(-500,-500,100,"text blurb, it aint pretty, ill fix that later when i care enough")
-  tmp2 = new scannable(-650,-500,200,"this one took longer to scan")
-  tmp3 = new scannable(-800,-500,100,"hi, this sucked to code, i dont want to live anymore")
+  tmp = new scannable(-500,-500,1000,["text blurb, it aint pretty,","ill fix that later when i","care enough...","also this is line four"])
+  tmp2 = new scannable(-650,-500,200,["this one took longer to scan"])
+  tmp3 = new scannable(-800,-500,100,["hi, this sucked to code, i dont want to live anymore"])
   scannableobjects = [tmp,tmp2,tmp3]
   entities = [player1,tmp,tmp2,tmp3];
   forceblocklist = [
