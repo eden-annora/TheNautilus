@@ -1,33 +1,75 @@
 class scannable{
-  static #name = "scannable";
+static #name = "scannable";
 
-  name;
+name;
   
-  constructor(X,Y,timetoscan,content){
-  this.pos = new vector(X,Y);
-  this.content = content
-  this.completion = timetoscan
+constructor(X,Y,timetoscan,content){
+this.pos = new vector(X,Y);
+this.content = content
+this.completion = timetoscan
+this.targeted = false
+}
+dist(obj){
+return this.pos.dist(obj.pos)
+}
+update(DT,player){
+  if (this.targeted && this.completion > 0){this.completion -= 1}
   this.targeted = false
+}
+ draw(){
+  ctx.fillStyle = "#00EBB4"
+  ctx.font = "10px Courier New"
+  if (this.completion > 1 && this.targeted){
+  ctx.drawImage(player_scannerblurb, this.pos.X - player1.pos.X + centerOfCanvas.X-15, this.pos.Y - player1.pos.Y + centerOfCanvas.Y-15 ,100,108);
+  ctx.drawImage(player_scannerblurb, this.pos.X - player1.pos.X + centerOfCanvas.X-2, this.pos.Y - player1.pos.Y + centerOfCanvas.Y+5,75,75);
+  ctx.fillText("SCANNING...", this.pos.X - player1.pos.X + centerOfCanvas.X,this.pos.Y - player1.pos.Y + centerOfCanvas.Y - 1);
+  let tPP = ((Math.sin((time+360)/100)+1)*15)
+  let tPN = ((Math.sin((time-360)/100)+1)*15)
+  let tNP = ((Math.sin((-time+360)/100)+1)*15)
+  let tNN = ((Math.sin((-time-360)/100)+1)*15)
+
+  let p1X = (this.pos.X - player1.pos.X + centerOfCanvas.X+tNN+20)
+  let p1Y = (this.pos.Y - player1.pos.Y + centerOfCanvas.Y+tNP+25)+2
+  let p2X = (this.pos.X - player1.pos.X + centerOfCanvas.X+tPP+20)
+  let p2Y = (this.pos.Y - player1.pos.Y + centerOfCanvas.Y+tNN+25)+2
+  let p3X = (this.pos.X - player1.pos.X + centerOfCanvas.X+tNN+20)
+  let p3Y = (this.pos.Y - player1.pos.Y + centerOfCanvas.Y+tPP+25)+2
+  let p4X = (this.pos.X - player1.pos.X + centerOfCanvas.X+tPP+20)
+  let p4Y = (this.pos.Y - player1.pos.Y + centerOfCanvas.Y+tPN+25)+2
+  
+  ctx.beginPath();
+  ctx.moveTo(p1X,p1Y)
+  ctx.lineTo(p2X,p2Y)
+  ctx.moveTo(p2X,p2Y)
+  ctx.lineTo(p3X,p3Y)
+  ctx.moveTo(p3X,p3Y)
+  ctx.lineTo(p4X,p4Y)
+  ctx.moveTo(p4X,p4Y)
+  ctx.lineTo(p1X,p1Y)
+  ctx.stroke();
   }
-  dist(obj){
-  return this.pos.dist(obj.pos)
+  
+  if (this.completion <= 0 && this.targeted){
+    ctx.drawImage(player_scannerblurb, this.pos.X - player1.pos.X + centerOfCanvas.X-15, this.pos.Y - player1.pos.Y + centerOfCanvas.Y-15 ,200,200);
+    let count = this.content.length;
+    for(let i = 0; i < count; i++) {
+      let line = this.content[i];
+      ctx.fillText(line, this.pos.X - player1.pos.X + centerOfCanvas.X,this.pos.Y - player1.pos.Y + centerOfCanvas.Y+i*10)
+    }
   }
-  update(DT,player){
-    if (this.targeted && this.completion > 0){this.completion -= 1}
-    this.targeted = false
-  }
-  draw(){
-    if (this.completion <= 0 && this.targeted){
-      ctx.font = "10 Arial"
-      ctx.fillText(this.content, this.pos.X - player1.pos.X + centerOfCanvas.X,this.pos.Y - player1.pos.Y + centerOfCanvas.Y)
-    } else {
+  if (!(this.targeted)){
+    ctx.fillStyle = "#34ebba"
+    ctx.font = "12px Courier New"
     ctx.beginPath(); // Start a new path
     ctx.fillRect(this.pos.X - player1.pos.X + centerOfCanvas.X,this.pos.Y - player1.pos.Y + centerOfCanvas.Y,5,5);
     ctx.fillText(this.completion, this.pos.X - player1.pos.X + centerOfCanvas.X,this.pos.Y - player1.pos.Y + centerOfCanvas.Y)
     ctx.stroke();
-    }
   }
+  ctx.fillStyle = "#34ebba"
+  ctx.font = "12px Courier New"
 }
+}
+
 
 class player {
   constructor(X,Y) {
