@@ -46,7 +46,7 @@ function draw(DT){
   ctx.fillText(tpsmin, 440, 40);
   ctx.fillText("TPS max:", 350, 60);
   ctx.fillText(tpsmax, 440, 60);
-  ctx.fillText("DEBUG MODE ENABLED      VER: 0.1.1.1 | EventHandler Complete | player visuals are implemented!", 200, 500);
+  ctx.fillText("DEBUG MODE ENABLED      "+VERSION+" | EventHandler Complete | player visuals are implemented!", 200, 500);
   ctx.fillText("frameTime:      Ms", 30, 20);
   ctx.fillText(frametime.toFixed(2), 105, 20);
   }
@@ -57,7 +57,7 @@ function draw(DT){
     ctx.fillText("ATTENTION:", 470, 420);
     ctx.fillText("DEBUG MODE NOW STARTS DISABLED  |  PRESS \"B\" TO ENABLE DEBUG MODE", 270, 440);
     ctx.fillText("HELP MENU NOW STARTS CLOSE  |  PRESS \"H\" TO OPEN HELP MENU", 270, 460);
-    ctx.fillText("VER: 0.1.1.1 | EventHandler Complete | player visuals are implemented!", 255, 480);
+    ctx.fillText("VER: "+VERSION+" | EventHandler Complete | player visuals are implemented!", 255, 480);
     ctx.fillText("By: Eden Annora", 450, 500);
     if (DT < 10000 && !debug) {ctx.fillText("message will dissapear in   s", 400, 520);
     ctx.fillText(Math.round((10000 - DT)/1000), 590, 520);
