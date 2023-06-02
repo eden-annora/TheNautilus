@@ -1,3 +1,5 @@
+const VERSION = "0.0.1.2"
+
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var centerOfCanvas = new Vector(canvas.width/2,canvas.height/2);
