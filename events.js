@@ -108,10 +108,15 @@ class Player{
     ctx.drawImage(player_sprite_RCSjets_H, centerOfCanvas.X - 25  + ((-this.moveVector.X)*2+Math.random()-0.5)*8, centerOfCanvas.Y - 25 ,50,50);
     ctx.drawImage(playersprite, centerOfCanvas.X-25, centerOfCanvas.Y-25,50,50);
     if (debug) {
-    ctx.strokeStyle = "rgba(255, 0, 0, 1)"
+    ctx.strokeStyle = "rgb(255, 0, 0)"
     ctx.beginPath();
     ctx.moveTo(centerOfCanvas.X, centerOfCanvas.Y);
     ctx.lineTo(centerOfCanvas.X+this.moveVector.X * 50,centerOfCanvas.Y+this.moveVector.Y * 50);
+    ctx.stroke();
+    ctx.strokeStyle = "rgb(0, 100, 255)"
+    ctx.beginPath();
+    ctx.moveTo(centerOfCanvas.X, centerOfCanvas.Y);
+    ctx.lineTo(centerOfCanvas.X+this.vel.X*50,centerOfCanvas.Y+this.vel.Y*50);
     ctx.stroke();
     }
     if (helpmenu){
