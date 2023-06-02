@@ -14,4 +14,5 @@ the vector 2D has distance to line built right in, which took me forever to get 
 any ideas or suggestions would be much apprecieated, from cleaning up syntax to suggestions on how to unscuff my codebase a little. 
 
 thanks for stopping by!
+
 -Eden
