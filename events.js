@@ -91,18 +91,19 @@ class Player{
     this.d = false
     
     
-    eventHandler.bindListener(this,"keyPressed", function (target,keyevent){if (keyevent.data.key == target.keys[0]){target.w = true}});
-    eventHandler.bindListener(this,"keyReleased", function (target,keyevent){if (keyevent.data.key == target.keys[0]){target.w = false}});
+    eventHandler.bindListener(this,"keyPressed", function (target,keyevent){
+      if (keyevent.data.key == target.keys[0]){target.w = true}
+      if (keyevent.data.key == target.keys[1]){target.a = true}
+      if (keyevent.data.key == target.keys[2]){target.s = true}
+      if (keyevent.data.key == target.keys[3]){target.d = true}
+    });
     
-    eventHandler.bindListener(this,"keyPressed", function (target,keyevent){if (keyevent.data.key == target.keys[1]){target.a = true}});
-    eventHandler.bindListener(this,"keyReleased", function (target,keyevent){if (keyevent.data.key == target.keys[1]){target.a = false}});
-    
-    eventHandler.bindListener(this,"keyPressed", function (target,keyevent){if (keyevent.data.key == target.keys[2]){target.s = true}});
-    eventHandler.bindListener(this,"keyReleased", function (target,keyevent){if (keyevent.data.key == target.keys[2]){target.s = false}});
-    
-    eventHandler.bindListener(this,"keyPressed", function (target,keyevent){if (keyevent.data.key == target.keys[3]){target.d = true}});
-    eventHandler.bindListener(this,"keyReleased", function (target,keyevent){if (keyevent.data.key == target.keys[3]){target.d = false}});
-    
+    eventHandler.bindListener(this,"keyReleased", function (target,keyevent){
+      if (keyevent.data.key == target.keys[0]){target.w = false}
+      if (keyevent.data.key == target.keys[1]){target.a = false}
+      if (keyevent.data.key == target.keys[2]){target.s = false}
+      if (keyevent.data.key == target.keys[3]){target.d = false}
+    });
     
     eventHandler.bindListener(this,"physics_update", function (target,data){ 
     target.moveVector.setXY(0,0);
