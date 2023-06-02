@@ -1,20 +1,3 @@
-/*possible events types*
-|
-|  keyPressed:[]
-|      
-|  playerMoved:[]
-|  entityMoved:[]
-|      
-|  playerIsClose:[]
-|  playerCollided:[]
-|      
-|  playerKilled:[]
-|  entityKilled:[]
-|
-*/
-
-
-
 class EventHandler {
   constructor() {
     this.eventlist = [];
