@@ -6,8 +6,6 @@ var centerOfCanvas = new Vector(canvas.width / 2, canvas.height / 2);
 
 var focused = true;
 
-
-
 var eventHandler = new EventHandler()
 
 var helpmenu = false
