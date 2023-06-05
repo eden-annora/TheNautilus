@@ -12,7 +12,6 @@ class EventHandler {
   }
 
   bindListener(target, type, callback) {// check if event type already has 'type' catagory and if it doesnt log the attempt, create the catagory, and apply the listener.
-  this.eventlist.push(new Event(type, inputdata));
     let object = new EventListener(target, type, callback)
     if (this.callbacklist.hasOwnProperty(type)) {
       this.callbacklist[type].push(object);
