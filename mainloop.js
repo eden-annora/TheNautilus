@@ -25,7 +25,7 @@ function update() {
     time += 1;
     eventHandler.raiseEvent("physics_update", new Object({}))// add a physics event to make sure everyone takes their turns to move instead of lying around like a sad rock.
   }
-  eventHandler.processCallbacks() // go process all the events that have occured since the last time weve checked
+  eventHandler.processCallbacks() // go process all the events that have occured since the last time we have checked
 
   //do things here blah blah blah :p
 
@@ -40,7 +40,7 @@ function draw(DT) {
 
 
   ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
-  if (debug) {// display the debug meny, but only when i want you to.
+  if (debug) {// display the debug menu, but only when i want you to.
 
     ctx.fillText("Time:", 30, 35);
     ctx.fillText(time, 65, 35);
