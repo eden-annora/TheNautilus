@@ -13,6 +13,7 @@ the vector 2D has distance to line built right in, which took me forever to get 
 
 libraries used:
 howler : an amazing js library for seamless audio intergration!
+
   WEBSITE: https://howlerjs.com/
   GITHUB: https://github.com/goldfire/howler.js/
 
