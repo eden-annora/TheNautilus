@@ -11,8 +11,6 @@ var musicplaying = false // is menu music being displayed
 
 var eventHandler = new EventHandler()
 
-
-
 var camera = new Camera()
 
 var menukeys = new ExternalKeyListeners()
