@@ -11,6 +11,11 @@ this code is ideally not used outside of this project, please dont just yoink th
 Feel free to use my (terrible) homegrown vector2D library, or steal snippets of math, i doubt any of it will actually be useful.
 the vector 2D has distance to line built right in, which took me forever to get working... so i imagine having the bundled thing would be semi useful.
 
+libraries used:
+howler : an amazing js library for seamless audio intergration!
+  WEBSITE: https://howlerjs.com/
+  GITHUB: https://github.com/goldfire/howler.js/
+
 any ideas or suggestions would be much appreciated, from cleaning up syntax to suggestions on how to un-scuff my codebase a little. 
 
 Thanks for stopping by!
