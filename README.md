@@ -12,6 +12,7 @@ Feel free to use my (terrible) homegrown vector2D library, or steal snippets of 
 the vector 2D has distance to line built right in, which took me forever to get working... so i imagine having the bundled thing would be semi useful.
 
 libraries used:
+
 howler : an amazing js library for seamless audio intergration!
 
   WEBSITE: https://howlerjs.com/
