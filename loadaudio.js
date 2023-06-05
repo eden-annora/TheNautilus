@@ -2,7 +2,7 @@ var thruster_end = new Howl({src:["audio/player/thruster/thruster_end.ogg"]});
 
 
 var menumusic = new Howl({
-    src:["audio/ambiantmusic/magic_forest.mp3"],
+    src:["audio/ambientmusic/magic_forest.mp3"],
     loop:false,
     preload: true,
     html5:false,
