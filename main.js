@@ -4,7 +4,7 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var centerOfCanvas = new Vector(canvas.width / 2, canvas.height / 2);
 
-var focused = true;
+var focused = false;
 
 var eventHandler = new EventHandler()
 
@@ -14,6 +14,7 @@ var debug = false
 var camera = new Camera()
 
 var menukeys = new ExternalKeyListeners()
+var musicplaying = false
 
 ctx.fillStyle = "#34ebba"
 ctx.font = "12px Courier New"
@@ -37,4 +38,5 @@ window.addEventListener('load', function () {
 
 
   entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD"])]
+  
 });

@@ -74,40 +74,45 @@ class Player {
     this.s = false
     this.d = false
 
+    this.MoveKeyHeld = false
 
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {
-      if (keyevent.data.code == target.keys[0]) { target.w = true }
-      if (keyevent.data.code == target.keys[1]) { target.a = true }
-      if (keyevent.data.code == target.keys[2]) { target.s = true }
-      if (keyevent.data.code == target.keys[3]) { target.d = true }
+      if (keyevent.data.code == target.keys[0]) { target.w = true; }
+      if (keyevent.data.code == target.keys[1]) { target.a = true; }
+      if (keyevent.data.code == target.keys[2]) { target.s = true; }
+      if (keyevent.data.code == target.keys[3]) { target.d = true; }
+      
     });
 
     eventHandler.bindListener(this, "keyReleased", function (target, keyevent) {
-      if (keyevent.data.code == target.keys[0]) { target.w = false }
-      if (keyevent.data.code == target.keys[1]) { target.a = false }
-      if (keyevent.data.code == target.keys[2]) { target.s = false }
-      if (keyevent.data.code == target.keys[3]) { target.d = false }
+      if (keyevent.data.code == target.keys[0]) { target.w = false; }
+      if (keyevent.data.code == target.keys[1]) { target.a = false; }
+      if (keyevent.data.code == target.keys[2]) { target.s = false; }
+      if (keyevent.data.code == target.keys[3]) { target.d = false; }
+
     });
 
     eventHandler.bindListener(this, "physics_update", function (target, data) {
       target.moveVector.setXY(0, 0);
-
-      if (target.w) { target.moveVector.addXY(0, -1); }
-      if (target.s) { target.moveVector.addXY(0, 1); }
-      if (target.a) { target.moveVector.addXY(-1, 0); }
-      if (target.d) { target.moveVector.addXY(1, 0); }
+      target.MoveKeyHeld = false
+      if (target.w) { target.moveVector.addXY(0, -1); target.MoveKeyHeld = true}
+      if (target.s) { target.moveVector.addXY(0, 1); target.MoveKeyHeld = true}
+      if (target.a) { target.moveVector.addXY(-1, 0); target.MoveKeyHeld = true}
+      if (target.d) { target.moveVector.addXY(1, 0); target.MoveKeyHeld = true}
 
       target.moveVector.applyforceToDest_OT(target.vel, target.dacc, DT);
 
       target.moveVector.clamp(1, -1, 1, -1)
       target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT);
       target.pos.add_OT(target.vel, DT);
+
       eventHandler.raiseEvent("cameraPosUpdate", new Object({
         X: target.pos.X,
         Y: target.pos.Y
       }))
     });
   }
+
 
   draw() {
     let tpX = centerOfCanvas.X - 25 + (this.pos.X - camera.pos.X)
@@ -116,6 +121,16 @@ class Player {
     let thrusterOffSetH = ((-this.moveVector.X * 2) + Math.random() - 0.5) * 8
     let thrusterOffSetV = ((-this.moveVector.Y * 2) + Math.random() - 0.5) * 8
 
+    if (this.MoveKeyHeld){
+      if (!thruster_loop.playing()){
+        thruster_loop.play()
+      }
+    } else {
+      if (thruster_loop.playing()){
+        thruster_loop.stop()
+        thruster_end.play();
+      }
+    }
 
     ctx.drawImage(player_sprite_RCSjets_V, tpX, tpY + thrusterOffSetV, 50, 50);
     ctx.drawImage(player_sprite_RCSjets_H, tpX + thrusterOffSetH, tpY, 50, 50);
@@ -183,6 +198,7 @@ class ExternalKeyListeners {
   constructor() {
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "KeyB") { debug = !debug } });
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu } });
-    eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "Escape") { focused = !focused } });
+    eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "Escape") { focused = !focused; if (!musicplaying){musicplaying = true; menumusic.play();} } });
+    eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "Space") {  } });
   }
 }
