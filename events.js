@@ -95,7 +95,7 @@ class Player {
 
     eventHandler.bindListener(this, "physics_update", function (target, data) {// same thing as an update loop, called once every iteration of update loop.
       target.moveVector.setXY(0, 0);// zero out move vect to stop it compounding over time and getting stuck at values
-      target.MoveKeyHeld = false // used later to determine whether audio should be playing or not
+      target.MoveKeyHeld = false // used later to determine whether thruster audio should be playing or not
       if (target.w) { target.moveVector.addXY(0, -1); target.MoveKeyHeld = true}// 4 bools to a vector and one bool
       if (target.s) { target.moveVector.addXY(0, 1); target.MoveKeyHeld = true}
       if (target.a) { target.moveVector.addXY(-1, 0); target.MoveKeyHeld = true}
