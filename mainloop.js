@@ -1,13 +1,13 @@
-var time = 0;
+var time = 0; // behold the glorious animation timer, this is setup to be used as the input for sin functions.
 var DT = 0
-var lastrun = 0
+var lastrun = 0 //the time at which the funciton was last run
 var tps = 0
 var tpsmax = 0
 var tpsmin = 0
 
-var lastframe = 0
+var lastframe = 0 // time since the last frame was sent to the screen.
 
-var entities = [];
+var entities = []; // all objects with a draw(): funciton. these all get drawn once per frame.
 
 function update() {
 
@@ -15,17 +15,17 @@ function update() {
   lastrun = performance.now();
 
 
-  if (DT !== 0) { tps = Math.round((tps * 49 + (1000 / DT)) / 50) }
-  if (tps > tpsmax) { tpsmax = tps }
+  if (DT !== 0) { tps = Math.round((tps * 49 + (1000 / DT)) / 50) } // time since last frame averaged over 50 frames
+  if (tps > tpsmax) { tpsmax = tps } // min and max tps numbers
   if (tps < tpsmin) { tpsmin = tps }
 
-  if (time > 625) { time = 0; tpsmin = 1000; tpsmax = 0; }
+  if (time > 625) { time = 0; tpsmin = 1000; tpsmax = 0; } // reset the time variable
 
   if (focused) {
     time += 1;
-    eventHandler.raiseEvent("physics_update", new Object({}))
+    eventHandler.raiseEvent("physics_update", new Object({}))// add a physics event to make sure everyone takes their turns to move instead of lying around like a sad rock.
   }
-  eventHandler.processCallbacks()
+  eventHandler.processCallbacks() // go process all the events that have occured since the last time weve checked
 
   //do things here blah blah blah :p
 
@@ -39,8 +39,8 @@ function draw(DT) {
   ctx.font = "12px Courier New"
 
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  if (debug) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
+  if (debug) {// display the debug meny, but only when i want you to.
 
     ctx.fillText("Time:", 30, 35);
     ctx.fillText(time, 65, 35);
@@ -55,7 +55,7 @@ function draw(DT) {
     ctx.fillText(frametime.toFixed(2), 105, 20);
   }
 
-  if (helpmenu || DT < 10000 && !debug) {
+  if (helpmenu || DT < 10000 && !debug) {// display help menu but also display it for the first ten seconds that the game is running. but not while the debug menu is also open.
     ctx.fillStyle = "#34ebba"
     ctx.font = "12px Courier New"
 
@@ -72,7 +72,7 @@ function draw(DT) {
     }
   }
 
-  if (!focused) {
+  if (!focused) { // show paused overlay when paused
     ctx.beginPath();
     ctx.lineWidth = "6";
     ctx.strokeStyle = "#ff0000";
@@ -85,7 +85,7 @@ function draw(DT) {
 
   len = entities.length;
   for (let i = 0; i < len; i++) {
-    entities[i].draw()
+    entities[i].draw() // finally draw all the entities in the list.
   }
   window.requestAnimationFrame(draw);
 

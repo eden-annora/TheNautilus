@@ -1,20 +1,22 @@
-const VERSION = "0.0.1.3 | Camera System has been implemented, plus small fixes"
+const VERSION = "0.0.1.3 | Camera System has been implemented, audio too" // just sets what the version blurb says in the help/debug menu
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var centerOfCanvas = new Vector(canvas.width / 2, canvas.height / 2);
+var centerOfCanvas = new Vector(canvas.width / 2, canvas.height / 2); // precalculating this. because i have to use it twice. for every single object. every frame.
 
-var focused = false;
+var focused = false;// is my tab selected
+var helpmenu = false // is help menu being displayed
+var debug = false // is debug menu being displayed
+var musicplaying = false // is menu music being displayed
 
 var eventHandler = new EventHandler()
 
-var helpmenu = false
-var debug = false
+
 
 var camera = new Camera()
 
 var menukeys = new ExternalKeyListeners()
-var musicplaying = false
+
 
 ctx.fillStyle = "#34ebba"
 ctx.font = "12px Courier New"
@@ -23,17 +25,17 @@ ctx.fillText("loading...", 10, 20);
 window.addEventListener('load', function () {
   ctx.fillText("complete!", 10, 40);
   ctx.fillText("starting!", 10, 60);
-  setInterval(update, 4);
+  setInterval(update, 4);// fuck it, i dont know run it once every 4 milliseconds.
   ctx.fillText("update loop is now running!", 10, 80);
-  window.requestAnimationFrame(draw);
+  window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo
   ctx.fillText("renderer running!", 10, 100);
 
-  document.addEventListener("visibilitychange", function () {
+  document.addEventListener("visibilitychange", function () { // when the window is out of focus stop the game from progressing physics updates. this stops the player from reaching relitivistic speeds due to DT buildup and the velocity not ever *actually* being zero due to how de-acceleration works.
     if (document.visibilityState === 'visible') { console.log('has focus, resuming game'); lastrun = performance.now(); focused = true }
     else { console.log('lost focus, pausing game'); focused = false }
   });
 
-  window.addEventListener("keydown", function (event) {eventHandler.raiseEvent("keyPressed", new Object({ data: event })) });
+  window.addEventListener("keydown", function (event) {eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events because fuck you thats why.
   window.addEventListener("keyup", function (event) {eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 
 

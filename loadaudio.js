@@ -1,4 +1,4 @@
-var thruster_end = new Howl({src:["audio/player/thruster/thruster_end.ogg"]});
+var thruster_end = new Howl({src:["audio/player/thruster/thruster_end.ogg"]});//i dont understand this yet. im not even gonna try.
 
 
 var menumusic = new Howl({
@@ -7,7 +7,7 @@ var menumusic = new Howl({
     preload: true,
     html5:false,
 
-    onplay: function () {
+    onplay: function () {// funky broken loop bullshit, a piss poor attempt to fix the stuttering when looping.
         menumusic._sounds[0]._node.addEventListener('timeupdate',function () {
             let buffer = .28
             if (this.currentTime > this.duration - buffer) {
@@ -26,7 +26,7 @@ var thruster_loop = new Howl({
     preload: true,
     html5:false,
 
-    onplay: function () {
+    onplay: function () {// funky broken loop bullshit, a piss poor attempt to fix the stuttering when looping.
         thruster_loop._sounds[0]._node.addEventListener('timeupdate',function () {
             let buffer = .6
             if (this.currentTime > this.duration - buffer) {
