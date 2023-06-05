@@ -7,7 +7,6 @@ var centerOfCanvas = new Vector(canvas.width / 2, canvas.height / 2); // precalc
 var focused = false;// is my tab selected
 var helpmenu = false // is help menu being displayed
 var debug = false // is debug menu being displayed
-var musicplaying = false // is menu music being displayed
 
 var eventHandler = new EventHandler()
 

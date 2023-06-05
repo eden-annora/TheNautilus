@@ -122,17 +122,6 @@ class Player {
     let thrusterOffSetH = ((-this.moveVector.X * 2) + Math.random() - 0.5) * 8 //adds flicker to the thrusters based on randomness (yaay!!!)
     let thrusterOffSetV = ((-this.moveVector.Y * 2) + Math.random() - 0.5) * 8
 
-    if (this.MoveKeyHeld){ // told you this would come back later, this determines whether or not the player is applying a move input, and then determines whether or not we should be playing audio
-      if (!thruster_loop.playing()){
-        thruster_loop.play() // players tryna move! shit shit shit! play the audio or something!
-      }
-    } else {
-      if (thruster_loop.playing()){
-        thruster_loop.stop()
-        thruster_end.play();// oh fuck! players stopped moving! and the audio is *still* going! shit shit shit! play the other audio! and STOP THIS ONE!
-      }
-    }
-
     ctx.drawImage(player_sprite_RCSjets_V, tpX, tpY + thrusterOffSetV, 50, 50);//draw the vertical jets onto the screen based off predetermined values
     ctx.drawImage(player_sprite_RCSjets_H, tpX + thrusterOffSetH, tpY, 50, 50);//draw the horizontal jets onto the screen based off predetermined values
     ctx.drawImage(playersprite, tpX, tpY, 50, 50);//draw the players sprite onto the screen based off predetermined values
@@ -198,7 +187,7 @@ class ExternalKeyListeners {// menu buttons that need to work even if the player
   constructor() {
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "KeyB") { debug = !debug } });
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu } });
-    eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "Escape") { focused = !focused; if (!musicplaying){musicplaying = true; menumusic.play();} } }); 
+    eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "Escape") { focused = !focused; } }); 
     // ^^ assists in NOT trying to play the music until AFTER the user interacts with the page. damn you chrome and your reasonable decisions and stuff.
     //further note: you cant play audio until the user has interacted with the page somehow, any requests you make to start playing audio get straight up ignored until they have interacted.
   }
