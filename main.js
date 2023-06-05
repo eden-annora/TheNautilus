@@ -33,8 +33,8 @@ window.addEventListener('load', function () {
     else { console.log('lost focus, pausing game'); focused = false }
   });
 
-  window.addEventListener("keydown", function (event) { event.preventDefault(); eventHandler.raiseEvent("keyPressed", new Object({ data: event })) });
-  window.addEventListener("keyup", function (event) { event.preventDefault(); eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
+  window.addEventListener("keydown", function (event) {eventHandler.raiseEvent("keyPressed", new Object({ data: event })) });
+  window.addEventListener("keyup", function (event) {eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 
 
   entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD"])]
