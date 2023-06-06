@@ -1,4 +1,11 @@
+/* 
+sit the fuck down and buckle up. this is a crash course on how to use the eventhandler.
 
+cry. 
+
+cry more.
+
+*/
 
 class EventHandler {
   constructor() {
