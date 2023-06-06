@@ -98,20 +98,42 @@ class Player {
       this.pos = new Vector(0, 0); //actual pos
       this.vel = new Vector(0, 0); //actual direction
   
-      this.camerashake = false // to be used later, this will apply random jostling to the camera while true
+      this.cameraShake = false // to be used later, this will apply random jostling to the camera while true
+      this.cameraShakeStrength = 0
+      this.cameraShakeDuration = 0
+      
+      eventHandler.bindListener(this, "shakeCamera", function (target, data) {
+        target.cameraShakeStrength = data.Strength
+        target.cameraShakeDuration = data.Duration
+      });
   
-      eventHandler.bindListener(this, "cameraPosUpdate", function (target, data) {// remember earlier when we told the camera where the player is? no? too bad. go look at line 111 again :p
+      eventHandler.bindListener(this, "cameraPosUpdate", function (target, data) {// remember earlier when we told the camera where the player is? no? too bad. go look at line 48-ish again :p
         target.setpos.X = data.X
         target.setpos.Y = data.Y
-      })
-  
-      eventHandler.bindListener(this, "physics_update", function (target, data) {// woah. camera? physics? incredible!
   
         let difX = target.setpos.X - target.pos.X // we obtain numerous differences or deviations.
-        let difY = target.setpos.Y - target.pos.Y // we can obtain these because we know where we are, or more accuratley, where we arent.
-  
+        let difY = target.setpos.Y - target.pos.Y
+
+        /* 
+        The missile (camera) knows where it is at all times. It knows this because it knows where it isn't. 
+        By subtracting where it is (camera position) from where it isn't (the players new and recently updated position),
+        it obtains a difference, or deviation. 
+
+        The guidance subsystem uses deviations to generate corrective commands (moveVector) 
+        to drive the missile from a position where it is (cameras current pos) 
+        to a position where it isn't (players new pos).
+
+        i cant believe i wasted my time writing this comment.
+        */
+
         target.moveVector.X = difX * (Math.pow(difX, 2) / 1000)//funky curve math, basically this is the response curve for the players distance from the camera.
         target.moveVector.Y = difY * (Math.pow(difY, 2) / 1000)
+
+        if (target.cameraShakeDuration > 0) {
+          target.cameraShakeDuration -= 1
+          target.vel.X += ((Math.random()-.5)*target.cameraShakeStrength)
+          target.vel.Y += ((Math.random()-.5)*target.cameraShakeStrength)
+        }
   
         target.moveVector.applyforceToDest_OT(target.vel, target.dacc, DT);//same as player, apply de accelerations, accelerations, and position offsets.
         target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT);
@@ -119,15 +141,20 @@ class Player {
       })
   
     }
+
   }
   
   class ExternalKeyListeners {// menu buttons that need to work even if the player is dead or otherwise missing from the scene.
     constructor() {
-      eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "KeyB") { debug = !debug } });
-      eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu } });
-      eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { if (keyevent.data.code == "Escape") { focused = !focused; } }); 
-      // ^^ assists in NOT trying to play the music until AFTER the user interacts with the page. damn you chrome and your reasonable decisions and stuff.
-      //further note: you cant play audio until the user has interacted with the page somehow, any requests you make to start playing audio get straight up ignored until they have interacted.
+      eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { 
+        if (keyevent.data.code == "KeyB") { debug = !debug }
+        if (keyevent.data.code == "Space") { eventHandler.raiseEvent("shakeCamera", new Object({
+          Strength: 1,
+          Duration: 50
+        })) }
+        if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu }
+        if (keyevent.data.code == "Escape") { focused = !focused; } 
+      }); 
     }
   }
   
