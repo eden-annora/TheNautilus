@@ -23,25 +23,25 @@
 <body>
   <canvas id="myCanvas" width="1000" height="562"> unsupported browser. stop tryna be special and just use
     chrome</canvas>
-    
-    <input type="range" min="1" max="100" value="50" class="slider-square" id="volume">
-    <style>
-      .slider-square {
-        appearance: slider-vertical;
-    
-        position: absolute;
-        top: 10px;   
-        right: 40px;
-    
-        width: 24px;
-        height: 200px;
-        background: #d3d3d3;
-        outline: none;
-        opacity: 0.7;
-        -webkit-transition: opacity .15s ease-in-out;
-        transition: opacity .15s ease-in-out;
+
+  <input type="range" min="1" max="100" value="50" class="slider-square" id="volume">
+  <style>
+    .slider-square {
+      appearance: slider-vertical;
+
+      position: absolute;
+      top: 10px;
+      right: 40px;
+
+      width: 24px;
+      height: 200px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: opacity .15s ease-in-out;
+      transition: opacity .15s ease-in-out;
     }
-    </style>
+  </style>
 
   <div style="display:none;">
     <img id="player_sprite" src="textures/player_drone.png" width="50" height="50">
@@ -51,16 +51,19 @@
     <img id="sporeflash" src="textures/spore_bright.png" width="40" height="50">
     <img id="scan_grid" src="textures/scan_grid.png" width="97" height="97">
     <img id="scanner_line" src="textures/scanner_line.png" width="3" height="97">
-    <img id="scannerblurbbox" src="textures/textbox.png" width="400" height="400"?>
+    <img id="scannerblurbbox" src="textures/textbox.png" width="400" height="400" ?>
 
-    
+
 
   </div>
-  <!-- load "plugins" --> 
+  <!-- load "plugins" -->
   <script type="text/javascript" src="scripts/loadimages.js"></script>
   <script type="text/javascript" src="scripts/loadaudio.js"></script>
+
+  <script src="lib/howler.min.js"></script>
+  <script src="scripts/audio.js"></script>    
   <!-- load and launch the game engine-->
-  <script type="text/javascript" src="scripts/engine/events.js"></script>
+    <script type="text/javascript" src="scripts/engine/events.js"></script>
   <script type="text/javascript" src="scripts/engine/entities.js"></script>
   <script type="text/javascript" src="scripts/engine/vector2D.js"></script>
   <script type="text/javascript" src="scripts/engine/mainloop.js"></script>
