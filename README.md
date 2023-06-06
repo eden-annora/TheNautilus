@@ -1,4 +1,6 @@
-# TheNautilus
+# TheNautilus 
+[Play here](https://eden-annora.github.io/TheNautilus/)
+
 a small html canvas gamedev experiment, uses javascript and html to build a small game.
 
 The goal is to find out what happened to the colossal space freighter that goes by the tail number NAU-0605, callsign The Nautilus.
