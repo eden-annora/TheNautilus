@@ -51,6 +51,12 @@ class Vector {
     let Y = Math.abs(this.Y - V.Y);
     return Math.hypot(X, Y);
   }
+
+  distXY(x,y) { // faster distance funct
+    let X = Math.abs(this.X - x);
+    let Y = Math.abs(this.Y - y);
+    return Math.hypot(X, Y);
+  }
 }
 function distToLine(V1, V2, POINT) { // black magic, all i know is that it works
   // V1 = B, V2 = A, point = E

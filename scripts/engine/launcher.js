@@ -10,7 +10,7 @@ ctx.fillText("loading...", 10, 20);
 window.addEventListener('load', function () {
   ctx.fillText("complete!", 10, 40);
   ctx.fillText("starting!", 10, 60);
-  setInterval(update, 4);// idk man, run it once every 4 milliseconds.
+  setInterval(update, 4);// idk man, run it once every 10 milliseconds.
   ctx.fillText("update loop is now running!", 10, 80);
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo
   ctx.fillText("renderer running!", 10, 100);
@@ -25,5 +25,9 @@ window.addEventListener('load', function () {
 
 
   entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD"])]
+  
+  for (let i = 0; i < 100; i++) {
+    entities.push(new Spore(0,0))
+  }
   
 });
