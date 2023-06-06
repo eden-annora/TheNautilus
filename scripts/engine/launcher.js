@@ -10,7 +10,7 @@ ctx.fillText("loading...", 10, 20);
 window.addEventListener('load', function () {
   ctx.fillText("complete!", 10, 40);
   ctx.fillText("starting!", 10, 60);
-  setInterval(update, 4);// fuck it, i dont know run it once every 4 milliseconds.
+  setInterval(update, 4);// idk man, run it once every 4 milliseconds.
   ctx.fillText("update loop is now running!", 10, 80);
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo
   ctx.fillText("renderer running!", 10, 100);
@@ -20,7 +20,7 @@ window.addEventListener('load', function () {
     else { console.log('lost focus, pausing game'); focused = false }
   });
 
-  window.addEventListener("keydown", function (event) {eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events because fuck you thats why.
+  window.addEventListener("keydown", function (event) {eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
   window.addEventListener("keyup", function (event) {eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 
 
