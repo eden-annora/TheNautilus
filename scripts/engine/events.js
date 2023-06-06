@@ -5,6 +5,34 @@ cry.
 
 cry more.
 
+so to use the event handler you need to initalize the script.
+
+create a new instance of the singleton object (there are no protections against making more than one, so please just dont).
+
+then create an event catagory and listener by using the "bindListener()" funct
+
+bindListener(target, type, callback)
+target  : reference to the parent object
+type  : a string of the event type to be listened for
+callback  : a function which takes the inputs (target,data) 
+(target is the aformentioned reference to the parent object.)
+(data is an object that has dynamic data based on the type of event, which is created when an event occurs.)
+
+you can raise an event using the "raiseEvent()" funct
+
+raiseEvent(type, inputdata)
+type  : a string of the event type to be created
+inputdata: new Object({
+  key1:value1,
+  key2:value2,
+  key3:value3,
+  key4:value4
+  etc... for as many or few datapoints as you need.
+})
+
+processCallbacks() is the function that triggers the processing of all events that have been raised since the last time it has run.
+think of it as the "go button".
+
 */
 
 class EventHandler {
