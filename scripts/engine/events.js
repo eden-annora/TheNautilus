@@ -1,9 +1,5 @@
 /* 
-sit the fuck down and buckle up. this is a crash course on how to use the eventhandler.
-
-cry. 
-
-cry more.
+sit down and buckle up. this is a crash course on how to use the eventhandler.
 
 so to use the event handler you need to initalize the script.
 
