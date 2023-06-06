@@ -18,6 +18,20 @@
       margin: 0 auto;
     }
   </style>
+
+  <!-- load "plugins" -->
+  <script type="text/javascript" src="scripts/loadimages.js"></script>
+  <script type="text/javascript" src="scripts/loadaudio.js"></script>
+
+  <script src="lib/howler.min.js"></script>
+
+  <!-- load and launch the game engine-->
+  <script type="text/javascript" src="scripts/engine/events.js"></script>
+  <script type="text/javascript" src="scripts/engine/entities.js"></script>
+  <script type="text/javascript" src="scripts/engine/vector2D.js"></script>
+  <script type="text/javascript" src="scripts/engine/mainloop.js"></script>
+  <script type="text/javascript" src="scripts/engine/launcher.js"></script>
+  <script src="scripts/engine/audio.js"></script>
 </head>
 
 <body>
@@ -52,22 +66,8 @@
     <img id="scan_grid" src="textures/scan_grid.png" width="97" height="97">
     <img id="scanner_line" src="textures/scanner_line.png" width="3" height="97">
     <img id="scannerblurbbox" src="textures/textbox.png" width="400" height="400" ?>
-
-
-
   </div>
-  <!-- load "plugins" -->
-  <script type="text/javascript" src="scripts/loadimages.js"></script>
-  <script type="text/javascript" src="scripts/loadaudio.js"></script>
 
-  <script src="lib/howler.min.js"></script>
-  <script src="scripts/audio.js"></script>    
-  <!-- load and launch the game engine-->
-    <script type="text/javascript" src="scripts/engine/events.js"></script>
-  <script type="text/javascript" src="scripts/engine/entities.js"></script>
-  <script type="text/javascript" src="scripts/engine/vector2D.js"></script>
-  <script type="text/javascript" src="scripts/engine/mainloop.js"></script>
-  <script type="text/javascript" src="scripts/engine/launcher.js"></script>
 </body>
 
 </html>
