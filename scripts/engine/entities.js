@@ -98,9 +98,8 @@ class Player {
       this.pos = new Vector(0, 0); //actual pos
       this.vel = new Vector(0, 0); //actual direction
   
-      this.cameraShake = false // to be used later, this will apply random jostling to the camera while true
-      this.cameraShakeStrength = 0
-      this.cameraShakeDuration = 0
+      this.cameraShakeStrength = 0 // how hard to shake the camera
+      this.cameraShakeDuration = 0 // how long to shake the camera
       
       eventHandler.bindListener(this, "shakeCamera", function (target, data) {
         target.cameraShakeStrength = data.Strength
