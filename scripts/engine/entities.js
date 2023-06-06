@@ -1,6 +1,10 @@
 class Player {
     constructor(X, Y, Keys) {
-      this.dacc = new Vector(-.25, -.25);
+      this.daccX = new Vector(-.25, 0);
+      this.daccY = new Vector( 0, -.25);
+
+      this.speedcap = new Vector(2,2)
+
       this.acc = new Vector(0.001, 0.001);
   
       this.moveVector = new Vector(0, 0);
@@ -13,7 +17,8 @@ class Player {
       this.s = false
       this.d = false
   
-      this.MoveKeyHeld = false
+      this.MoveKeyHeldX = false
+      this.MoveKeyHeldY = false
   
       eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {// bring in keypresses and convert them to 1 of 4 bools
         if (keyevent.data.code == target.keys[0]) { target.w = true; }
@@ -33,16 +38,26 @@ class Player {
   
       eventHandler.bindListener(this, "physics_update", function (target, data) {// same thing as an update loop, called once every iteration of update loop.
         target.moveVector.setXY(0, 0);// zero out move vect to stop it compounding over time and getting stuck at values
-        target.MoveKeyHeld = false // used later to determine whether thruster audio should be playing or not
-        if (target.w) { target.moveVector.addXY(0, -1); target.MoveKeyHeld = true}// 4 bools to a vector and one bool
-        if (target.s) { target.moveVector.addXY(0, 1); target.MoveKeyHeld = true}
-        if (target.a) { target.moveVector.addXY(-1, 0); target.MoveKeyHeld = true}
-        if (target.d) { target.moveVector.addXY(1, 0); target.MoveKeyHeld = true}
-  
-        target.moveVector.applyforceToDest_OT(target.vel, target.dacc, DT);//apply the auto de accelleration to the player
-  
+        target.MoveKeyHeldX = false // used later to determine whether thruster audio should be playing or not
+        target.MoveKeyHeldY = false
+        if (target.w) { target.moveVector.addXY(0, -1); target.MoveKeyHeldY = true}// 4 bools to a vector and one bool
+        if (target.s) { target.moveVector.addXY(0, 1); target.MoveKeyHeldY = true}
+        if (target.a) { target.moveVector.addXY(-1, 0); target.MoveKeyHeldX = true}
+        if (target.d) { target.moveVector.addXY(1, 0); target.MoveKeyHeldX = true}
+        
+        if(!target.MoveKeyHeldX){target.moveVector.applyforceToDest_OT(target.vel, target.daccX, DT)}
+        if(!target.MoveKeyHeldY){target.moveVector.applyforceToDest_OT(target.vel, target.daccY, DT)}
+
+
+        //apply the auto de accelleration to the player
         target.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
         target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT); // apply a force to the veloctiy based on the moveVector and the acceleration constant.
+
+        let scX = target.speedcap.X
+        let scY = target.speedcap.Y
+
+        target.vel.clamp(scX,-scX,scY,-scY)
+        
         target.pos.add_OT(target.vel, DT);// move the player (this will get replaced later with a raiseEvent("Entity_requestMove,new Object({pos:player pos, requestedpos:player pos + player vel})"))
   
         eventHandler.raiseEvent("cameraPosUpdate", new Object({// tell the camera that we moved to new a new pos
@@ -109,34 +124,26 @@ class Player {
       eventHandler.bindListener(this, "cameraPosUpdate", function (target, data) {// remember earlier when we told the camera where the player is? no? too bad. go look at line 48-ish again :p
         target.setpos.X = data.X
         target.setpos.Y = data.Y
+      })
   
+      eventHandler.bindListener(this, "physics_update", function (target, data) {
         let difX = target.setpos.X - target.pos.X // we obtain numerous differences or deviations.
         let difY = target.setpos.Y - target.pos.Y
 
-        /* 
-        The missile (camera) knows where it is at all times. It knows this because it knows where it isn't. 
-        By subtracting where it is (camera position) from where it isn't (the players new and recently updated position),
-        it obtains a difference, or deviation. 
-
-        The guidance subsystem uses deviations to generate corrective commands (moveVector) 
-        to drive the missile from a position where it is (cameras current pos) 
-        to a position where it isn't (players new pos).
-
-        i cant believe i wasted my time writing this comment.
-        */
-
-        target.moveVector.X = difX * (Math.pow(difX, 2) / 1000)//funky curve math, basically this is the response curve for the players distance from the camera.
-        target.moveVector.Y = difY * (Math.pow(difY, 2) / 1000)
+        target.moveVector.X = difX * (Math.pow(difX, 2) / 100)//funky curve math, basically this is the response curve for the players distance from the camera.
+        target.moveVector.Y = difY * (Math.pow(difY, 2) / 100)
 
         if (target.cameraShakeDuration > 0) {
           target.cameraShakeDuration -= 1
-          target.vel.X += ((Math.random()-.5)*target.cameraShakeStrength)
-          target.vel.Y += ((Math.random()-.5)*target.cameraShakeStrength)
+          target.pos.X += ((Math.random()-.5)*target.cameraShakeStrength)
+          target.pos.Y += ((Math.random()-.5)*target.cameraShakeStrength)
         }
   
         target.moveVector.applyforceToDest_OT(target.vel, target.dacc, DT);//same as player, apply de accelerations, accelerations, and position offsets.
         target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT);
-        target.pos.add_OT(target.vel, DT);
+        target.pos.X = ((target.pos.X * 999) + (target.pos.X + target.vel.X*DT))/1000
+        target.pos.Y = ((target.pos.Y * 999) + (target.pos.Y + target.vel.Y*DT))/1000
+        
       })
   
     }
@@ -148,8 +155,8 @@ class Player {
       eventHandler.bindListener(this, "keyPressed", function (target, keyevent) { 
         if (keyevent.data.code == "KeyB") { debug = !debug }
         if (keyevent.data.code == "Space") { eventHandler.raiseEvent("shakeCamera", new Object({
-          Strength: 1,
-          Duration: 50
+          Strength: 10,
+          Duration: 100
         })) }
         if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu }
         if (keyevent.data.code == "Escape") { focused = !focused; } 
