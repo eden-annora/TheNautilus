@@ -1,6 +1,8 @@
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
+canvas.width  = window.innerWidth;
+canvas.height = window.innerWidth * (9/16);
 var centerOfCanvas = new Vector(canvas.width / 2, canvas.height / 2); // precalculating this. because i have to use it twice. for every single object. every frame.
 
 ctx.fillStyle = "#34ebba"
