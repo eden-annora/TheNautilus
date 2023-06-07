@@ -1,8 +1,11 @@
-body {
-  background-color: black;
+* {
+  background-color: rgb(0, 3, 58);
+  padding: 0;
+  margin: 0;
 }
 
-img {
-  width: 100%;
-  height: auto;
+canvas {
+  background: #000000;
+  display: block;
+  margin: 0 auto;
 }
