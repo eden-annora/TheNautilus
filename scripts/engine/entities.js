@@ -1,5 +1,5 @@
 class animationwrapper {
-  constructor( X, Y) {
+  constructor(X, Y) {
     this.pos = new Vector(X, Y)
     this.framecounter = 0
     this.name = null
@@ -10,7 +10,7 @@ class animationwrapper {
     })
   }
 
-  trigger(AnimName){
+  trigger(AnimName) {
     this.name = AnimName
     this.framecounter = 0;
     entities.push(this)
@@ -20,9 +20,9 @@ class animationwrapper {
     if (this.framecounter < 300) {
       animations[this.name](this.pos, this.framecounter)
       this.framecounter += 1
-    if (this.framecounter >= 300) {
-      this.framecounter = 0
-      entities.splice(i,1);
+      if (this.framecounter >= 300) {
+        this.framecounter = 0
+        entities.splice(i, 1);
       }
     }
   }
@@ -31,7 +31,7 @@ class animationwrapper {
 class Player {
   constructor(X, Y, Keys) {
 
-    this.animwrapper = new animationwrapper(0,0)
+    this.animwrapper = new animationwrapper(0, 0)
 
     this.daccX = new Vector(-.25, 0);
     this.daccY = new Vector(0, -.25);
@@ -62,7 +62,7 @@ class Player {
       if (keyevent.data.code == target.keys[1]) { target.a = true; }
       if (keyevent.data.code == target.keys[2]) { target.s = true; }
       if (keyevent.data.code == target.keys[3]) { target.d = true; }
-      if (keyevent.data.code == target.keys[4]) {target.AbilityTrigger();}
+      if (keyevent.data.code == target.keys[4]) { target.AbilityTrigger(); }
 
     });
 
@@ -87,17 +87,17 @@ class Player {
       if (!target.MoveKeyHeldX && target.boosttimer < 1) { target.moveVector.applyforceToDest_OT(target.vel, target.daccX, DT) }
       if (!target.MoveKeyHeldY && target.boosttimer < 1) { target.moveVector.applyforceToDest_OT(target.vel, target.daccY, DT) }
 
-      if (target.boosttimer > 0){ target.boosttimer -= 1 }
-      if ((target.MoveKeyHeldX || target.MoveKeyHeldY) && target.boosttimer < 600){target.boosttimer = 0}
+      if (target.boosttimer > 0) { target.boosttimer -= 1 }
+      if ((target.MoveKeyHeldX || target.MoveKeyHeldY) && target.boosttimer < 600) { target.boosttimer = 0 }
 
       //apply the auto de accelleration to the player
       target.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
       target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT); // apply a force to the veloctiy based on the moveVector and the acceleration constant.
 
-      if (target.boosttimer == 0){
-      let scX = target.speedcap.X
-      let scY = target.speedcap.Y
-      target.vel.clamp(scX, -scX, scY, -scY)
+      if (target.boosttimer == 0) {
+        let scX = target.speedcap.X
+        let scY = target.speedcap.Y
+        target.vel.clamp(scX, -scX, scY, -scY)
       }
 
       target.pos.add_OT(target.vel, DT);// move the player (this will get replaced later with a raiseEvent("Entity_requestMove,new Object({pos:player pos, requestedpos:player pos + player vel})"))
@@ -115,15 +115,15 @@ class Player {
   AbilityTrigger() {
     if (this.stored.distXY(0, 0) < .1) {
       if (this.vel.distXY(0, 0) > .1) {
-      if (this.animwrapper.framecounter == 0){
-      this.stored.setXY(this.vel.X, this.vel.Y)
-      this.vel.setXY(0, 0)
-      eventHandler.raiseEvent("shakeCamera", new Object({Strength: 3,Duration: 50}))
-      this.animwrapper.trigger("player_StoreMomentum")
-      }
+        if (this.animwrapper.framecounter == 0) {
+          this.stored.setXY(this.vel.X, this.vel.Y)
+          this.vel.setXY(0, 0)
+          eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 3, Duration: 50 }))
+          this.animwrapper.trigger("player_StoreMomentum")
+        }
       }
     } else {
-      if (this.MoveKeyHeldX||this.MoveKeyHeldY){
+      if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
         console.log("this should be adding power in the direction of my moveVect")
         let power = this.stored.distXY(0, 0)
         this.vel.addXY(power * this.moveVector.X, power * this.moveVector.Y)
@@ -147,17 +147,32 @@ class Player {
     ctx.drawImage(player_sprite_RCSjets_V, tpX, tpY + thrusterOffSetV, 50, 50);//draw the vertical jets onto the screen based off predetermined values
     ctx.drawImage(player_sprite_RCSjets_H, tpX + thrusterOffSetH, tpY, 50, 50);//draw the horizontal jets onto the screen based off predetermined values
     ctx.drawImage(playersprite, tpX, tpY, 50, 50);//draw the players sprite onto the screen based off predetermined values
+
+    if (this.stored.distXY(0, 0) > .1) { // this shows a small line that indicated which direction the player will get launched in when momentum is stored
+      let dir = 0
+      if (this.MoveKeyHeldX || this.MoveKeyHeldY) { dir = Math.atan2(this.moveVector.Y, this.moveVector.X) }
+      else { dir = Math.atan2(this.stored.Y, this.stored.X) }
+      ctx.strokeStyle = "#34ebba"
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, 50, (dir - .1), (dir + .1))
+      ctx.stroke();
+    }
     if (debug) {
-      ctx.strokeStyle = "rgb(255, 0, 0)"
+      ctx.strokeStyle = "#ff0000"
       ctx.lineWidth = "1";
       ctx.beginPath();
       ctx.moveTo(centerOfCanvas.X, centerOfCanvas.Y);
       ctx.lineTo(centerOfCanvas.X + this.moveVector.X * 50, centerOfCanvas.Y + this.moveVector.Y * 50);// display a vector onscreen in the form of a line that shows the players "intended direction" (MoveVector)
       ctx.stroke();
-      ctx.strokeStyle = "rgb(0, 100, 255)"
+      ctx.strokeStyle = "#0064ff"
       ctx.beginPath();
       ctx.moveTo(centerOfCanvas.X, centerOfCanvas.Y);
       ctx.lineTo(centerOfCanvas.X + this.vel.X * 50, centerOfCanvas.Y + this.vel.Y * 50); // display a vector onscreen in the form of a line that shows the players "actual direction" (velocity)
+      ctx.stroke();
+      ctx.strokeStyle = "#34ebba"
+      ctx.beginPath();
+      ctx.moveTo(centerOfCanvas.X, centerOfCanvas.Y);
+      ctx.lineTo(centerOfCanvas.X + this.stored.X * 50, centerOfCanvas.Y + this.stored.Y * 50); // display a vector onscreen in the form of a line that shows the players "stored velocity"
       ctx.stroke();
     }
     if (helpmenu) {
@@ -189,7 +204,7 @@ class Spore {
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
       target.brightness = ((Math.sin((-(time + target.timeoffset) + target.distanceToPlayer) / 100) + 1) + target.brightness * 20) / 21
 
-      if (target.distanceToPlayer < 20) {
+      if (target.distanceToPlayer < 20 && target.brightness > .5) {
         target.timeoffset = 2500
         target.vel.X = -(data.X - target.pos.X) * Spore.#spore_forcemodifier.X + data.VX * .5
         target.vel.Y = -(data.Y - target.pos.Y) * Spore.#spore_forcemodifier.Y + data.VY * .5

@@ -20,14 +20,14 @@ window.addEventListener('load', function () {
     else { console.log('lost focus, pausing game'); focused = false }
   });
 
-  window.addEventListener("keydown", function (event) {eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
-  window.addEventListener("keyup", function (event) {eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
+  window.addEventListener("keydown", function (event) { eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
+  window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 
 
-  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD","Space"])]
-  
+  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space"])]
+
   for (let i = 0; i < 100; i++) {
-    entities.push(new Spore(0,0))
+    entities.push(new Spore(0, 0))
   }
-  
+
 });

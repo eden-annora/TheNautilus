@@ -1,4 +1,4 @@
-const VERSION = "0.0.1.3 | Camera System has been implemented, audio too" // just sets what the version blurb says in the help/debug menu
+const VERSION = "0.0.1.4 | player now has momentum storage!" // just sets what the version blurb says in the help/debug menu
 
 var focused = false;// is my tab selected
 var helpmenu = false // is help menu being displayed
@@ -77,8 +77,8 @@ function draw(DT) {
     ctx.fillStyle = "#34ebba"
     ctx.font = "12px Courier New"
 
-    ctx.fillText("FREIGHTER", centerOfCanvas.X -30, 160);
-    ctx.fillText("ATTENTION:", centerOfCanvas.X-30, 400);
+    ctx.fillText("FREIGHTER", centerOfCanvas.X - 30, 160);
+    ctx.fillText("ATTENTION:", centerOfCanvas.X - 30, 400);
     ctx.fillText("YOU MAY PAUSE AT ANY TIME  |  PRESS \"ESC\" TO PAUSE", centerOfCanvas.X - 160, 420);
     ctx.fillText("DEBUG MODE NOW STARTS DISABLED  |  PRESS \"B\" TO ENABLE DEBUG MODE", centerOfCanvas.X - 230, 440);
     ctx.fillText("HELP MENU NOW STARTS CLOSED  |  PRESS \"H\" TO OPEN HELP MENU", centerOfCanvas.X - 230, 460);
@@ -101,7 +101,7 @@ function draw(DT) {
     ctx.fillText("PAUSED", centerOfCanvas.X - 50, 160);
   }
 
-  
+
   window.requestAnimationFrame(draw);
 
 }
