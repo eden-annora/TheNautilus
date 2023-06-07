@@ -149,13 +149,13 @@ class Player {
     ctx.drawImage(player_sprite_RCSjets_H, tpX + thrusterOffSetH, tpY, 50, 50);//draw the horizontal jets onto the screen based off predetermined values
     ctx.drawImage(playersprite, tpX, tpY, 50, 50);//draw the players sprite onto the screen based off predetermined values
     let storedpower = this.stored.distXY(0, 0)
-    if (storedpower > .1) { // this shows a small line that indicated which direction the player will get launched in when momentum is stored
+    if (storedpower > .1) { // this shows a small line that indicates which direction the player will get launched in when momentum is stored
       let dir = 0
       if (this.MoveKeyHeldX || this.MoveKeyHeldY) { dir = Math.atan2(this.moveVector.Y, this.moveVector.X) }
       else { dir = Math.atan2(this.stored.Y, this.stored.X) }
       this.releasedir = (dir + this.releasedir*2)/3
       
-      ctx.strokeStyle = "#34ebba"
+      ctx.strokeStyle = "#e06fff"
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.arc(tpX + 25, tpY + 25, 60, (this.releasedir - .2), (this.releasedir + .2))
