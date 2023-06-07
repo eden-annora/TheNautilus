@@ -29,5 +29,4 @@ window.addEventListener('load', function () {
   for (let i = 0; i < 100; i++) {
     entities.push(new Spore(0, 0))
   }
-
 });

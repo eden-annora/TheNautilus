@@ -1,8 +1,29 @@
-body {
-  background-color: black;
+* {
+  background-color: rgb(0, 3, 58);
+  padding: 0;
+  margin: 0;
 }
 
-img {
+body {
+  overflow: hidden;
+  /* Hide scrollbars */
+}
+
+#canvasDiv {
+  /*make div as large as possible*/
+  width: 100vw;
+  height: 100vh;
+}
+
+#myCanvas {
+  background: #000000;
+
+  /* this scales the canvas to be as large as the div it's inside, 
+  but without going over the edges*/
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
+
+  /* nearest neighbor scaling prevents blurryness, but now we've got big pixels*/
+  image-rendering: pixelated;
 }
