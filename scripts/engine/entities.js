@@ -34,7 +34,7 @@ class Player {
     this.daccX = new Vector(-.25, 0);
     this.daccY = new Vector(0, -.25);
 
-    this.speedcap = new Vector(1, 1)
+    this.speedcap = new Vector(.7, .7)
 
     this.acc = new Vector(0.001, 0.001);
 
@@ -43,6 +43,7 @@ class Player {
     this.vel = new Vector(0, 0);
 
     this.stored = new Vector(0, 0)
+    this.releasedir = 0
 
     this.keys = Keys
     this.w = false
@@ -115,8 +116,9 @@ class Player {
     if (this.stored.distXY(0, 0) < .1) {
       if (this.vel.distXY(0, 0) > .1) {
           this.stored.setXY(this.vel.X, this.vel.Y)
+          this.stored.clamp(1, -1, 1, -1)
           this.vel.setXY(0, 0)
-          eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 3, Duration: 50 }))
+          eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
           this.animwrapper.trigger(this,"player_StoreMomentum")
         }
       } else {
@@ -127,9 +129,9 @@ class Player {
       } else {
         this.vel.addXY(this.stored.X, this.stored.Y)
       }
-      eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 3, Duration: 50 }))
+      eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
       this.animwrapper.trigger(this,"player_ReleaseMomentum")
-      this.vel.clamp(3, -3, 3, -3)
+      this.vel.clamp(2, -2, 2, -2)
       this.boosttimer = 750
       this.stored.setXY(0, 0)
       }
@@ -146,14 +148,23 @@ class Player {
     ctx.drawImage(player_sprite_RCSjets_V, tpX, tpY + thrusterOffSetV, 50, 50);//draw the vertical jets onto the screen based off predetermined values
     ctx.drawImage(player_sprite_RCSjets_H, tpX + thrusterOffSetH, tpY, 50, 50);//draw the horizontal jets onto the screen based off predetermined values
     ctx.drawImage(playersprite, tpX, tpY, 50, 50);//draw the players sprite onto the screen based off predetermined values
-
-    if (this.stored.distXY(0, 0) > .1) { // this shows a small line that indicated which direction the player will get launched in when momentum is stored
+    let storedpower = this.stored.distXY(0, 0)
+    if (storedpower > .1) { // this shows a small line that indicated which direction the player will get launched in when momentum is stored
       let dir = 0
       if (this.MoveKeyHeldX || this.MoveKeyHeldY) { dir = Math.atan2(this.moveVector.Y, this.moveVector.X) }
       else { dir = Math.atan2(this.stored.Y, this.stored.X) }
+      this.releasedir = (dir + this.releasedir*2)/3
+      
       ctx.strokeStyle = "#34ebba"
+      ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.arc(tpX + 25, tpY + 25, 50, (dir - .1), (dir + .1))
+      ctx.arc(tpX + 25, tpY + 25, 60, (this.releasedir - .2), (this.releasedir + .2))
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, 60 + storedpower * 6 , (this.releasedir - .15), (this.releasedir + .15))
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, 60 + storedpower * 12, (this.releasedir - .1), (this.releasedir + .1))
       ctx.stroke();
     }
     if (debug) {
@@ -249,7 +260,7 @@ class Spore {
 class Camera {
   constructor() {
     this.dacc = new Vector(-0.01, -0.01);
-    this.acc = new Vector(0.8, 0.8);
+    this.acc = new Vector(0.01, 0.01);
 
     this.setpos = new Vector(0, 0) //target position
     this.playervel = new Vector(0, 0)
@@ -273,13 +284,13 @@ class Camera {
     })
 
     eventHandler.bindListener(this, "physics_update", function (target, data) {
-      let difX = (target.setpos.X - target.pos.X) * 15 - (target.vel.X - target.playervel.X) * 1000// we obtain numerous differences or deviations.
-      let difY = (target.setpos.Y - target.pos.Y) * 15 - (target.vel.Y - target.playervel.Y) * 1000
+      let difX = (target.setpos.X - target.pos.X)// we obtain numerous differences or deviations.
+      let difY = (target.setpos.Y - target.pos.Y)
 
-      target.moveVector.X = ((target.moveVector.X * 999 + difX) / 1000) //funky curve math, basically this is the response curve for the players distance from the camera.
-      target.moveVector.Y = ((target.moveVector.Y * 999 + difY) / 1000)
+      target.moveVector.X =  difX * (Math.pow(difX,2))/1000 - (target.vel.X - target.playervel.X) * 100//funky curve math, basically this is the response curve for the players distance from the camera.
+      target.moveVector.Y =  difY * (Math.pow(difY,2))/1000 - (target.vel.Y - target.playervel.Y) * 100
 
-      target.moveVector.clamp(25, -25, 25, -25)
+      //target.moveVector.clamp(50, -50, 50, -50)
 
       if (target.cameraShakeDuration > 0) {
         target.cameraShakeDuration -= 1
@@ -290,8 +301,8 @@ class Camera {
 
       target.vel.applyforceToDest(target.moveVector, target.acc);
       target.vel.applyforceToDest_OT(target.vel, target.dacc, DT);//same as player, apply de accelerations, accelerations, and position offsets.
-      target.pos.X = ((target.pos.X) + (target.pos.X + target.vel.X * DT)) / 2
-      target.pos.Y = ((target.pos.Y) + (target.pos.Y + target.vel.Y * DT)) / 2
+      target.pos.X = ((target.pos.X)*9 + (target.pos.X + target.vel.X * DT)) / 10
+      target.pos.Y = ((target.pos.Y)*9 + (target.pos.Y + target.vel.Y * DT)) / 10
 
     })
   }
