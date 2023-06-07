@@ -14,10 +14,10 @@ class animationwrapper {
   }
 
   draw(i) {
-    if (this.framecounter < 200) {
+    if (this.framecounter < 50) {
       animations[this.name](this.target.pos, this.framecounter)
       this.framecounter += 1
-      if (this.framecounter >= 200) {
+      if (this.framecounter >= 50) {
         this.framecounter = 0
         entities.splice(i, 1);
         this.target = null
@@ -111,16 +111,15 @@ class Player {
   }
 
   AbilityTrigger() {
+    if (this.animwrapper.framecounter == 0) {
     if (this.stored.distXY(0, 0) < .1) {
       if (this.vel.distXY(0, 0) > .1) {
-        if (this.animwrapper.framecounter == 0) {
           this.stored.setXY(this.vel.X, this.vel.Y)
           this.vel.setXY(0, 0)
           eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 3, Duration: 50 }))
           this.animwrapper.trigger(this,"player_StoreMomentum")
         }
-      }
-    } else {
+      } else {
       if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
         console.log("this should be adding power in the direction of my moveVect")
         let power = this.stored.distXY(0, 0)
@@ -128,11 +127,13 @@ class Player {
       } else {
         this.vel.addXY(this.stored.X, this.stored.Y)
       }
+      eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 3, Duration: 50 }))
+      this.animwrapper.trigger(this,"player_ReleaseMomentum")
       this.vel.clamp(3, -3, 3, -3)
       this.boosttimer = 750
       this.stored.setXY(0, 0)
+      }
     }
-
   }
 
   draw() {
