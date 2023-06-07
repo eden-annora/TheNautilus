@@ -1,5 +1,38 @@
+class animationwrapper {
+  constructor( X, Y) {
+    this.pos = new Vector(X, Y)
+    this.framecounter = 0
+    this.name = null
+
+    eventHandler.bindListener(this, "playerMoved", function (target, data) {
+      target.pos.X = data.X
+      target.pos.Y = data.Y
+    })
+  }
+
+  trigger(AnimName){
+    this.name = AnimName
+    this.framecounter = 0;
+    entities.push(this)
+  }
+
+  draw(i) {
+    if (this.framecounter < 300) {
+      animations[this.name](this.pos, this.framecounter)
+      this.framecounter += 1
+    if (this.framecounter >= 300) {
+      this.framecounter = 0
+      entities.splice(i,1);
+      }
+    }
+  }
+}
+
 class Player {
   constructor(X, Y, Keys) {
+
+    this.animwrapper = new animationwrapper(0,0)
+
     this.daccX = new Vector(-.25, 0);
     this.daccY = new Vector(0, -.25);
 
@@ -11,11 +44,15 @@ class Player {
     this.pos = new Vector(X, Y);
     this.vel = new Vector(0, 0);
 
+    this.stored = new Vector(0, 0)
+
     this.keys = Keys
     this.w = false
     this.a = false
     this.s = false
     this.d = false
+
+    this.boosttimer = 0
 
     this.MoveKeyHeldX = false
     this.MoveKeyHeldY = false
@@ -25,6 +62,7 @@ class Player {
       if (keyevent.data.code == target.keys[1]) { target.a = true; }
       if (keyevent.data.code == target.keys[2]) { target.s = true; }
       if (keyevent.data.code == target.keys[3]) { target.d = true; }
+      if (keyevent.data.code == target.keys[4]) {target.AbilityTrigger();}
 
     });
 
@@ -40,23 +78,27 @@ class Player {
       target.moveVector.setXY(0, 0);// zero out move vect to stop it compounding over time and getting stuck at values
       target.MoveKeyHeldX = false // used later to determine whether thruster audio should be playing or not
       target.MoveKeyHeldY = false
+
       if (target.w) { target.moveVector.addXY(0, -1); target.MoveKeyHeldY = true }// 4 bools to a vector and one bool
       if (target.s) { target.moveVector.addXY(0, 1); target.MoveKeyHeldY = true }
       if (target.a) { target.moveVector.addXY(-1, 0); target.MoveKeyHeldX = true }
       if (target.d) { target.moveVector.addXY(1, 0); target.MoveKeyHeldX = true }
 
-      if (!target.MoveKeyHeldX) { target.moveVector.applyforceToDest_OT(target.vel, target.daccX, DT) }
-      if (!target.MoveKeyHeldY) { target.moveVector.applyforceToDest_OT(target.vel, target.daccY, DT) }
+      if (!target.MoveKeyHeldX && target.boosttimer < 1) { target.moveVector.applyforceToDest_OT(target.vel, target.daccX, DT) }
+      if (!target.MoveKeyHeldY && target.boosttimer < 1) { target.moveVector.applyforceToDest_OT(target.vel, target.daccY, DT) }
 
+      if (target.boosttimer > 0){ target.boosttimer -= 1 }
+      if ((target.MoveKeyHeldX || target.MoveKeyHeldY) && target.boosttimer < 600){target.boosttimer = 0}
 
       //apply the auto de accelleration to the player
       target.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
       target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT); // apply a force to the veloctiy based on the moveVector and the acceleration constant.
 
+      if (target.boosttimer == 0){
       let scX = target.speedcap.X
       let scY = target.speedcap.Y
-
       target.vel.clamp(scX, -scX, scY, -scY)
+      }
 
       target.pos.add_OT(target.vel, DT);// move the player (this will get replaced later with a raiseEvent("Entity_requestMove,new Object({pos:player pos, requestedpos:player pos + player vel})"))
 
@@ -70,6 +112,30 @@ class Player {
     });
   }
 
+  AbilityTrigger() {
+    if (this.stored.distXY(0, 0) < .1) {
+      if (this.vel.distXY(0, 0) > .1) {
+      if (this.animwrapper.framecounter == 0){
+      this.stored.setXY(this.vel.X, this.vel.Y)
+      this.vel.setXY(0, 0)
+      eventHandler.raiseEvent("shakeCamera", new Object({Strength: 3,Duration: 50}))
+      this.animwrapper.trigger("player_StoreMomentum")
+      }
+      }
+    } else {
+      if (this.MoveKeyHeldX||this.MoveKeyHeldY){
+        console.log("this should be adding power in the direction of my moveVect")
+        let power = this.stored.distXY(0, 0)
+        this.vel.addXY(power * this.moveVector.X, power * this.moveVector.Y)
+      } else {
+        this.vel.addXY(this.stored.X, this.stored.Y)
+      }
+      this.vel.clamp(3, -3, 3, -3)
+      this.boosttimer = 750
+      this.stored.setXY(0, 0)
+    }
+
+  }
 
   draw() {
     let tpX = centerOfCanvas.X - 25 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
@@ -191,13 +257,13 @@ class Camera {
     })
 
     eventHandler.bindListener(this, "physics_update", function (target, data) {
-      let difX = (target.setpos.X - target.pos.X)*15 - (target.vel.X - target.playervel.X)*1000// we obtain numerous differences or deviations.
-      let difY = (target.setpos.Y - target.pos.Y)*15 - (target.vel.Y - target.playervel.Y)*1000
+      let difX = (target.setpos.X - target.pos.X) * 15 - (target.vel.X - target.playervel.X) * 1000// we obtain numerous differences or deviations.
+      let difY = (target.setpos.Y - target.pos.Y) * 15 - (target.vel.Y - target.playervel.Y) * 1000
 
-      target.moveVector.X = ((target.moveVector.X*999 + difX)/1000) //funky curve math, basically this is the response curve for the players distance from the camera.
-      target.moveVector.Y = ((target.moveVector.Y*999 + difY)/1000)
+      target.moveVector.X = ((target.moveVector.X * 999 + difX) / 1000) //funky curve math, basically this is the response curve for the players distance from the camera.
+      target.moveVector.Y = ((target.moveVector.Y * 999 + difY) / 1000)
 
-      target.moveVector.clamp(25,-25,25,-25)
+      target.moveVector.clamp(25, -25, 25, -25)
 
       if (target.cameraShakeDuration > 0) {
         target.cameraShakeDuration -= 1
@@ -220,12 +286,6 @@ class ExternalKeyListeners {// menu buttons that need to work even if the player
   constructor() {
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {
       if (keyevent.data.code == "KeyB") { debug = !debug }
-      if (keyevent.data.code == "Space") {
-        eventHandler.raiseEvent("shakeCamera", new Object({
-          Strength: 10,
-          Duration: 100
-        }))
-      }
       if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu }
       if (keyevent.data.code == "Escape") { focused = !focused; }
     });

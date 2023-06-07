@@ -51,8 +51,13 @@ function draw(DT) {
   ctx.fillStyle = "#34ebba"
   ctx.font = "12px Courier New"
 
-
   ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
+
+  len = entities.length;
+  for (let i = 0; i < len; i++) {
+    entities[i].draw(i)// finally draw all the entities in the list.
+  }
+
   if (debug) {// display the debug menu, but only when i want you to.
 
     ctx.fillText("Time:", 30, 35);
@@ -72,16 +77,16 @@ function draw(DT) {
     ctx.fillStyle = "#34ebba"
     ctx.font = "12px Courier New"
 
-    ctx.fillText("FREIGHTER", 470, 160);
-    ctx.fillText("ATTENTION:", 470, 400);
-    ctx.fillText("YOU MAY PAUSE AT ANY TIME  |  PRESS \"ESC\" TO PAUSE", 340, 420);
-    ctx.fillText("DEBUG MODE NOW STARTS DISABLED  |  PRESS \"B\" TO ENABLE DEBUG MODE", 270, 440);
-    ctx.fillText("HELP MENU NOW STARTS CLOSED  |  PRESS \"H\" TO OPEN HELP MENU", 270, 460);
-    ctx.fillText("VER: " + VERSION, 255, 480);
-    ctx.fillText("By: Eden Annora", 450, 500);
+    ctx.fillText("FREIGHTER", centerOfCanvas.X -30, 160);
+    ctx.fillText("ATTENTION:", centerOfCanvas.X-30, 400);
+    ctx.fillText("YOU MAY PAUSE AT ANY TIME  |  PRESS \"ESC\" TO PAUSE", centerOfCanvas.X - 160, 420);
+    ctx.fillText("DEBUG MODE NOW STARTS DISABLED  |  PRESS \"B\" TO ENABLE DEBUG MODE", centerOfCanvas.X - 230, 440);
+    ctx.fillText("HELP MENU NOW STARTS CLOSED  |  PRESS \"H\" TO OPEN HELP MENU", centerOfCanvas.X - 230, 460);
+    ctx.fillText("VER: " + VERSION, centerOfCanvas.X - 245, 480);
+    ctx.fillText("By: Eden Annora", centerOfCanvas.X - 50, 500);
     if (DT < 10000 && !debug) {
-      ctx.fillText("message will dissapear in   s", 400, 520);
-      ctx.fillText(Math.round((10000 - DT) / 1000), 590, 520);
+      ctx.fillText("message will dissapear in   s", centerOfCanvas.X - 100, 520);
+      ctx.fillText(Math.round((10000 - DT) / 1000), centerOfCanvas.X + 90, 520);
     }
   }
 
@@ -93,13 +98,10 @@ function draw(DT) {
     ctx.stroke();
     ctx.fillStyle = "#ff0000"
     ctx.font = "25px Courier New"
-    ctx.fillText("PAUSED", 470, 160);
+    ctx.fillText("PAUSED", centerOfCanvas.X - 50, 160);
   }
 
-  len = entities.length;
-  for (let i = 0; i < len; i++) {
-    entities[i].draw() // finally draw all the entities in the list.
-  }
+  
   window.requestAnimationFrame(draw);
 
 }

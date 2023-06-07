@@ -24,7 +24,7 @@ window.addEventListener('load', function () {
   window.addEventListener("keyup", function (event) {eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 
 
-  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD"])]
+  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD","Space"])]
   
   for (let i = 0; i < 100; i++) {
     entities.push(new Spore(0,0))
