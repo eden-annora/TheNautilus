@@ -4,15 +4,28 @@
   margin: 0;
 }
 
-canvas {
+body{
+  overflow: hidden; /* Hide scrollbars */
+}
+
+#canvasDiv {
+  width: 100vw;
+  height: 100vh;
+}
+
+#myCanvas {
   background: #000000;
-  display: block;
-  margin: 0 auto;
+
+
+
 
   /* this scales the canvas to be as wide as the window. 
   We don't want to specify canvas height, 
   as just doing width will maintain the aspect ratio on it's own*/
-  width: 100vw;
+  width: 100%;
+  height:100%;
+  object-fit: contain;
+
 
   /* nearest neighbor scaling prevents blurryness, but now we've got big pixels*/
   image-rendering: pixelated;
