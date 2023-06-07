@@ -44,7 +44,7 @@ class Vector {
   applyforce_OT(V, DT) { this.X += this.X * V.X * DT; this.Y += this.Y * V.Y * DT; }//increment self by product of self and input vector but both are multiplied by time passed
   applyforceToDest_OT(V1, V2, DT) { this.X += V1.X * V2.X * DT; this.Y += V1.Y * V2.Y * DT; }// increment self by product of V1 and V2 but both are multiplied by time passed
 
-  addXY(X, Y) { this.X += X; this.Y += Y;} // add input values X and Y to their respective components of the vector object.
+  addXY(X, Y) { this.X += X; this.Y += Y; } // add input values X and Y to their respective components of the vector object.
 
   dist(V) { // faster distance funct
     let X = Math.abs(this.X - V.X);
@@ -52,7 +52,7 @@ class Vector {
     return Math.hypot(X, Y);
   }
 
-  distXY(x,y) { // faster distance funct
+  distXY(x, y) { // faster distance funct
     let X = Math.abs(this.X - x);
     let Y = Math.abs(this.Y - y);
     return Math.hypot(X, Y);

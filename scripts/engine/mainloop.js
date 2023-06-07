@@ -38,7 +38,7 @@ function update() {
     time += 1;
     eventHandler.raiseEvent("physics_update", new Object({}))// add a physics event to make sure everyone takes their turns to move instead of lying around like a sad rock.
   }
-  
+
   eventHandler.processCallbacks() // go process all the events that have occured since the last time we have checked
 
   //do things here blah blah blah :p
