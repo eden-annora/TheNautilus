@@ -3,26 +3,24 @@ class animationwrapper {
     this.pos = new Vector(X, Y)
     this.framecounter = 0
     this.name = null
-
-    eventHandler.bindListener(this, "playerMoved", function (target, data) {
-      target.pos.X = data.X
-      target.pos.Y = data.Y
-    })
+    this.target
   }
 
-  trigger(AnimName) {
+  trigger(target,AnimName) {
+    this.target = target
     this.name = AnimName
     this.framecounter = 0;
     entities.push(this)
   }
 
   draw(i) {
-    if (this.framecounter < 300) {
-      animations[this.name](this.pos, this.framecounter)
+    if (this.framecounter < 200) {
+      animations[this.name](this.target.pos, this.framecounter)
       this.framecounter += 1
-      if (this.framecounter >= 300) {
+      if (this.framecounter >= 200) {
         this.framecounter = 0
         entities.splice(i, 1);
+        this.target = null
       }
     }
   }
@@ -119,7 +117,7 @@ class Player {
           this.stored.setXY(this.vel.X, this.vel.Y)
           this.vel.setXY(0, 0)
           eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 3, Duration: 50 }))
-          this.animwrapper.trigger("player_StoreMomentum")
+          this.animwrapper.trigger(this,"player_StoreMomentum")
         }
       }
     } else {
@@ -269,6 +267,8 @@ class Camera {
     eventHandler.bindListener(this, "playerMoved", function (target, data) {// remember earlier when we told the camera where the player is? no? too bad. go look at line 48-ish again :p
       target.setpos.X = data.X
       target.setpos.Y = data.Y
+      target.playervel.X = data.VX
+      target.playervel.Y = data.VY
     })
 
     eventHandler.bindListener(this, "physics_update", function (target, data) {

@@ -38,6 +38,7 @@ function update() {
     time += 1;
     eventHandler.raiseEvent("physics_update", new Object({}))// add a physics event to make sure everyone takes their turns to move instead of lying around like a sad rock.
   }
+  
   eventHandler.processCallbacks() // go process all the events that have occured since the last time we have checked
 
   //do things here blah blah blah :p
@@ -73,7 +74,7 @@ function draw(DT) {
     ctx.fillText(frametime.toFixed(2), 105, 20);
   }
 
-  if (helpmenu || DT < 10000 && !debug) {// display help menu but also display it for the first ten seconds that the game is running. but not while the debug menu is also open.
+  if (helpmenu || DT < 1000 && !debug) {// display help menu but also display it for the first 5 seconds that the game is running. but not while the debug menu is also open.
     ctx.fillStyle = "#34ebba"
     ctx.font = "12px Courier New"
 
@@ -86,7 +87,7 @@ function draw(DT) {
     ctx.fillText("By: Eden Annora", centerOfCanvas.X - 50, 500);
     if (DT < 10000 && !debug) {
       ctx.fillText("message will dissapear in   s", centerOfCanvas.X - 100, 520);
-      ctx.fillText(Math.round((10000 - DT) / 1000), centerOfCanvas.X + 90, 520);
+      ctx.fillText(Math.round((1000 - DT) / 1000), centerOfCanvas.X + 90, 520);
     }
   }
 
