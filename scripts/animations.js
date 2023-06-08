@@ -23,7 +23,7 @@ const animations = new Object({
                 ctx.arc(tpX, tpY, 110, (framecounter / 20) * Math.PI, (framecounter / 15) * Math.PI);
                 ctx.stroke();
             }
-            if (framecounter < 45) {
+            if (framecounter < 43) {
                 ctx.beginPath();
                 ctx.arc(tpX, tpY, 115, (framecounter / 25) * Math.PI, (-framecounter / 19.8) * Math.PI);
                 ctx.stroke();
@@ -57,13 +57,13 @@ const animations = new Object({
                 ctx.arc(tpX, tpY, 110, (framecounter / 20) * Math.PI, (framecounter / 15) * Math.PI);
                 ctx.stroke();
             }
-            if (framecounter < 45) {
+            if (framecounter < 43) {
                 ctx.beginPath();
-                ctx.arc(tpX, tpY, 115, (framecounter / 25) * Math.PI, (-framecounter / 19.8) * Math.PI);
+                ctx.arc(tpX, tpY, 115, (framecounter / 25) * Math.PI, (-framecounter / 20) * Math.PI);
                 ctx.stroke();
             }
             ctx.beginPath();
-            ctx.arc(tpX, tpY, Math.abs(((3360 - framecounter * 32))), 0, 2 * Math.PI);
+            ctx.arc(tpX, tpY, Math.abs(((3660 - framecounter * 32))), 0, 2 * Math.PI);
             ctx.stroke();
         }
     }

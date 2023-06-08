@@ -13,10 +13,10 @@ class animationwrapper {
     entities.push(this)
   }
 
-  draw(i) {
+  draw(i,deltatime) {
     if (this.framecounter < 50) {
       animations[this.name](this.target.pos, this.framecounter)
-      this.framecounter += 1
+      this.framecounter += (deltatime/16.777777777)
       if (this.framecounter >= 50) {
         this.framecounter = 0
         entities.splice(i, 1);
