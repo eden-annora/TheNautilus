@@ -244,6 +244,11 @@ class Spore {
         target.vel.X = -(data.X - target.pos.X) * Spore.#spore_forcemodifier.X + data.VX * .5
         target.vel.Y = -(data.Y - target.pos.Y) * Spore.#spore_forcemodifier.Y + data.VY * .5
         //eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
+
+        //spore collision audio 
+        var randomCollisionSound = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
+        sporeHowls[randomCollisionSound].play();
+
       }
       if (target.distanceToPlayer > 1000) { target.die(); }
     });
