@@ -20,6 +20,8 @@ var thruster_loop = new Howl({
 var thruster_end = new Howl({ src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_end.mp3"] });
 
 
+
+//TODO: organize this better
 const sporeCollisions = ["https://eden-annora.github.io/TheNautilus/audio/collision/spore/1.mp3", "https://eden-annora.github.io/TheNautilus/audio/collision/spore/2.mp3", "https://eden-annora.github.io/TheNautilus/audio/collision/spore/3.mp3"];
 var sporeHowls = {};
 

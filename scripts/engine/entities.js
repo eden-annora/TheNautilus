@@ -246,9 +246,9 @@ class Spore {
         //eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
 
         //spore collision audio 
+        //TODO: event integration
         var randomCollisionSound = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
         sporeHowls[randomCollisionSound].play();
-
       }
       if (target.distanceToPlayer > 1000) { target.die(); }
     });
