@@ -10,3 +10,12 @@ var backgroundMusic = new Howl({
 
 //will only play after you click something on the page
 backgroundMusic.play();
+
+
+var thruster_loop = new Howl({
+  src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_loopable.mp3"],
+  loop: true
+});
+
+var thruster_end = new Howl({ src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_end.mp3"] });
+
