@@ -13,10 +13,10 @@ class animationwrapper {
     entities.push(this)
   }
 
-  draw(i,deltatime) {
+  draw(i, deltatime) {
     if (this.framecounter < 50) {
       animations[this.name](this.target.pos, this.framecounter)
-      this.framecounter += (deltatime/16.777777777)
+      this.framecounter += (deltatime / 16.777777777)
       if (this.framecounter >= 50) {
         this.framecounter = 0
         entities.splice(i, 1);
@@ -120,6 +120,12 @@ class Player {
           this.vel.setXY(0, 0)
           eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
           this.animwrapper.trigger(this, "player_StoreMomentum")
+
+          //end constant loop and play tail end of sound
+          if (thruster_loop.playing()) {
+            thruster_loop.stop()
+            thruster_end.play();
+          }
         }
       } else {
         if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
@@ -206,6 +212,7 @@ class Player {
       }
     }
     else {
+      //end constant loop and play tail end of sound
       if (thruster_loop.playing()) {
         thruster_loop.stop()
         thruster_end.play();
