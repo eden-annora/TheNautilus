@@ -202,7 +202,7 @@ class Spore {
   static #spore_wander = new Vector(-0.0008, -0.0008);
 
   constructor(X, Y) {
-    this.age = 0;
+    this.age = 1000;
     this.brightness = 0;
     this.pos = new Vector(X, Y);
     this.vel = new Vector(0, 0);
