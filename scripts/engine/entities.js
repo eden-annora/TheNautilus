@@ -151,8 +151,12 @@ class Player {
     let storedpower = this.stored.distXY(0, 0)
     if (storedpower > .1) { // this shows a small line that indicates which direction the player will get launched in when momentum is stored
       let dir = 0
-      if (this.MoveKeyHeldX || this.MoveKeyHeldY) { dir = Math.atan2(this.moveVector.Y, this.moveVector.X) }
-      else { dir = Math.atan2(this.stored.Y, this.stored.X) }
+      if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
+        dir = Math.atan2(this.moveVector.Y, this.moveVector.X)
+      }
+      else {
+        dir = Math.atan2(this.stored.Y, this.stored.X)
+      }
       this.releasedir = (dir + this.releasedir * 2) / 3
 
       ctx.strokeStyle = "#e06fff"
@@ -193,6 +197,20 @@ class Player {
       ctx.fillText((this.keys[1].toUpperCase()), 500 - offset, 281)
       ctx.fillText((this.keys[2].toUpperCase()), 500, 281 + offset)
       ctx.fillText((this.keys[3].toUpperCase()), 500 + offset, 281)
+    }
+
+    //player thruster audio
+    if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
+      if (!thruster_loop.playing()) {
+        thruster_loop.play()
+      }
+    }
+    else {
+      if (thruster_loop.playing()) {
+        thruster_loop.stop()
+        thruster_end.play();
+      }
+
     }
   }
 }
