@@ -248,9 +248,7 @@ class Spore {
 
         //spore collision audio 
         //TODO: event integration
-
-
-        if (Math.round(Math.random()) == 1) {
+        if (Math.round(Math.random() * 3) == 1) {
           var randomIndex = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
           sporeHowls[randomIndex].play();
         }
