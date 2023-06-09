@@ -239,7 +239,8 @@ class Spore {
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
       target.brightness = ((Math.sin((-(time + target.timeoffset) + target.distanceToPlayer) / 100) + 1) + target.brightness * 20) / 21
 
-      if (target.distanceToPlayer < 20 && target.brightness > .5) {
+      // && target.brightness > .5
+      if (target.distanceToPlayer < 20) {
         target.timeoffset = 2500
         target.vel.X = -(data.X - target.pos.X) * Spore.#spore_forcemodifier.X + data.VX * .5
         target.vel.Y = -(data.Y - target.pos.Y) * Spore.#spore_forcemodifier.Y + data.VY * .5
@@ -247,8 +248,12 @@ class Spore {
 
         //spore collision audio 
         //TODO: event integration
-        var randomCollisionSound = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
-        sporeHowls[randomCollisionSound].play();
+
+
+        if (Math.round(Math.random()) == 1) {
+          var randomIndex = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
+          sporeHowls[randomIndex].play();
+        }
       }
       if (target.distanceToPlayer > 1000) { target.die(); }
     });

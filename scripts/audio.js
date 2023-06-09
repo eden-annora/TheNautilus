@@ -34,6 +34,6 @@ for (var i = 0; i < sporeCollisions.length; i++) {
   sporeHowls[sporeCollisions[i]] = new Howl({
     src: [sporeCollisions[i]],
     loop: false,
-    volume: .15
+    volume: .05
   });
 }
