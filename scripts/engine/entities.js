@@ -129,9 +129,11 @@ class Player {
         }
       } else {
         if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
-          console.log("this should be adding power in the direction of my moveVect")
           let power = this.stored.distXY(0, 0)
-          this.vel.addXY(power * this.moveVector.X, power * this.moveVector.Y)
+          if (this.MoveKeyHeldX && this.MoveKeyHeldY) {this.vel.addXY(power * this.moveVector.X, power * this.moveVector.Y)}
+          if (this.MoveKeyHeldX && !this.MoveKeyHeldY) {this.vel.addXY(power * this.moveVector.X, -this.vel.Y)}
+          if (!this.MoveKeyHeldX && this.MoveKeyHeldY) {this.vel.addXY(-this.vel.X, power * this.moveVector.Y)}
+
         } else {
           this.vel.addXY(this.stored.X, this.stored.Y)
         }
@@ -154,16 +156,20 @@ class Player {
     ctx.drawImage(player_sprite_RCSjets_V, tpX, tpY + thrusterOffSetV, 50, 50);//draw the vertical jets onto the screen based off predetermined values
     ctx.drawImage(player_sprite_RCSjets_H, tpX + thrusterOffSetH, tpY, 50, 50);//draw the horizontal jets onto the screen based off predetermined values
     ctx.drawImage(playersprite, tpX, tpY, 50, 50);//draw the players sprite onto the screen based off predetermined values
+
     let storedpower = this.stored.distXY(0, 0)
     if (storedpower > .1) { // this shows a small line that indicates which direction the player will get launched in when momentum is stored
       let dir = 0
+
       if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
-        dir = Math.atan2(this.moveVector.Y, this.moveVector.X)
-      }
-      else {
+        if (this.MoveKeyHeldX && this.MoveKeyHeldY) {dir = Math.atan2(this.moveVector.Y, this.moveVector.X)}
+        if (this.MoveKeyHeldX && !this.MoveKeyHeldY) {dir = Math.atan2(0, this.moveVector.X)}
+        if (!this.MoveKeyHeldX && this.MoveKeyHeldY) {dir = Math.atan2(this.moveVector.Y, 0)}
+      } else {
         dir = Math.atan2(this.stored.Y, this.stored.X)
-      }
-      this.releasedir = (dir + this.releasedir * 2) / 3
+      } this.releasedir = (dir + this.releasedir * 2) / 3
+      
+      
 
       ctx.strokeStyle = "#e06fff"
       ctx.lineWidth = 1;
@@ -177,6 +183,7 @@ class Player {
       ctx.arc(tpX + 25, tpY + 25, 60 + storedpower * 12, (this.releasedir - .1), (this.releasedir + .1))
       ctx.stroke();
     }
+
     if (debug) {
       ctx.strokeStyle = "#ff0000"
       ctx.lineWidth = "1";
