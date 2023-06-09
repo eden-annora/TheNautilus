@@ -120,25 +120,29 @@ class Player {
           this.vel.setXY(0, 0)
           eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
           this.animwrapper.trigger(this, "player_StoreMomentum")
+          Ability_charge.stop();
+          Ability_charge.play();
 
           //end constant loop and play tail end of sound
           if (thruster_loop.playing()) {
-            thruster_loop.stop()
+            thruster_loop.stop();
             thruster_end.play();
           }
         }
       } else {
         if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
           let power = this.stored.distXY(0, 0)
-          if (this.MoveKeyHeldX && this.MoveKeyHeldY) {this.vel.addXY(power * this.moveVector.X, power * this.moveVector.Y)}
-          if (this.MoveKeyHeldX && !this.MoveKeyHeldY) {this.vel.addXY(power * this.moveVector.X, -this.vel.Y)}
-          if (!this.MoveKeyHeldX && this.MoveKeyHeldY) {this.vel.addXY(-this.vel.X, power * this.moveVector.Y)}
+          if (this.MoveKeyHeldX && this.MoveKeyHeldY) { this.vel.addXY(power * this.moveVector.X, power * this.moveVector.Y) }
+          if (this.MoveKeyHeldX && !this.MoveKeyHeldY) { this.vel.addXY(power * this.moveVector.X, -this.vel.Y) }
+          if (!this.MoveKeyHeldX && this.MoveKeyHeldY) { this.vel.addXY(-this.vel.X, power * this.moveVector.Y) }
 
         } else {
           this.vel.addXY(this.stored.X, this.stored.Y)
         }
         eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
         this.animwrapper.trigger(this, "player_ReleaseMomentum")
+        Ability_boost.stop();
+        Ability_boost.play();
         this.vel.clamp(2, -2, 2, -2)
         this.boosttimer = 750
         this.stored.setXY(0, 0)
@@ -162,14 +166,14 @@ class Player {
       let dir = 0
 
       if (this.MoveKeyHeldX || this.MoveKeyHeldY) {
-        if (this.MoveKeyHeldX && this.MoveKeyHeldY) {dir = Math.atan2(this.moveVector.Y, this.moveVector.X)}
-        if (this.MoveKeyHeldX && !this.MoveKeyHeldY) {dir = Math.atan2(0, this.moveVector.X)}
-        if (!this.MoveKeyHeldX && this.MoveKeyHeldY) {dir = Math.atan2(this.moveVector.Y, 0)}
+        if (this.MoveKeyHeldX && this.MoveKeyHeldY) { dir = Math.atan2(this.moveVector.Y, this.moveVector.X) }
+        if (this.MoveKeyHeldX && !this.MoveKeyHeldY) { dir = Math.atan2(0, this.moveVector.X) }
+        if (!this.MoveKeyHeldX && this.MoveKeyHeldY) { dir = Math.atan2(this.moveVector.Y, 0) }
       } else {
         dir = Math.atan2(this.stored.Y, this.stored.X)
       } this.releasedir = (dir + this.releasedir * 2) / 3
-      
-      
+
+
 
       ctx.strokeStyle = "#e06fff"
       ctx.lineWidth = 1;
@@ -238,6 +242,7 @@ class Spore {
     this.brightness = 0;
     this.pos = new Vector(X, Y);
     this.vel = new Vector(0, 0);
+    this.veldif = new Vector(0, 0)
     this.timeoffset = 0
 
     this.distanceToPlayer = 0
@@ -246,17 +251,27 @@ class Spore {
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
       target.brightness = ((Math.sin((-(time + target.timeoffset) + target.distanceToPlayer) / 100) + 1) + target.brightness * 20) / 21
 
-      if (target.distanceToPlayer < 20 && target.brightness > .5) {
+      if (target.distanceToPlayer < 20 && target.brightness > .2) {
         target.timeoffset = 2500
         target.vel.X = -(data.X - target.pos.X) * Spore.#spore_forcemodifier.X + data.VX * .5
         target.vel.Y = -(data.Y - target.pos.Y) * Spore.#spore_forcemodifier.Y + data.VY * .5
+
         //eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
 
         //spore collision audio 
         //TODO: event integration
-        if (Math.round(Math.random() * 3) == 1) {
+        if (target.age < 1000) {//Math.round(Math.random() * 3) == 1) { // randomness is here to fix overlapping sound effects... i dont like this solution but its faster than iterating through the list.
           var randomIndex = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
+
+          target.veldif.X = (data.VX - target.vel.X)
+          target.veldif.Y = (data.VY - target.vel.Y)
+
+          console.log([target.age,(target.veldif.distXY(0, 0))])
+
+          sporeHowls[randomIndex].volume((target.veldif.distXY(0, 0))/2);
           sporeHowls[randomIndex].play();
+
+          target.age = 1000
         }
       }
       if (target.distanceToPlayer > 1000) { target.die(); }

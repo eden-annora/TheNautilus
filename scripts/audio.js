@@ -8,7 +8,8 @@
 //Background music
 var background_music = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/ambientmusic/magic_forest.mp3'],
-  loop: true
+  loop: true,
+  volume: .2
 });
 
 //will only play after you click something on the page
@@ -19,12 +20,25 @@ background_music.play();
 //Thrusters
 var thruster_loop = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_loopable.mp3"],
-  loop: true
+  loop: true,
+  volume: .7
 });
 
-var thruster_end = new Howl({ src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_end.mp3"] });
+var thruster_end = new Howl({ 
+  src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_end.mp3"],
+  volume: .7
+});
 
 
+var Ability_boost = new Howl({ 
+  src: ["https://eden-annora.github.io/TheNautilus/audio/player/boost.mp3"],
+  volume: .3
+});
+
+var Ability_charge = new Howl({ 
+  src: ["https://eden-annora.github.io/TheNautilus/audio/player/charge.mp3"],
+  volume: .3
+});
 
 //Spore collision sounds
 const sporeCollisions = ["https://eden-annora.github.io/TheNautilus/audio/collision/spore/1.mp3", "https://eden-annora.github.io/TheNautilus/audio/collision/spore/2.mp3", "https://eden-annora.github.io/TheNautilus/audio/collision/spore/3.mp3"];
