@@ -3,6 +3,7 @@ const VERSION = "0.0.1.4 | player now has momentum storage!" // just sets what t
 var focused = false;// is my tab selected
 var helpmenu = false // is help menu being displayed
 var debug = false // is debug menu being displayed
+var muteMusic = false //control music muting
 
 var eventHandler = new EventHandler()
 
@@ -56,7 +57,7 @@ function draw(DT) {
 
   len = entities.length;
   for (let i = 0; i < len; i++) {
-    entities[i].draw(i,frametime)// finally draw all the entities in the list.
+    entities[i].draw(i, frametime)// finally draw all the entities in the list.
   }
 
   if (debug) {// display the debug menu, but only when i want you to.
@@ -72,6 +73,11 @@ function draw(DT) {
     ctx.fillText("DEBUG MODE ENABLED      " + VERSION, 200, 500);
     ctx.fillText("frameTime:      Ms", 30, 20);
     ctx.fillText(frametime.toFixed(2), 105, 20);
+  }
+  if (muteMusic) {
+    background_music.mute(true)
+  } else {
+    background_music.mute(false);
   }
 
   if (helpmenu || DT < 1000 && !debug) {// display help menu but also display it for the first 5 seconds that the game is running. but not while the debug menu is also open.
