@@ -350,6 +350,7 @@ class ExternalKeyListeners {// menu buttons that need to work even if the player
       if (keyevent.data.code == "KeyB") { debug = !debug }
       if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu }
       if (keyevent.data.code == "Escape") { focused = !focused; }
+      if (keyevent.data.code == "KeyM") { muteMusic = !muteMusic }
     });
   }
 }
