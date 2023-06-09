@@ -246,8 +246,7 @@ class Spore {
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
       target.brightness = ((Math.sin((-(time + target.timeoffset) + target.distanceToPlayer) / 100) + 1) + target.brightness * 20) / 21
 
-      // && target.brightness > .5
-      if (target.distanceToPlayer < 20) {
+      if (target.distanceToPlayer < 20 && target.brightness > .5) {
         target.timeoffset = 2500
         target.vel.X = -(data.X - target.pos.X) * Spore.#spore_forcemodifier.X + data.VX * .5
         target.vel.Y = -(data.Y - target.pos.Y) * Spore.#spore_forcemodifier.Y + data.VY * .5
