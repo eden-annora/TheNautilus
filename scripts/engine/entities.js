@@ -120,8 +120,8 @@ class Player {
           this.vel.setXY(0, 0)
           eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
           this.animwrapper.trigger(this, "player_StoreMomentum")
-          Ability_charge.stop();
-          Ability_charge.play();
+          ability_charge.stop();
+          ability_charge.play();
 
           //end constant loop and play tail end of sound
           if (thruster_loop.playing()) {
@@ -141,8 +141,8 @@ class Player {
         }
         eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
         this.animwrapper.trigger(this, "player_ReleaseMomentum")
-        Ability_boost.stop();
-        Ability_boost.play();
+        ability_boost.stop();
+        ability_boost.play();
         this.vel.clamp(2, -2, 2, -2)
         this.boosttimer = 750
         this.stored.setXY(0, 0)
