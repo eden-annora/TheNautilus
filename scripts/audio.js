@@ -4,7 +4,6 @@
 //Just grab the relative path and add it to the end of "https://eden-annora.github.io/TheNautilus/"
 
 
-
 //Background music
 var background_music = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/ambientmusic/magic_forest.mp3'],
@@ -51,6 +50,17 @@ var sporeHowls = {};
 for (var i = 0; i < sporeCollisions.length; i++) {
   sporeHowls[sporeCollisions[i]] = new Howl({
     src: [sporeCollisions[i]],
+    loop: false,
+    volume: .1
+  });
+}
+
+const sporeAlerts = ["https://eden-annora.github.io/TheNautilus/audio/collision/spore/alert.mp3"];
+var sporeHowls_alert = {};
+
+for (var i = 0; i < sporeAlerts.length; i++) {
+  sporeHowls_alert[sporeAlerts[i]] = new Howl({
+    src: [sporeAlerts[i]],
     loop: false,
     volume: .1
   });

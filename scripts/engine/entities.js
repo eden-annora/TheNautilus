@@ -232,6 +232,7 @@ class Player {
     }
   }
 }
+
 class Spore {
   static #spore_forcemodifier = new Vector(0.01, 0.01);
   static #spore_dacc = new Vector(-0.005, -0.005);
@@ -256,20 +257,25 @@ class Spore {
         target.vel.X = -(data.X - target.pos.X) * Spore.#spore_forcemodifier.X + data.VX * .5
         target.vel.Y = -(data.Y - target.pos.Y) * Spore.#spore_forcemodifier.Y + data.VY * .5
 
-        //eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
-
         //spore collision audio 
         //TODO: event integration
-        if (target.age < 1000) {//Math.round(Math.random() * 3) == 1) { // randomness is here to fix overlapping sound effects... i dont like this solution but its faster than iterating through the list.
+        if (target.age < 1000) {// if we collide with a spore, play the noise and then immediatley set the spores age to 1000, this prevents further sounds from playing from that spore preventing overlapping sounds.
           var randomIndex = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
 
           target.veldif.X = (data.VX - target.vel.X)
           target.veldif.Y = (data.VY - target.vel.Y)
 
-          console.log([target.age,(target.veldif.distXY(0, 0))])
+          //console.log([target.age, (target.veldif.distXY(0, 0))])
 
-          sporeHowls[randomIndex].volume((target.veldif.distXY(0, 0))/2);
+          sporeHowls[randomIndex].volume((target.veldif.distXY(0, 0)) / 2);
           sporeHowls[randomIndex].play();
+
+          if (Math.floor(Math.random() * 10) == 1) {
+            console.log("the funny")
+            //eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
+            randomIndex = sporeAlerts[Math.floor(Math.random() * sporeAlerts.length)];
+            sporeHowls_alert[randomIndex].play();
+          }
 
           target.age = 1000
         }
@@ -373,4 +379,3 @@ class ExternalKeyListeners {// menu buttons that need to work even if the player
     });
   }
 }
-
