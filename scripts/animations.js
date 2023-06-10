@@ -152,9 +152,9 @@ const animations = new Object({
                 ctx.beginPath();
                 ctx.arc(tpX, tpY, 50, (framecounter / 20) * Math.PI, (framecounter / 10) * Math.PI);
                 ctx.stroke();
-                ctx.fillStyle = "#ff3d67"
-                if (Math.floor(framecounter/8) % 2 == 0) {ctx.fillStyle = "#ff3d6775"}
-                ctx.fillText("[ SONAR DETECTED ]", tpX - 65, tpY + 65);
-                ctx.fillStyle = "#34ebba"
+                ctx_text.fillStyle = "#ff3d67"
+                if (Math.floor(framecounter/8) % 2 == 0) {ctx_text.fillStyle = "#ff3d6775"}
+                ctx_text.fillText("[ SONAR DETECTED ]", tpX - 65, tpY + 65);
+                ctx_text.fillStyle = "#34ebba"
         }}}
 })

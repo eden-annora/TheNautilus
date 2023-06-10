@@ -1,6 +1,10 @@
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
+
+var textcanvas = document.getElementById("textCanvas");
+var ctx_text = textcanvas.getContext("2d");
+
 var centerOfCanvas = new Vector(canvas.width / 2, canvas.height / 2); // precalculating this. because i have to use it twice. for every single object. every frame.
 
 ctx.fillStyle = "#34ebba"

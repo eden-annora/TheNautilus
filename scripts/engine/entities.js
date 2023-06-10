@@ -273,8 +273,10 @@ class Spore {
           sporeHowls[randomIndex].volume(difvel / 2);
           sporeHowls[randomIndex].play();
 
-          if (difvel > .2){
-            //eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
+          console.log(difvel)
+
+          if (Math.floor(Math.random() * 3) == 1 && sporeAlert){
+            eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
             randomIndex = sporeAlerts[Math.floor(Math.random() * sporeAlerts.length)];
             sporeHowls_alert[randomIndex].play();
             target.animwrapper.trigger(target, "spore_soundwave")
@@ -374,11 +376,19 @@ class Camera {
 
 class ExternalKeyListeners {// menu buttons that need to work even if the player is dead or otherwise missing from the scene.
   constructor() {
+
+    eventHandler.bindListener(this, "sporeCollisionAlert", function (target, data) {
+      sporeAlertPos.X = data.X 
+      sporeAlertPos.Y = data.Y
+      sporeAlertPosAge = 0
+    });
+
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {
       if (keyevent.data.code == "KeyB") { debug = !debug }
       if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu }
       if (keyevent.data.code == "Escape") { focused = !focused; }
       if (keyevent.data.code == "KeyM") { muteMusic = !muteMusic }
+      if (keyevent.data.code == "KeyR") { sporeAlert = !sporeAlert }
     });
   }
 }
