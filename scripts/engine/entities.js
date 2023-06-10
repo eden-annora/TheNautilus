@@ -14,10 +14,10 @@ class animationwrapper {
   }
 
   draw(i, deltatime) {
-    if (this.framecounter < 50) {
+    if (this.framecounter <= 100 && this.target) {
       animations[this.name](this.target.pos, this.framecounter)
       this.framecounter += (deltatime / 16.777777777)
-      if (this.framecounter >= 50) {
+      if (this.framecounter > 100) {
         this.framecounter = 0
         entities.splice(i, 1);
         this.target = null
@@ -239,6 +239,9 @@ class Spore {
   static #spore_wander = new Vector(-0.0008, -0.0008);
 
   constructor(X, Y) {
+
+    this.animwrapper = new animationwrapper(0, 0)
+
     this.age = 1000;
     this.brightness = 0;
     this.pos = new Vector(X, Y);
@@ -265,15 +268,16 @@ class Spore {
           target.veldif.X = (data.VX - target.vel.X)
           target.veldif.Y = (data.VY - target.vel.Y)
 
-          //console.log([target.age, (target.veldif.distXY(0, 0))])
+          let difvel = (target.veldif.distXY(0, 0))
 
-          sporeHowls[randomIndex].volume((target.veldif.distXY(0, 0)) / 2);
+          sporeHowls[randomIndex].volume(difvel / 2);
           sporeHowls[randomIndex].play();
 
-          if (Math.floor(Math.random() * 10) == 1) {
+          if (difvel > .2){
             //eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
             randomIndex = sporeAlerts[Math.floor(Math.random() * sporeAlerts.length)];
             sporeHowls_alert[randomIndex].play();
+            target.animwrapper.trigger(target, "spore_soundwave")
           }
 
           target.age = 1000

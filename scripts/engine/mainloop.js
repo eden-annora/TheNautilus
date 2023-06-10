@@ -57,7 +57,7 @@ function draw(DT) {
 
   len = entities.length;
   for (let i = 0; i < len; i++) {
-    entities[i].draw(i, frametime)// finally draw all the entities in the list.
+    if (entities[i]) {entities[i].draw(i, frametime)}// finally draw all the entities in the list.
   }
 
   if (debug) {// display the debug menu, but only when i want you to.
