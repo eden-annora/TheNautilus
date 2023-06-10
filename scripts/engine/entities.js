@@ -271,7 +271,6 @@ class Spore {
           sporeHowls[randomIndex].play();
 
           if (Math.floor(Math.random() * 10) == 1) {
-            console.log("the funny")
             //eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
             randomIndex = sporeAlerts[Math.floor(Math.random() * sporeAlerts.length)];
             sporeHowls_alert[randomIndex].play();
