@@ -55,8 +55,8 @@ function draw(DT) {
   let frametime = (DT - lastframe)
   lastframe = DT
 
-  ctx.fillStyle = "#34ebba"
-  ctx.font = "12px Courier New"
+  ctx_text.fillStyle = "#34ebba"
+  ctx_text.font = "12px Courier New"
 
   ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
   ctx_text.clearRect(0, 0, canvas.width, canvas.height)
