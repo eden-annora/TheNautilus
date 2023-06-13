@@ -31,6 +31,11 @@ class gameTrigger {
 }
 
 class enemyleg {
+  /**
+   * a single leg? bit? piece? of the blob enemy
+   * @param {*} X pos X
+   * @param {*} Y pos Y
+   */
   constructor(X, Y) {
     this.targetpos = new Vector(X, Y)
     this.daccX = new Vector(-.25, 0);
@@ -45,6 +50,15 @@ class enemyleg {
     this.vel = new Vector(0, 0);
 
   }
+  /**
+   * physics update but for the legs of the blobs
+   * @param {*} bodyposX position of the body (X)
+   * @param {*} bodyposY position of the body (Y)
+   * @param {*} bodydirX intended move direction of the body (X)
+   * @param {*} bodydirY intended move direction of the body (Y)
+   * @param {*} enraged is the player close enough to me for me to see them
+   * @param {*} legarea whats the max radius a leg can be away from the bodies center point
+   */
   legupdate(bodyposX, bodyposY, bodydirX, bodydirY, enraged, legarea) {
     // IK stuff here
     bodyposX += bodydirX * 50
@@ -94,6 +108,11 @@ class enemyleg {
 }
 
 class testenemy {
+  /**
+   * 
+   * @param {*} X  pos X
+   * @param {*} Y  pos Y 
+   */
   constructor(X, Y) {
 
     this.daccX = new Vector(-.25, 0);
@@ -265,6 +284,12 @@ class animationwrapper { // a terrible and temporary implementation for animatio
 }
 
 class Player {
+  /**
+   * 
+   * @param {*} X pos X
+   * @param {*} Y pos Y
+   * @param {*} Keys list of keybindings [up,left,down,right,ability]
+   */
   constructor(X, Y, Keys) {
 
     this.animwrapper = new animationwrapper(0, 0)
@@ -361,7 +386,7 @@ class Player {
       }))
     });
   }
-  die() {  // oh no! our table! its broken!
+  die() {  // oh no! our table! its broken! (player died... imagine losing)
     focused = false
     this.vel.setXY(0, 0);
     this.stored.setXY(0, 0)
@@ -597,6 +622,9 @@ class Spore {
 }
 
 class Camera {
+  /**
+   * its the camera, make sure to initalize it if you want, like, anything to work... at all....
+   */
   constructor() {
     this.dacc = new Vector(-0.01, -0.01);
     this.acc = new Vector(0.01, 0.01);
@@ -636,12 +664,10 @@ class Camera {
         target.playervel.Y = target.follow.vel.Y
       }
       let difX = (target.setpos.X - target.pos.X)// we obtain numerous differences or deviations.
-      let difY = (target.setpos.Y - target.pos.Y)
+      let difY = (target.setpos.Y - target.pos.Y)// prev comment was funny but unhelpful, this just takes my position minus the players
 
       target.moveVector.X = difX * (Math.pow(difX, 2)) / 1000 - (target.vel.X - target.playervel.X) * 100//funky curve math, basically this is the response curve for the players distance from the camera.
       target.moveVector.Y = difY * (Math.pow(difY, 2)) / 1000 - (target.vel.Y - target.playervel.Y) * 100
-
-      //target.moveVector.clamp(50, -50, 50, -50)
 
       if (target.cameraShakeDuration > 0) {
         target.cameraShakeDuration -= 1
@@ -662,7 +688,6 @@ class Camera {
 
 class ExternalKeyListeners {// menu buttons that need to work even if the player is dead or otherwise missing from the scene.
   constructor() {
-
     eventHandler.bindListener(this, "sporeCollisionAlert", function (target, data) {
       sporeAlertPos.X = data.X
       sporeAlertPos.Y = data.Y
