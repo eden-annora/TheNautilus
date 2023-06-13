@@ -6,7 +6,7 @@
 
 //Background music
 var background_music = new Howl({
-  src: ['https://eden-annora.github.io/TheNautilus/audio/ambientmusic/magic_forest.mp3'],
+  src: ['https://eden-annora.github.io/TheNautilus/audio/ambient_music/magic_forest.mp3'],
   loop: true,
   volume: .2
 });
