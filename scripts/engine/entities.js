@@ -1,3 +1,14 @@
+class gameTrigger{
+  constructor(X, Y ,X1 ,Y1){
+  this.pos = new Vector(X, Y);
+  this.vel = new Vector(X1, Y1);
+
+  eventHandler.bindListener(this, "playerMoved", function (target, data) {
+    //things here
+    })
+  }
+}
+
 class enemyleg {
   constructor(X, Y) {
     this.targetpos = new Vector(X, Y)
@@ -328,7 +339,6 @@ class Player {
         Y: target.pos.Y,
         VX: target.vel.X,
         VY: target.vel.Y
-
       }))
     });
   }
