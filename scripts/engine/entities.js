@@ -1,11 +1,18 @@
 class gameTrigger {
+  /**
+   * Trigger that detects if player passes within
+   * @param {*} X Position x
+   * @param {*} Y Position y
+   * @param {*} X1 Width
+   * @param {*} Y1 Height
+   */
   constructor(X, Y, X1, Y1) {
     this.pos = new Vector(X, Y);
     this.width = new Vector(X1, Y1);
 
     eventHandler.bindListener(this, "playerMoved", function (target, data) {
       if (data.X >= target.pos.X && data.X <= target.pos.X + target.width.X && data.Y >= target.pos.Y && data.Y <= target.pos.Y + target.width.Y) {
-        console.log("excellent! You are within the bounds of the trigger");
+        console.log("excellent! You are within the bounds of the trigger");//if you're cool and within the trigger, this will be logged and you can do whatever
       }
     })
   }
@@ -16,7 +23,7 @@ class gameTrigger {
       let tpY = centerOfCanvas.Y + (this.pos.Y - camera.pos.Y)
 
       ctx.beginPath();
-      ctx.fillStyle = "#FF69B460";
+      ctx.fillStyle = "#FF69B460"; //hot pink but transparents
       ctx.fillRect(tpX, tpY, this.width.X, this.width.Y);
       ctx.stroke();
     }
@@ -529,7 +536,6 @@ class Spore {
         target.vel.Y = -(data.Y - target.pos.Y) * Spore.#spore_forcemodifier.Y + data.VY * .5
 
         //spore collision audio 
-        //TODO: event integration
         if (target.age < 1000) {// if we collide with a spore, play the noise and then immediatley set the spores age to 1000, this prevents further sounds from playing from that spore preventing overlapping sounds.
           var randomIndex = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
 
