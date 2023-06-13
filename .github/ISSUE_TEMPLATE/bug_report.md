@@ -13,5 +13,8 @@ assignees: ''
 **What causes the bug?**
 [steps to reproduce]
 
+**How should be the bug be fixed?**
+[ideas to resolve issue]
+
 **Screenshots**
 Got screenshots?
