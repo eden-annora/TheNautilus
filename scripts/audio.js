@@ -56,10 +56,10 @@ for (var i = 0; i < sporeCollisions.length; i++) {
 }
 
 const sporeAlerts = ["https://eden-annora.github.io/TheNautilus/audio/collision/spore/alert.mp3"];
-var sporeHowls_alert = {};
+var sporeHowlsAlert = {};
 
 for (var i = 0; i < sporeAlerts.length; i++) {
-  sporeHowls_alert[sporeAlerts[i]] = new Howl({
+  sporeHowlsAlert[sporeAlerts[i]] = new Howl({
     src: [sporeAlerts[i]],
     loop: false,
     volume: .1

@@ -577,7 +577,7 @@ class Spore {
           if (Math.floor(Math.random() * 3) == 1 && sporeAlert) {
             eventHandler.raiseEvent("sporeCollisionAlert", new Object({ X: target.pos.X, Y: target.pos.Y }))
             randomIndex = sporeAlerts[Math.floor(Math.random() * sporeAlerts.length)];
-            sporeHowls_alert[randomIndex].play();
+            sporeHowlsAlert[randomIndex].play();
             target.animwrapper.trigger(target, "spore_soundwave")
           }
 
