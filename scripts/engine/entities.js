@@ -1,11 +1,25 @@
-class gameTrigger{
-  constructor(X, Y ,X1 ,Y1){
-  this.pos = new Vector(X, Y);
-  this.vel = new Vector(X1, Y1);
+class gameTrigger {
+  constructor(X, Y, X1, Y1) {
+    this.pos = new Vector(X, Y);
+    this.width = new Vector(X1, Y1);
 
-  eventHandler.bindListener(this, "playerMoved", function (target, data) {
-    //things here
+    eventHandler.bindListener(this, "playerMoved", function (target, data) {
+      if (data.X >= target.pos.X && data.X <= target.pos.X + target.width.X && data.Y >= target.pos.Y && data.Y <= target.pos.Y + target.width.Y) {
+        console.log("excellent! You are within the bounds of the trigger");
+      }
     })
+  }
+
+  draw() {
+    if (debug) {
+      let tpX = centerOfCanvas.X + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relative position to the player.
+      let tpY = centerOfCanvas.Y + (this.pos.Y - camera.pos.Y)
+
+      ctx.beginPath();
+      ctx.fillStyle = "#FF69B460";
+      ctx.fillRect(tpX, tpY, this.width.X, this.width.Y);
+      ctx.stroke();
+    }
   }
 }
 
@@ -24,15 +38,15 @@ class enemyleg {
     this.vel = new Vector(0, 0);
 
   }
-  legupdate(bodyposX,bodyposY,bodydirX,bodydirY,enraged,legarea) {
+  legupdate(bodyposX, bodyposY, bodydirX, bodydirY, enraged, legarea) {
     // IK stuff here
-    bodyposX += bodydirX*50
-    bodyposY += bodydirY*50 // offset target positions based on the controllers intended movement direction (purly for cosmetics, makes the dots match closer with the damage circle)
+    bodyposX += bodydirX * 50
+    bodyposY += bodydirY * 50
 
-    let legdist = this.targetpos.distXY(bodyposX,bodyposY) // if the leg is outside of the defined radius pick a new random position.
-    if (legdist > legarea){
-      this.targetpos.X = ((Math.random()-.5)*2 * legarea) + bodyposX
-      this.targetpos.Y = ((Math.random()-.5)*2 * legarea) + bodyposY
+    let legdist = this.targetpos.distXY(bodyposX, bodyposY)
+    if (legdist > legarea) {
+      this.targetpos.X = ((Math.random() - .5) * 2 * legarea) + bodyposX
+      this.targetpos.Y = ((Math.random() - .5) * 2 * legarea) + bodyposY
     }
 
     this.moveVector.setXY(0, 0);
@@ -44,30 +58,31 @@ class enemyleg {
     this.moveVector.Y = difY * (Math.pow(difY, 2)) / 2000 - (this.vel.Y) * 1000
 
     this.moveVector.applyforceToDest_OT(this.vel, this.daccX, DT)
-    this.moveVector.applyforceToDest_OT(this.vel, this.daccY, DT) // apply decelleration.
-    
+    this.moveVector.applyforceToDest_OT(this.vel, this.daccY, DT)
+
     this.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
 
-    if (enraged){// if the player is close enough to the body, move faster
-      this.moveVector.multXY(1.5,1.5)
+    if (enraged) {
+      this.moveVector.multXY(1.5, 1.5)
     }
-    
-    this.vel.applyforceToDest_OT(this.moveVector, this.acc, DT); //apply forces
+
+    this.vel.applyforceToDest_OT(this.moveVector, this.acc, DT);
 
     this.vel.clamp(this.speedcap.X, -this.speedcap.X, this.speedcap.Y, -this.speedcap.Y) // apply speedcap
 
     this.pos.add_OT(this.vel, DT); //move the leg
   }
-  draw(enraged){
+  draw(enraged) {
 
     let tpX = centerOfCanvas.X - 5 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
     let tpY = centerOfCanvas.Y - 5 + (this.pos.Y - camera.pos.Y)
-    if (enraged){ //change what texture we use then its enraged
+    //console.log(enraged)
+    if (enraged) {
       ctx.drawImage(sporemonster_enraged, tpX, tpY, 20, 20);
     } else {
       ctx.drawImage(sporemonster, tpX, tpY, 20, 20);
     }
-    
+
   }
 }
 
@@ -99,9 +114,9 @@ class testenemy {
 
     eventHandler.bindListener(this, "playerMoved", function (target, data) { // when the player moves do checks to ensure its
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
-      if (target.distanceToPlayer <  target.enrageCircle) { // close enough to enrage the creature.
-        if (target.distanceToPlayer < target.damageCirlce){ // close enough to take damage from the creature.
-          eventHandler.raiseEvent("playerTakesDamage",new Object({damage:10}))
+      if (target.distanceToPlayer < target.enrageCircle) {
+        if (target.distanceToPlayer < target.damageCirlce) {
+          eventHandler.raiseEvent("playerTakesDamage", new Object({ damage: 10 }))
         }
         sporeAlertPos.X = data.X // if player gets close enough this is how we tell our freinds about them.
         sporeAlertPos.Y = data.Y
@@ -111,7 +126,7 @@ class testenemy {
         target.enraged = false // but not if they are too far away
       }
 
-      
+
     })
 
     eventHandler.bindListener(this, "physics_update", function (target, data) {
@@ -131,12 +146,12 @@ class testenemy {
 
       target.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
 
-      if (target.enraged){
-        target.moveVector.multXY(2,2) // move quicker when enraged.
+      if (target.enraged) {
+        target.moveVector.multXY(2, 2)
       }
 
-      target.moveVector.X += (Math.random()-.5) * 5 // wandering and variability in the movement, other creatures dont assimilate quite so fast.
-      target.moveVector.Y += (Math.random()-.5) * 5
+      target.moveVector.X += (Math.random() - .5) * 5
+      target.moveVector.Y += (Math.random() - .5) * 5
 
       target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT); // apply acc based off moveVector
 
@@ -148,20 +163,20 @@ class testenemy {
       target.pos.add_OT(target.vel, DT); // move
 
       let len = target.legs.length;
-      for (let i = 0; i < len; i++) { // update all the legs
-        if (target.legs[i]) {target.legs[i].legupdate(target.pos.X,target.pos.Y,target.moveVector.X,target.moveVector.Y,target.enraged,target.legarea)}
+      for (let i = 0; i < len; i++) {
+        if (target.legs[i]) { target.legs[i].legupdate(target.pos.X, target.pos.Y, target.moveVector.X, target.moveVector.Y, target.enraged, target.legarea) }
       }
     });
 
   }
   draw() {
-    let tpX = centerOfCanvas.X - 25 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
+    let tpX = centerOfCanvas.X - 25 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relative position to the player.
     let tpY = centerOfCanvas.Y - 25 + (this.pos.Y - camera.pos.Y)
 
     let len = this.legs.length;
-      for (let i = 0; i < len; i++) {
-        if (this.legs[i]) {this.legs[i].draw(this.enraged)}// draw all the entities in the list.
-      }
+    for (let i = 0; i < len; i++) {
+      if (this.legs[i]) { this.legs[i].draw(this.enraged) }// finally draw all the entities in the list.
+    }
 
     if (debug) {
       ctx.lineWidth = "1";
@@ -180,7 +195,7 @@ class testenemy {
 
 
 
-      
+
     }
   }
 }
@@ -279,7 +294,7 @@ class Player {
 
     eventHandler.bindListener(this, "playerTakesDamage", function (target, data) {
       target.health -= data.damage
-      if (target.health <= 0){target.die()}
+      if (target.health <= 0) { target.die() }
     })
 
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {// bring in keypresses and convert them to 1 of 4 bools
@@ -319,8 +334,8 @@ class Player {
       target.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
       target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT); // apply a force to the veloctiy based on the moveVector and the acceleration constant.
 
-      if (target.deadtimer > 0){
-        target.deadtimer --
+      if (target.deadtimer > 0) {
+        target.deadtimer--
       }
 
       if (target.boosttimer == 0) {
@@ -339,13 +354,13 @@ class Player {
       }))
     });
   }
-  die(){ // oh no! our table! its broken!
+  die() {  // oh no! our table! its broken!
     focused = false
-    this.vel.setXY(0,0);
-    this.stored.setXY(0,0)
-    this.pos.setXY(0,0);
+    this.vel.setXY(0, 0);
+    this.stored.setXY(0, 0)
+    this.pos.setXY(0, 0);
     this.health = 10000
-    eventHandler.raiseEvent("player_died",new Object({
+    eventHandler.raiseEvent("player_died", new Object({
       X: this.pos.X,
       Y: this.pos.Y,
     }))
@@ -457,7 +472,7 @@ class Player {
       ctx.moveTo(tpX, tpY);
       ctx.lineTo(tpX + this.stored.X * 50, tpY + this.stored.Y * 50); // display a vector onscreen in the form of a line that shows the players "stored velocity"
       ctx.stroke();
-      
+
     }
     if (helpmenu) {
       ctx.fillStyle = "#34ebba"
@@ -592,14 +607,14 @@ class Camera {
     this.follow = null
 
     eventHandler.bindListener(this, "player_died", function (target, data) {
-    target.setpos.setXY(data.X, data.Y) //target position
-    target.pos.setXY(data.X, data.Y);
+      target.setpos.setXY(data.X, data.Y) //target position
+      target.pos.setXY(data.X, data.Y);
 
-    target.playervel.setXY(0, 0)
-    target.moveVector.setXY(0, 0) //intended direction
-    target.vel.setXY(0, 0); 
+      target.playervel.setXY(0, 0)
+      target.moveVector.setXY(0, 0) //intended direction
+      target.vel.setXY(0, 0);
 
-    focused = true
+      focused = true
     });
 
     eventHandler.bindListener(this, "shakeCamera", function (target, data) {
@@ -608,7 +623,7 @@ class Camera {
     });
 
     eventHandler.bindListener(this, "physics_update", function (target, data) {
-      if (target.follow){
+      if (target.follow) {
         target.setpos.X = target.follow.pos.X
         target.setpos.Y = target.follow.pos.Y
         target.playervel.X = target.follow.vel.X

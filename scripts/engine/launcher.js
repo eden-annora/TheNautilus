@@ -13,7 +13,7 @@ ctx.fillText("loading...", 10, 20);
 window.addEventListener('load', function () {
   ctx.fillText("complete!", 10, 40);
   ctx.fillText("starting!", 10, 60);
-  
+
 
   document.addEventListener("visibilitychange", function () { // when the window is out of focus stop the game from progressing physics updates. this stops the player from reaching relitivistic speeds due to DT buildup and the velocity not ever *actually* being zero due to how de-acceleration works.
     if (document.visibilityState === 'visible') { console.log('has focus, resuming game'); lastrun = performance.now(); focused = true }
@@ -26,14 +26,17 @@ window.addEventListener('load', function () {
 
 
   entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space"])]
-  background = [new backgroundSprite([player_scangrid,player_scannerblurb,tmpbgtile],"keyPressed",0,0)]
+  background = [new backgroundSprite([player_scangrid, player_scannerblurb, tmpbgtile], "keyPressed", 0, 0)]
 
   for (let i = 0; i < 200; i++) {
     entities.push(new Spore(0, 0))
   }
   for (let i = 0; i < 50; i++) {
-    entities.push(new testenemy(0,-500))
+    entities.push(new testenemy(0, -500))
   }
+
+  //romango gameTrigger testing
+  entities.push(new gameTrigger(250, 250, 300, 300))
 
 
   setInterval(update, 4);// idk man, run it once every 10 milliseconds.
