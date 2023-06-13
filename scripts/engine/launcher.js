@@ -1,4 +1,3 @@
-
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
@@ -24,13 +23,18 @@ window.addEventListener('load', function () {
   window.addEventListener("keydown", function (event) { eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
   window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 
-  let player = new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space"])
 
-  entities = [player]
 
-  for (let i = 0; i < 100; i++) {
+  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space"])]
+  background = [new backgroundSprite([player_scangrid,player_scannerblurb,tmpbgtile],"keyPressed",0,0)]
+
+  for (let i = 0; i < 200; i++) {
     entities.push(new Spore(0, 0))
   }
+  for (let i = 0; i < 50; i++) {
+    entities.push(new testenemy(0,-500))
+  }
+
 
   setInterval(update, 4);// idk man, run it once every 10 milliseconds.
   ctx.fillText("update loop is now running!", 10, 80);

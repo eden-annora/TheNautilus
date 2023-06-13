@@ -3,11 +3,13 @@ const VERSION = "0.0.1.4 | player now has momentum storage!" // just sets what t
 var focused = false;// is my tab selected
 var helpmenu = false // is help menu being displayed
 var debug = false // is debug menu being displayed
-var muteMusic = false //control music muting
+var muteMusic = true //control music muting 
+
+//TODO: DONT FORGET TO SET THIS BACK TO FALSE BEFORE RELEASE
 
 var sporeAlert = true // this is a variable that can enable and disable alerts for spores, this will be toggled by ingame events
 var sporeAlertPos = new Vector(0,0)
-var sporeAlertPosAge = 0
+var sporeAlertPosAge = 100000
 
 
 var eventHandler = new EventHandler()
@@ -26,6 +28,7 @@ var tpsmin = 0
 var lastframe = 0 // time since the last frame was sent to the screen.
 
 var entities = []; // all objects with a draw(): funciton. these all get drawn once per frame.
+var background = [];
 
 function update() {
 
@@ -43,6 +46,7 @@ function update() {
     time += DT/2;
     sporeAlertPosAge += DT;
     eventHandler.raiseEvent("physics_update", new Object({}))// add a physics event to make sure everyone takes their turns to move instead of lying around like a sad rock.
+    
   }
 
   eventHandler.processCallbacks() // go process all the events that have occured since the last time we have checked
@@ -60,6 +64,11 @@ function draw(DT) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
   ctx_text.clearRect(0, 0, canvas.width, canvas.height)
+
+  let len = background.length;
+  for (let i = 0; i < len; i++) {
+    if (background[i]) {background[i].draw(i, frametime)}// finally draw all the entities in the list.
+  }
 
   len = entities.length;
   for (let i = 0; i < len; i++) {
@@ -86,8 +95,12 @@ function draw(DT) {
     ctx_text.fillText("frameTime:      Ms", 30, 20);
     ctx_text.fillText(frametime.toFixed(2), 105, 20);
   }
+
   if (muteMusic) {
     background_music.mute(true)
+    ctx_text.fillStyle = "#ff0000"
+    ctx_text.font = "15px Courier New"
+    ctx_text.fillText("[MUSIC MUTED]", 0, 30);
   } else {
     background_music.mute(false);
   }

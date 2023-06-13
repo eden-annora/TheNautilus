@@ -1,3 +1,211 @@
+class enemyleg {
+  constructor(X, Y) {
+    this.targetpos = new Vector(X, Y)
+    this.daccX = new Vector(-.25, 0);
+    this.daccY = new Vector(0, -.25);
+
+    this.speedcap = new Vector(1, 1)
+
+    this.acc = new Vector(0.004, 0.004);
+
+    this.moveVector = new Vector(0, 0);
+    this.pos = new Vector(X, Y);
+    this.vel = new Vector(0, 0);
+
+  }
+  legupdate(bodyposX,bodyposY,bodydirX,bodydirY,enraged,legarea) {
+    // IK stuff here
+    bodyposX += bodydirX*50
+    bodyposY += bodydirY*50
+
+    let legdist = this.targetpos.distXY(bodyposX,bodyposY)
+    if (legdist > legarea){
+      this.targetpos.X = ((Math.random()-.5)*2 * legarea) + bodyposX
+      this.targetpos.Y = ((Math.random()-.5)*2 * legarea) + bodyposY
+    }
+
+    this.moveVector.setXY(0, 0);
+
+    let difX = (this.targetpos.X - this.pos.X)// we obtain numerous differences or deviations.
+    let difY = (this.targetpos.Y - this.pos.Y)
+
+    this.moveVector.X = difX * (Math.pow(difX, 2)) / 2000 - (this.vel.X) * 1000
+    this.moveVector.Y = difY * (Math.pow(difY, 2)) / 2000 - (this.vel.Y) * 1000
+
+    this.moveVector.applyforceToDest_OT(this.vel, this.daccX, DT)
+    this.moveVector.applyforceToDest_OT(this.vel, this.daccY, DT)
+    
+    this.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
+
+    if (enraged){
+      this.moveVector.multXY(1.5,1.5)
+    }
+    
+    this.vel.applyforceToDest_OT(this.moveVector, this.acc, DT);
+
+    this.vel.clamp(this.speedcap.X, -this.speedcap.X, this.speedcap.Y, -this.speedcap.Y)
+
+    this.pos.add_OT(this.vel, DT);
+  }
+  draw(enraged){
+
+    let tpX = centerOfCanvas.X - 5 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
+    let tpY = centerOfCanvas.Y - 5 + (this.pos.Y - camera.pos.Y)
+    //console.log(enraged)
+    if (enraged){
+      ctx.drawImage(sporemonster_enraged, tpX, tpY, 20, 20);
+    } else {
+      ctx.drawImage(sporemonster, tpX, tpY, 20, 20);
+    }
+    
+  }
+}
+
+class testenemy {
+  constructor(X, Y) {
+
+    this.daccX = new Vector(-.25, 0);
+    this.daccY = new Vector(0, -.25);
+
+    this.speedcap = new Vector(.9, .9)
+
+    this.acc = new Vector(0.002, 0.002);
+
+    this.moveVector = new Vector(0, 0);
+    this.pos = new Vector(X, Y);
+    this.vel = new Vector(0, 0);
+
+    this.legarea = 20
+    this.damageCirlce = 25
+    this.enrageCircle = 250
+
+    this.enraged = false
+
+    this.legs = []
+
+    for (let i = 0; i < 18; i++) {
+      this.legs.push(new enemyleg(X, Y))
+    }
+
+    eventHandler.bindListener(this, "playerMoved", function (target, data) {
+      target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
+      if (target.distanceToPlayer <  target.enrageCircle) {
+        if (target.distanceToPlayer < target.damageCirlce){
+          eventHandler.raiseEvent("playerTakesDamage",new Object({damage:10}))
+        }
+        sporeAlertPos.X = data.X
+        sporeAlertPos.Y = data.Y
+        sporeAlertPosAge = 0
+        target.enraged = true
+      } else {
+        target.enraged = false
+      }
+
+      
+    })
+
+    eventHandler.bindListener(this, "physics_update", function (target, data) {
+      target.moveVector.setXY(0, 0);
+
+      if ((sporeAlertPosAge / 1000) < 10) {
+
+        let difX = (sporeAlertPos.X - target.pos.X)// we obtain numerous differences or deviations.
+        let difY = (sporeAlertPos.Y - target.pos.Y)
+
+        target.moveVector.X = difX * (Math.pow(difX, 2)) / 5000 - (target.vel.X) * 100
+        target.moveVector.Y = difY * (Math.pow(difY, 2)) / 5000 - (target.vel.Y) * 100
+      }
+
+      target.moveVector.applyforceToDest_OT(target.vel, target.daccX, DT)
+      target.moveVector.applyforceToDest_OT(target.vel, target.daccY, DT)
+
+      target.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
+
+      if (target.enraged){
+        target.moveVector.multXY(2,2)
+      }
+
+      target.moveVector.X += (Math.random()-.5) * 5
+      target.moveVector.Y += (Math.random()-.5) * 5
+
+      target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT);
+
+
+      let scX = target.speedcap.X
+      let scY = target.speedcap.Y
+      target.vel.clamp(scX, -scX, scY, -scY)
+
+      target.pos.add_OT(target.vel, DT);
+
+      let len = target.legs.length;
+      for (let i = 0; i < len; i++) {
+        if (target.legs[i]) {target.legs[i].legupdate(target.pos.X,target.pos.Y,target.moveVector.X,target.moveVector.Y,target.enraged,target.legarea)}
+      }
+
+    });
+
+  }
+  draw() {
+    let tpX = centerOfCanvas.X - 25 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
+    let tpY = centerOfCanvas.Y - 25 + (this.pos.Y - camera.pos.Y)
+
+    let len = this.legs.length;
+      for (let i = 0; i < len; i++) {
+        if (this.legs[i]) {this.legs[i].draw(this.enraged)}// finally draw all the entities in the list.
+      }
+
+    if (debug) {
+      ctx.lineWidth = "1";
+      ctx.strokeStyle = "#00ff00";
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, this.legarea, 0, 2 * 3.14)
+      ctx.stroke();
+      ctx.strokeStyle = "#ff0000";
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, this.damageCirlce, 0, 2 * 3.14)
+      ctx.stroke();
+      ctx.strokeStyle = "#0000ff";
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, this.enrageCircle, 0, 2 * 3.14)
+      ctx.stroke();
+
+
+
+      
+    }
+  }
+}
+
+
+class backgroundSprite {
+  constructor(images, swaplistener, posX, posY) {
+    this.visible = true
+    this.images = images
+    this.imgcounter = 0
+    this.opacity = 1
+    this.pos = new Vector(posX, posY)
+
+    eventHandler.bindListener(this, swaplistener, function (target, keyevent) {
+      if (keyevent.data.code == "KeyI") {
+
+        if (target.imgcounter < target.images.length - 1) {
+          target.imgcounter++;
+        } else {
+          target.imgcounter = 0
+        }
+      }
+    });
+
+  }
+
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.opacity;
+    ctx.drawImage(this.images[this.imgcounter], this.pos.X - camera.pos.X + centerOfCanvas.X, this.pos.Y - camera.pos.Y + centerOfCanvas.Y);
+    ctx.restore();
+  }
+}
+
 class animationwrapper {
   constructor(X, Y) {
     this.pos = new Vector(X, Y)
@@ -7,10 +215,10 @@ class animationwrapper {
   }
 
   trigger(target, AnimName) {
-    this.target = target
-    this.name = AnimName
+    this.target = target;
+    this.name = AnimName;
     this.framecounter = 0;
-    entities.push(this)
+    entities.push(this);
   }
 
   draw(i, deltatime) {
@@ -30,6 +238,8 @@ class Player {
   constructor(X, Y, Keys) {
 
     this.animwrapper = new animationwrapper(0, 0)
+
+    camera.follow = this
 
     this.daccX = new Vector(-.25, 0);
     this.daccY = new Vector(0, -.25);
@@ -53,8 +263,16 @@ class Player {
 
     this.boosttimer = 0
 
+    this.health = 10000
+    this.deadtimer = 0
+
     this.MoveKeyHeldX = false
     this.MoveKeyHeldY = false
+
+    eventHandler.bindListener(this, "playerTakesDamage", function (target, data) {
+      target.health -= data.damage
+      if (target.health <= 0){target.die()}
+    })
 
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {// bring in keypresses and convert them to 1 of 4 bools
       if (keyevent.data.code == target.keys[0]) { target.w = true; }
@@ -93,6 +311,10 @@ class Player {
       target.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
       target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT); // apply a force to the veloctiy based on the moveVector and the acceleration constant.
 
+      if (target.deadtimer > 0){
+        target.deadtimer --
+      }
+
       if (target.boosttimer == 0) {
         let scX = target.speedcap.X
         let scY = target.speedcap.Y
@@ -110,15 +332,27 @@ class Player {
       }))
     });
   }
+  die(){
+    focused = false
+    this.vel.setXY(0,0);
+    this.stored.setXY(0,0)
+    this.pos.setXY(0,0);
+    this.health = 10000
+    eventHandler.raiseEvent("player_died",new Object({
+      X: this.pos.X,
+      Y: this.pos.Y,
+    }))
+  }
+
 
   AbilityTrigger() {
-    if (this.animwrapper.framecounter == 0) {
+    if (this.animwrapper.framecounter == 0 && focused) {
       if (this.stored.distXY(0, 0) < .1) {
         if (this.vel.distXY(0, 0) > .1) {
           this.stored.setXY(this.vel.X, this.vel.Y)
           this.stored.clamp(1, -1, 1, -1)
           this.vel.setXY(0, 0)
-          eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
+          eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 50 }))
           this.animwrapper.trigger(this, "player_StoreMomentum")
           ability_charge.stop();
           ability_charge.play();
@@ -139,7 +373,7 @@ class Player {
         } else {
           this.vel.addXY(this.stored.X, this.stored.Y)
         }
-        eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 25 }))
+        eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 50 }))
         this.animwrapper.trigger(this, "player_ReleaseMomentum")
         ability_boost.stop();
         ability_boost.play();
@@ -162,6 +396,14 @@ class Player {
     ctx.drawImage(playersprite, tpX, tpY, 50, 50);//draw the players sprite onto the screen based off predetermined values
 
     let storedpower = this.stored.distXY(0, 0)
+
+    ctx.save();
+    if (this.animwrapper.framecounter > 0) { ctx.globalAlpha = 15 / this.animwrapper.framecounter; }
+    else { ctx.globalAlpha = 0 }
+    ctx.drawImage(player_glow, tpX, tpY, 50, 50);
+    ctx.restore();
+
+
     if (storedpower > .1) { // this shows a small line that indicates which direction the player will get launched in when momentum is stored
       let dir = 0
 
@@ -192,19 +434,23 @@ class Player {
       ctx.strokeStyle = "#ff0000"
       ctx.lineWidth = "1";
       ctx.beginPath();
-      ctx.moveTo(centerOfCanvas.X, centerOfCanvas.Y);
-      ctx.lineTo(centerOfCanvas.X + this.moveVector.X * 50, centerOfCanvas.Y + this.moveVector.Y * 50);// display a vector onscreen in the form of a line that shows the players "intended direction" (MoveVector)
+      ctx.moveTo(tpX, tpY);
+      ctx.lineTo(tpX + this.moveVector.X * 50, tpY + this.moveVector.Y * 50);// display a vector onscreen in the form of a line that shows the players "intended direction" (MoveVector)
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, 5, 0, 2 * 3.14)
       ctx.stroke();
       ctx.strokeStyle = "#0064ff"
       ctx.beginPath();
-      ctx.moveTo(centerOfCanvas.X, centerOfCanvas.Y);
-      ctx.lineTo(centerOfCanvas.X + this.vel.X * 50, centerOfCanvas.Y + this.vel.Y * 50); // display a vector onscreen in the form of a line that shows the players "actual direction" (velocity)
+      ctx.moveTo(tpX, tpY);
+      ctx.lineTo(tpX + this.vel.X * 50, tpY + this.vel.Y * 50); // display a vector onscreen in the form of a line that shows the players "actual direction" (velocity)
       ctx.stroke();
       ctx.strokeStyle = "#34ebba"
       ctx.beginPath();
-      ctx.moveTo(centerOfCanvas.X, centerOfCanvas.Y);
-      ctx.lineTo(centerOfCanvas.X + this.stored.X * 50, centerOfCanvas.Y + this.stored.Y * 50); // display a vector onscreen in the form of a line that shows the players "stored velocity"
+      ctx.moveTo(tpX, tpY);
+      ctx.lineTo(tpX + this.stored.X * 50, tpY + this.stored.Y * 50); // display a vector onscreen in the form of a line that shows the players "stored velocity"
       ctx.stroke();
+      
     }
     if (helpmenu) {
       ctx.fillStyle = "#34ebba"
@@ -275,8 +521,8 @@ class Spore {
 
           console.log(difvel)
 
-          if (Math.floor(Math.random() * 3) == 1 && sporeAlert){
-            eventHandler.raiseEvent("sporeCollisionAlert", new Object({X: target.pos.X,Y: target.pos.Y}))
+          if (Math.floor(Math.random() * 3) == 1 && sporeAlert) {
+            eventHandler.raiseEvent("sporeCollisionAlert", new Object({ X: target.pos.X, Y: target.pos.Y }))
             randomIndex = sporeAlerts[Math.floor(Math.random() * sporeAlerts.length)];
             sporeHowls_alert[randomIndex].play();
             target.animwrapper.trigger(target, "spore_soundwave")
@@ -336,19 +582,31 @@ class Camera {
     this.cameraShakeStrength = 0 // how hard to shake the camera
     this.cameraShakeDuration = 0 // how long to shake the camera
 
+    this.follow = null
+
+    eventHandler.bindListener(this, "player_died", function (target, data) {
+    target.setpos.setXY(data.X, data.Y) //target position
+    target.pos.setXY(data.X, data.Y);
+
+    target.playervel.setXY(0, 0)
+    target.moveVector.setXY(0, 0) //intended direction
+    target.vel.setXY(0, 0); 
+
+    focused = true
+    });
+
     eventHandler.bindListener(this, "shakeCamera", function (target, data) {
       target.cameraShakeStrength = data.Strength
       target.cameraShakeDuration = data.Duration
     });
 
-    eventHandler.bindListener(this, "playerMoved", function (target, data) {// remember earlier when we told the camera where the player is? no? too bad. go look at line 48-ish again :p
-      target.setpos.X = data.X
-      target.setpos.Y = data.Y
-      target.playervel.X = data.VX
-      target.playervel.Y = data.VY
-    })
-
     eventHandler.bindListener(this, "physics_update", function (target, data) {
+      if (target.follow){
+        target.setpos.X = target.follow.pos.X
+        target.setpos.Y = target.follow.pos.Y
+        target.playervel.X = target.follow.vel.X
+        target.playervel.Y = target.follow.vel.Y
+      }
       let difX = (target.setpos.X - target.pos.X)// we obtain numerous differences or deviations.
       let difY = (target.setpos.Y - target.pos.Y)
 
@@ -378,7 +636,7 @@ class ExternalKeyListeners {// menu buttons that need to work even if the player
   constructor() {
 
     eventHandler.bindListener(this, "sporeCollisionAlert", function (target, data) {
-      sporeAlertPos.X = data.X 
+      sporeAlertPos.X = data.X
       sporeAlertPos.Y = data.Y
       sporeAlertPosAge = 0
     });
@@ -388,7 +646,7 @@ class ExternalKeyListeners {// menu buttons that need to work even if the player
       if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu }
       if (keyevent.data.code == "Escape") { focused = !focused; }
       if (keyevent.data.code == "KeyM") { muteMusic = !muteMusic }
-      if (keyevent.data.code == "KeyR") { sporeAlert = !sporeAlert }
+      //if (keyevent.data.code == "KeyR") { sporeAlert = !sporeAlert }
     });
   }
 }

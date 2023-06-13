@@ -45,6 +45,7 @@ class Vector {
   applyforceToDest_OT(V1, V2, DT) { this.X += V1.X * V2.X * DT; this.Y += V1.Y * V2.Y * DT; }// increment self by product of V1 and V2 but both are multiplied by time passed
 
   addXY(X, Y) { this.X += X; this.Y += Y; } // add input values X and Y to their respective components of the vector object.
+  multXY(X, Y) { this.X *= X; this.Y *= Y; }
 
   dist(V) { // faster distance funct
     let X = Math.abs(this.X - V.X);
