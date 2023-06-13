@@ -1,0 +1,46 @@
+======================================================================
+
+THIS DOCUMENT IS PROPERTY OF:
+AURORA HAZARDOUS LIFE RESEARCH ORG.
+
+
+REDISTRIBUTION OUTSIDE OF THE INTENDED NETWORK IS ILLEGAL
+UNDER CLAUSE 2-B OF THE EMPLOYEE HANDBOOK 
+AND PUNISHABLE AS STATED WITHIN THE SECTION
+
+======================================================================
+
+          ____
+         /.../\            Attention team 8.
+        /.../--\             You have been tasked with an 
+       /.../----\         information extraction mission.
+      /.../------\        on derelict: NAU-0506, The Nautilus.
+     /.../---/\---\ 
+    /.../---/\\\---\
+   /.../---/\\\\\---\
+  /.../===/__\\\\\---\
+ /............\\\\\---\
+/..............\\\\\---\
+\\\\\\\\\\\\\\\\\\\\\--/
+ \\\\\\\\\\\\\\\\\\\\\/
+
+NAU-0506 is a derelict freighter that's drifted into a signal dead zone. We have no signal repeaters out there and any repeaters we try to push close immediately go offline once they get within radar range.
+
+you will be remotely piloting a specialized experimental vessel, nicknamed Cubert^3.
+
+MISSION OBJECTIVES:
+#0: AVOID TRIGGERING AN IMMUNE RESPONSE AT ALL COSTS.
+
+#1: ACQUIRE A NEURAL MYCELIUM SAMPLE.
+
+#2: SCAN OBJECTS OF INTEREST WITH THE WIDEBAND MATERIAL ANALYZER.
+
+#3: GAIN ACCESS TO THE SHIPS BLACKBOX LOGS.
+
+#4: PLACE SIGNAL REPEATERS WITHIN THE VESSEL.
+
+NOTES:
+# LOSS OF THE CONNECTION TO THE CUBESAT WILL RESULT IN THE IMMEDIATE TERMINATION OF YOUR EMPLOYEE STATUS. 
+
+External scans show that what appears to be an organic material has permeated the entire ship's superstructure. 
+NAU-0506’s radar beacon has been outputting an extremely faint and garbled signal for a while now. 
