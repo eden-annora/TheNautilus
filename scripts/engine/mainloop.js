@@ -8,7 +8,7 @@ var muteMusic = true //control music muting
 //TODO: DONT FORGET TO SET THIS BACK TO FALSE BEFORE RELEASE
 
 var sporeAlert = true // this is a variable that can enable and disable alerts for spores, this will be toggled by ingame events
-var sporeAlertPos = new Vector(0,0)
+var sporeAlertPos = new Vector(0, 0)
 var sporeAlertPosAge = 100000
 
 
@@ -43,10 +43,10 @@ function update() {
   if (time > 625) { time = 0; tpsmin = 1000; tpsmax = 0; } // reset the time variable
 
   if (focused) {
-    time += DT/2;
+    time += DT / 2;
     sporeAlertPosAge += DT;
     eventHandler.raiseEvent("physics_update", new Object({}))// add a physics event to make sure everyone takes their turns to move instead of lying around like a sad rock.
-    
+
   }
 
   eventHandler.processCallbacks() // go process all the events that have occured since the last time we have checked
@@ -67,22 +67,22 @@ function draw(DT) {
 
   let len = background.length;
   for (let i = 0; i < len; i++) {
-    if (background[i]) {background[i].draw(i, frametime)}// finally draw all the entities in the list.
+    if (background[i]) { background[i].draw(i, frametime) }// finally draw all the entities in the list.
   }
 
   len = entities.length;
   for (let i = 0; i < len; i++) {
-    if (entities[i]) {entities[i].draw(i, frametime)}// finally draw all the entities in the list.
+    if (entities[i]) { entities[i].draw(i, frametime) }// finally draw all the entities in the list.
   }
 
   if (debug) {// display the debug menu, but only when i want you to.
-    ctx_text.fillText("Spore Alerting Enabled?:        [TOGGLE WITH R FOR NOW]",  500, 35);
+    ctx_text.fillText("Spore Alerting Enabled?:        [TOGGLE WITH R FOR NOW]", 500, 35);
     ctx_text.fillText(sporeAlert, 670, 35);
-    ctx_text.fillText("Spore Alert Players Last Known location:",  500, 50);
-    ctx_text.fillText([Math.round(sporeAlertPos.X),Math.round(sporeAlertPos.Y)], 790, 50);
-    ctx_text.fillText("Spore Alert Players Last Known location report Age:    (s)",  500, 65);
-    ctx_text.fillText(Math.round(sporeAlertPosAge/1000), 875, 65);
-    if (sporeAlertPosAge/1000 > 10){ctx_text.fillText("(THIS REPORT WILL BE IGNORED BY ENEMIES [REPORT AGE > 10s])",  920, 65);}
+    ctx_text.fillText("Spore Alert Players Last Known location:", 500, 50);
+    ctx_text.fillText([Math.round(sporeAlertPos.X), Math.round(sporeAlertPos.Y)], 790, 50);
+    ctx_text.fillText("Spore Alert Players Last Known location report Age:    (s)", 500, 65);
+    ctx_text.fillText(Math.round(sporeAlertPosAge / 1000), 875, 65);
+    if (sporeAlertPosAge / 1000 > 10) { ctx_text.fillText("(THIS REPORT WILL BE IGNORED BY ENEMIES [REPORT AGE > 10s])", 920, 65); }
     ctx_text.fillText("Time:", 30, 35);
     ctx_text.fillText(Math.round(time), 65, 35);
     ctx_text.fillText("physics TPS:", 350, 20);

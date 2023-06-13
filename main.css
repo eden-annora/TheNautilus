@@ -24,9 +24,9 @@ body {
   height: 100%;
   object-fit: contain;
 
-  position:absolute;
-  left:0px;
-  top:0px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
 
   z-index: 0;
 
@@ -43,9 +43,9 @@ body {
   height: 100%;
   object-fit: contain;
 
-  position:absolute;
-  left:0px;
-  top:0px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
 
   z-index: 1;
 

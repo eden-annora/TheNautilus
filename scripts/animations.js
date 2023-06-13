@@ -228,7 +228,7 @@ const animations = new Object({
                 ctx.arc(tpX, tpY, 115, (framecounter / 25) * Math.PI, (-framecounter / 20) * Math.PI);
                 ctx.stroke();
             }
-            
+
         }
     }
 })
