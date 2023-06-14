@@ -386,7 +386,7 @@ class Player {
       }))
     });
   }
-  die() {  // oh no! our table! its broken! (player died... imagine losing)
+  die() {  // oh no! our table! it's broken! (player died... imagine losing)
     focused = false
     this.vel.setXY(0, 0);
     this.stored.setXY(0, 0)
@@ -572,7 +572,8 @@ class Spore {
           sporeHowls[randomIndex].volume(difvel / 2);
           sporeHowls[randomIndex].play();
 
-          console.log(difvel)
+          //I assume this is for debugging so I'm just gonna hide it for now
+          //console.log(difvel)
 
           if (Math.floor(Math.random() * 3) == 1 && sporeAlert) {
             eventHandler.raiseEvent("sporeCollisionAlert", new Object({ X: target.pos.X, Y: target.pos.Y }))
@@ -623,7 +624,7 @@ class Spore {
 
 class Camera {
   /**
-   * its the camera, make sure to initalize it if you want, like, anything to work... at all....
+   * it's the camera, make sure to initalize it if you want, like, anything to work... at all....
    */
   constructor() {
     this.dacc = new Vector(-0.01, -0.01);

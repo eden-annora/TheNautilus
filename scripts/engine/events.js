@@ -37,12 +37,12 @@ class EventHandler {
     this.callbacklist = new Object({}); // dict with structure resembling 'type:[listener1,listener2]'
   }
   raiseEvent(type, inputdata) {
-    if (this.callbacklist.hasOwnProperty(type)) {// check if event type already has 'type' catagory and if it doesnt log the attempt and dont do anything.
+    if (this.callbacklist.hasOwnProperty(type)) {// check if event type already has 'type' catagory and if it doesn't log the attempt and don't do anything.
       this.eventlist.push(new Event(type, inputdata));
     } else { console.log("creation of event " + type + " with data " + inputdata + " was attempted, there are no listeners by this name, thus no event was raised.") }
   }
 
-  bindListener(target, type, callback) {// check if event type already has 'type' catagory and if it doesnt log the attempt, create the catagory, and apply the listener.
+  bindListener(target, type, callback) {// check if event type already has 'type' catagory and if it doesn't log the attempt, create the catagory, and apply the listener.
     let object = new EventListener(target, type, callback)
     if (this.callbacklist.hasOwnProperty(type)) {
       this.callbacklist[type].push(object);
@@ -57,7 +57,7 @@ class EventHandler {
     let len = this.eventlist.length;
     for (let i = 0; i < len; i++) {
       let event = this.eventlist[i];
-      if (event) {// if the event isnt a null object, go find the matching entry in the callbacklist dict and run all the callbacks.
+      if (event) {// if the event isn't a null object, go find the matching entry in the callbacklist dict and run all the callbacks.
         let callbacklen = this.callbacklist[event.type].length;
         for (let i = 0; i < callbacklen; i++) { this.callbacklist[event.type][i].triggerCallback(event.data) }
       }
@@ -66,7 +66,7 @@ class EventHandler {
   }
 }
 
-class Event {// event class, type is the name of the catagory its sorted into and data is a dynamic object that changes in structure for each event type.
+class Event {// event class, type is the name of the catagory it's sorted into and data is a dynamic object that changes in structure for each event type.
   constructor(type, data) {
     this.type = type;
     this.data = data;

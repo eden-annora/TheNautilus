@@ -5,7 +5,7 @@ var helpmenu = false // is help menu being displayed
 var debug = false // is debug menu being displayed
 var muteMusic = true //control music muting 
 
-//TODO: DONT FORGET TO SET THIS BACK TO FALSE BEFORE RELEASE
+//TODO: DON'T FORGET TO SET THIS BACK TO FALSE BEFORE RELEASE
 
 var sporeAlert = true // this is a variable that can enable and disable alerts for spores, this will be toggled by ingame events
 var sporeAlertPos = new Vector(0, 0)
