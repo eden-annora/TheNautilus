@@ -1,4 +1,4 @@
-const VERSION = "0.0.1.4 | player now has momentum storage!" // just sets what the version blurb says in the help/debug menu
+const VERSION = "0.0.2.1 | basic enemy #1!" // just sets what the version blurb says in the help/debug menu
 
 var focused = false;// is my tab selected
 var helpmenu = false // is help menu being displayed
