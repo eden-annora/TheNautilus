@@ -22,6 +22,7 @@ window.addEventListener('load', function () {
 
   window.addEventListener("keydown", function (event) { eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
   window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
+  window.setInterval(update, 4);
   window.requestAnimationFrame(menu);
 
 });
@@ -39,8 +40,6 @@ function launch(){
   //romango gameTrigger testing
   entities.push(new gameTrigger(250, 250, 300, 300))
 
-
-  setInterval(update, 4);// idk man, run it once every 10 milliseconds.
   ctx.fillText("update loop is now running!", 10, 80);
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo
   ctx.fillText("renderer running!", 10, 100);
