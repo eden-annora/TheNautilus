@@ -82,17 +82,17 @@ function menu(DT) {
     }
 
     if (menufadeout < 100) { ctx_text.fillText("aw", X, Y - 500); }
-    if (menufadeout < 95) { ctx_text.fillText("  ai", X, Y - 500); }
-    if (menufadeout < 90) { ctx_text.fillText("    ti", X, Y - 500); }
-    if (menufadeout < 85) { ctx_text.fillText("      ng ", X, Y - 500); }
-    if (menufadeout < 80) { ctx_text.fillText("         ra", X, Y - 500); }
-    if (menufadeout < 75) { ctx_text.fillText("           di", X, Y - 500); }
-    if (menufadeout < 70) { ctx_text.fillText("             o l", X, Y - 500); }
-    if (menufadeout < 65) { ctx_text.fillText("                ink", X, Y - 500); }
-    if (menufadeout < 60) { ctx_text.fillText("                   .", X, Y - 500); }
-    if (menufadeout < 55) { ctx_text.fillText("                    .", X, Y - 500); }
-    if (menufadeout < 50) { ctx_text.fillText("                     .", X, Y - 500); }
-    if (menufadeout < 30) { ctx_text.fillText("CONNECTING!", X, Y - 480); }
+    if (menufadeout < 98) { ctx_text.fillText("  ai", X, Y - 500); }
+    if (menufadeout < 96) { ctx_text.fillText("    ti", X, Y - 500); }
+    if (menufadeout < 94) { ctx_text.fillText("      ng ", X, Y - 500); }
+    if (menufadeout < 92) { ctx_text.fillText("         ra", X, Y - 500); }
+    if (menufadeout < 90) { ctx_text.fillText("           di", X, Y - 500); }
+    if (menufadeout < 88) { ctx_text.fillText("             o l", X, Y - 500); }
+    if (menufadeout < 86) { ctx_text.fillText("                ink", X, Y - 500); }
+    if (menufadeout < 84) { ctx_text.fillText("                   .", X, Y - 500); }
+    if (menufadeout < 82) { ctx_text.fillText("                    .", X, Y - 500); }
+    if (menufadeout < 80) { ctx_text.fillText("                     .", X, Y - 500); }
+    if (menufadeout < 50) { ctx_text.fillText("CONNECTING!", X, Y - 480); }
     if (menufadeout > 0) {
         window.requestAnimationFrame(menu);
     } else {
