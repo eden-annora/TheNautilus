@@ -3,9 +3,11 @@ var menutimer = 0
 var mainmenu = true
 var boxlength = 0
 var signalstrength = 12
+var lastframe = 0
 function menu(DT) {
 
-    menutimer ++
+    menutimer += (DT - lastframe)/2
+    lastframe = DT
 
     ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
     ctx_text.clearRect(0, 0, canvas.width, canvas.height)
