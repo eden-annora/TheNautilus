@@ -126,9 +126,13 @@ class testenemy {
     this.pos = new Vector(X, Y);
     this.vel = new Vector(0, 0);
 
-    this.legarea = 20 // bounding radius for the legs
+    this.legarea = 40 // bounding radius for the legs
     this.damageCirlce = 25 // bounding radius for damaging the player
     this.enrageCircle = 250 // bounding radius for player detection
+
+
+    this.sporeAlertPos = new Vector(X,Y)
+    this.sporeAlertPosAge = 0
 
     this.enraged = false // is the player close to me?
 
@@ -138,15 +142,22 @@ class testenemy {
       this.legs.push(new enemyleg(X, Y))
     } //populate legs list with legs
 
+
+    eventHandler.bindListener(this, "sporeCollisionAlert", function (target, data) {
+      target.sporeAlertPos.X = data.X // if player gets close enough this is how we tell our freinds about them.
+      target.sporeAlertPos.Y = data.Y
+      target.sporeAlertPosAge = 0
+      })
+    
     eventHandler.bindListener(this, "playerMoved", function (target, data) { // when the player moves do checks to ensure its
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
       if (target.distanceToPlayer < target.enrageCircle) {
         if (target.distanceToPlayer < target.damageCirlce) {
           eventHandler.raiseEvent("playerTakesDamage", new Object({ damage: 10 }))
         }
-        sporeAlertPos.X = data.X // if player gets close enough this is how we tell our freinds about them.
-        sporeAlertPos.Y = data.Y
-        sporeAlertPosAge = 0
+        target.sporeAlertPos.X = data.X // if player gets close enough this is how we tell our freinds about them.
+        target.sporeAlertPos.Y = data.Y
+        target.sporeAlertPosAge = 0
         target.enraged = true // make sure we are angry when the player is close
       } else {
         target.enraged = false // but not if they are too far away
@@ -158,13 +169,17 @@ class testenemy {
     eventHandler.bindListener(this, "physics_update", function (target, data) {
       target.moveVector.setXY(0, 0);
 
-      if ((sporeAlertPosAge / 1000) < 10) {
+      if ((target.sporeAlertPosAge) < 1000) {
 
-        let difX = (sporeAlertPos.X - target.pos.X)// we obtain numerous differences or deviations.
-        let difY = (sporeAlertPos.Y - target.pos.Y)
+        target.sporeAlertPosAge ++
+        let difX = (target.sporeAlertPos.X - target.pos.X)// we obtain numerous differences or deviations.
+        let difY = (target.sporeAlertPos.Y - target.pos.Y)
 
-        target.moveVector.X = difX * (Math.pow(difX, 2)) / 5000 - (target.vel.X) * 100 // curve math to define how hard we should be trying to move.
-        target.moveVector.Y = difY * (Math.pow(difY, 2)) / 5000 - (target.vel.Y) * 100
+        if (target.pos.dist(sporeAlertPos) < 1000) {
+
+        target.moveVector.X = difX * (Math.pow(difX, 2)) / 5000 - (target.vel.X) * 50 // curve math to define how hard we should be trying to move.
+        target.moveVector.Y = difY * (Math.pow(difY, 2)) / 5000 - (target.vel.Y) * 50
+        }
       }
 
       target.moveVector.applyforceToDest_OT(target.vel, target.daccX, DT) // apply decellerations
@@ -550,7 +565,6 @@ class Spore {
     this.timeoffset = 0
 
     this.distanceToPlayer = 0
-
     eventHandler.bindListener(this, "playerMoved", function (target, data) {
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
       target.brightness = ((Math.sin((-(time + target.timeoffset) + target.distanceToPlayer) / 100) + 1) + target.brightness * 20) / 21

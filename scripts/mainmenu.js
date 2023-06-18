@@ -6,7 +6,7 @@ var signalstrength = 12
 var lastframe = 0
 function menu(DT) {
 
-    menutimer += (DT - lastframe)/2
+    menutimer += (DT - lastframe)/3
     lastframe = DT
 
     ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
