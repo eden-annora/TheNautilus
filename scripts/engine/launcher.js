@@ -25,7 +25,8 @@ window.addEventListener('load', function () {
 
 });
 function openmainmenu(){
-  background_music_intro.play()
+  //computer boot sounds
+  computer_boot_start.play()
   window.requestAnimationFrame(menu)
   window.removeEventListener("keydown", openmainmenu)
   window.addEventListener("keydown", function (event) { eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
@@ -48,6 +49,10 @@ function launch(){
   ctx.fillText("update loop is now running!", 10, 80);
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo
   ctx.fillText("renderer running!", 10, 100);
+
+  //audio
+  computer_boot_loop.stop();
+  computer_boot_end.play();
   background_music.play();
 
 };

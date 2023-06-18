@@ -3,6 +3,8 @@
 //source needs to be a web url, local files *do not work*. 
 //Just grab the relative path and add it to the end of "https://eden-annora.github.io/TheNautilus/"
 
+//if on a branch other than main, add relative path to the end of "https://raw.githubusercontent.com/eden-annora/TheNautilus/"
+
 
 //Background music
 var background_music = new Howl({
@@ -16,6 +18,29 @@ var background_music = new Howl({
 
 var background_music_intro = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot.mp3'],
+  volume: .2
+});
+
+
+//TODO FIX BEFORE MERGE
+var computer_boot_start = new Howl({
+  src: ['https://raw.githubusercontent.com/eden-annora/TheNautilus/computer-bg-audio/audio/player/intro_computer_boot/computer_bg_start.mp3'],
+  volume: .2,
+
+  //when starting audio file ends, begin the looping audio
+  onend: function () {
+    computer_boot_loop.play();
+  }
+});
+
+var computer_boot_loop = new Howl({
+  src: ['https://raw.githubusercontent.com/eden-annora/TheNautilus/computer-bg-audio/audio/player/intro_computer_boot/computer_bg_loop.mp3'],
+  volume: .2,
+  loop: true
+});
+
+var computer_boot_end = new Howl({
+  src: ['https://raw.githubusercontent.com/eden-annora/TheNautilus/computer-bg-audio/audio/player/intro_computer_boot/computer_bg_end.mp3'],
   volume: .2
 });
 
