@@ -4,8 +4,7 @@ var boxlength = 0
 var signalstrength = 12
 function menu(DT) {
 
-    ctx_text.fillStyle = "#00ffc8"
-    ctx_text.font = "20px Courier New"
+
 
     ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
     ctx_text.clearRect(0, 0, canvas.width, canvas.height)
@@ -14,21 +13,27 @@ function menu(DT) {
     ctx.lineWidth = "6";
     ctx.strokeStyle = "#34ebba80"
     ctx.beginPath();
-    ctx.rect(centerOfCanvas.X - 480, centerOfCanvas.Y - 500, 960, boxlength);
+    ctx.rect(5, 5, canvas.width - 10, canvas.height - 10);
     ctx.stroke();
     ctx.strokeStyle = "#34ebba40"
-    for (let i = 0; i < boxlength / 5; i++) {
+    for (let i = 0; i < canvas.height / 5; i++) {
         ctx.beginPath();
-        ctx.rect(centerOfCanvas.X - 480, centerOfCanvas.Y - 500 + i * 5, 960, 2);
+        ctx.rect(10, 10 + i * 5, canvas.width - 20, 2);
         ctx.stroke();
     }
+    let screenflicker = (Math.floor(Math.random() * 50) + 150).toString(16)
+    X += (Math.random() - .5)
+    Y += (Math.random() - .5)
+    ctx_text.fillStyle = "#00ffc8" + screenflicker
+    ctx_text.font = "20px Courier New"
 
     if (!mainmenu) {
         menufadeout -= 1
     } else {
+
         for (let i = 0; i < 2; i++) {
             if (i == 1) {
-                ctx_text.fillStyle = "#00ffc850"
+                ctx_text.fillStyle = "#00ffc825"
                 ctx_text.font = "19.5px Courier New"
                 X = X + 10
             }
@@ -73,8 +78,8 @@ function menu(DT) {
                 boxlength += 60
                 ctx_text.fillText("           [TRANSMISSION HANDSHAKE COMPLETED SUCCESSFULLY]", X, Y + 200);
 
-                if (Math.floor(DT / 8) % 2 == 0) {
-                    ctx_text.fillStyle = "#00ffc880"
+                if (Math.floor(DT / 500) % 2 == 0) {
+                    ctx_text.fillStyle = "#00ffc850"
                 }
                 ctx_text.fillText("                          [ PRESS SPACE ]", X, Y + 240);
             }
