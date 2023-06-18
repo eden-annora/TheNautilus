@@ -1,6 +1,6 @@
 const VERSION = "0.0.2.1 | basic enemy #1!" // just sets what the version blurb says in the help/debug menu
 
-var focused = false;// is my tab selected
+var focused = true;// is my tab selected
 var helpmenu = false // is help menu being displayed
 var debug = false // is debug menu being displayed
 var muteMusic = true //control music muting 

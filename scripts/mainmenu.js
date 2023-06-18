@@ -74,29 +74,29 @@ function menu(DT) {
 
 
             if (menutimer > 2000) { ctx_text.fillText("     _____   _____          ", X, Y - 308); boxlength += 80 }
-            if (menutimer > 2050) { ctx_text.fillText("    .     . .     .         Attention team 8.", X, Y - 300) }
-            if (menutimer > 2100) { ctx_text.fillText("    | ._. | | ._. |         You have been tasked with an ", X, Y - 280); boxlength += 20 }
-            if (menutimer > 2150) { ctx_text.fillText("    | !_| |_|_|_! |         information extraction mission.", X, Y - 260); boxlength += 20 }
-            if (menutimer > 2200) { ctx_text.fillText("    !___| |_______!         on derelict: NAU-0506, The Nautilus.", X, Y - 240); boxlength += 20 }
-            if (menutimer > 2250) { ctx_text.fillText("    .___|_|_| |___.         ", X, Y - 220); boxlength += 20 }
-            if (menutimer > 2300) { ctx_text.fillText("    | ._____| |_. |         Due to the ships location inside of a", X, Y - 200); boxlength += 20 }
-            if (menutimer > 2350) { ctx_text.fillText("    | !_! | | !_! |         deadzone you will have to be within", X, Y - 180); boxlength += 20 }
-            if (menutimer > 2400) { ctx_text.fillText("    !_____! !_____!         weapons range to get a good signal.", X, Y - 160); boxlength += 20 }
+            if (menutimer > 2025) { ctx_text.fillText("    .     . .     .         Attention team 8.", X, Y - 300) }
+            if (menutimer > 2050) { ctx_text.fillText("    | ._. | | ._. |         You have been tasked with an ", X, Y - 280); boxlength += 20 }
+            if (menutimer > 2075) { ctx_text.fillText("    | !_| |_|_|_! |         information extraction mission.", X, Y - 260); boxlength += 20 }
+            if (menutimer > 2100) { ctx_text.fillText("    !___| |_______!         on derelict: NAU-0506, The Nautilus.", X, Y - 240); boxlength += 20 }
+            if (menutimer > 2125) { ctx_text.fillText("    .___|_|_| |___.         ", X, Y - 220); boxlength += 20 }
+            if (menutimer > 2150) { ctx_text.fillText("    | ._____| |_. |         Due to the ships location inside of a", X, Y - 200); boxlength += 20 }
+            if (menutimer > 2175) { ctx_text.fillText("    | !_! | | !_! |         deadzone you will have to be within", X, Y - 180); boxlength += 20 }
+            if (menutimer > 2200) { ctx_text.fillText("    !_____! !_____!         weapons range to get a good signal.", X, Y - 160); boxlength += 20 }
 
 
-            if (menutimer > 2450) { ctx_text.fillText("MISSION BRIEFING:", X, Y - 90); boxlength += 70 }
-            if (menutimer > 2500) { ctx_text.fillText("External scans show that what appears to be an organic material has ", X, Y - 75); boxlength += 20 }
-            if (menutimer > 2550) { ctx_text.fillText("permeated the entireity of NAU-0506's superstructure.", X, Y - 60); boxlength += 20 }
-            if (menutimer > 2600) { ctx_text.fillText("find out why they went radio silent.", X, Y - 45); boxlength += 20 }
-            if (menutimer > 2650) { ctx_text.fillText("extract a sample of the biomaterial", X, Y - 30); boxlength += 20 }
+            if (menutimer > 2250) { ctx_text.fillText("MISSION BRIEFING:", X, Y - 90); boxlength += 70 }
+            if (menutimer > 2275) { ctx_text.fillText("External scans show that what appears to be an organic material has ", X, Y - 75); boxlength += 20 }
+            if (menutimer > 2300) { ctx_text.fillText("permeated the entireity of NAU-0506's superstructure.", X, Y - 60); boxlength += 20 }
+            if (menutimer > 2325) { ctx_text.fillText("find out why they went radio silent.", X, Y - 45); boxlength += 20 }
+            if (menutimer > 2350) { ctx_text.fillText("extract a sample of the biomaterial", X, Y - 30); boxlength += 20 }
 
-            if (menutimer > 2700) { ctx_text.fillText("MISSION OBJECTIVES:", X, Y); boxlength += 20 }
-            if (menutimer > 2750) { ctx_text.fillText("#0: AVOID CAUSING ANY DISTURBANCE AT ALL COSTS", X, Y + 20); boxlength += 40 }
-            if (menutimer > 2800) { ctx_text.fillText("#1: ACQUIRE A BIOLOGICAL SAMPLE FROM THE PLANT MATTER WITHIN.", X, Y + 60); boxlength += 40 }
-            if (menutimer > 2950) { ctx_text.fillText("#2: GAIN ACCESS TO THE SHIPS BLACKBOX LOGS AND DOWNLOAD THEM.", X, Y + 100); boxlength += 40 }
-            if (menutimer > 3000) { ctx_text.fillText("#3: SCAN OBJECTS OF INTEREST WITH THE WIDEBAND MATERIAL ANALYZER.", X, Y + 140); boxlength += 40 }
+            if (menutimer > 2375) { ctx_text.fillText("MISSION OBJECTIVES:", X, Y); boxlength += 20 }
+            if (menutimer > 2400) { ctx_text.fillText("#0: AVOID CAUSING ANY DISTURBANCE AT ALL COSTS", X, Y + 20); boxlength += 40 }
+            if (menutimer > 2425) { ctx_text.fillText("#1: ACQUIRE A BIOLOGICAL SAMPLE FROM THE PLANT MATTER WITHIN.", X, Y + 60); boxlength += 40 }
+            if (menutimer > 2450) { ctx_text.fillText("#2: GAIN ACCESS TO THE SHIPS BLACKBOX LOGS AND DOWNLOAD THEM.", X, Y + 100); boxlength += 40 }
+            if (menutimer > 2475) { ctx_text.fillText("#3: SCAN OBJECTS OF INTEREST WITH THE WIDEBAND MATERIAL ANALYZER.", X, Y + 140); boxlength += 40 }
 
-            if (menutimer > 3000) {
+            if (menutimer > 2500) {
                 boxlength += 60
                 ctx_text.fillText("           [TRANSMISSION HANDSHAKE COMPLETED SUCCESSFULLY]", X, Y + 200);
 
