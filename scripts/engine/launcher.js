@@ -12,20 +12,25 @@ ctx.fillText("loading...", 10, 20);
 
 window.addEventListener('load', function () {
   ctx.fillText("complete!", 10, 40);
-  ctx.fillText("starting!", 10, 60);
+  ctx.fillText("PRESS ANY KEY!", 10, 60);
 
 
   document.addEventListener("visibilitychange", function () { // when the window is out of focus stop the game from progressing physics updates. this stops the player from reaching relitivistic speeds due to DT buildup and the velocity not ever *actually* being zero due to how de-acceleration works.
     if (document.visibilityState === 'visible') { console.log('has focus, resuming game'); lastrun = performance.now(); focused = true }
     else { console.log('lost focus, pausing game'); focused = false }
   });
-
-  window.addEventListener("keydown", function (event) { eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
-  window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
+  window.addEventListener("keydown", openmainmenu);
   window.setInterval(update, 4);
-  window.requestAnimationFrame(menu);
+  
 
 });
+function openmainmenu(){
+  background_music_intro.play()
+  window.requestAnimationFrame(menu)
+  window.removeEventListener("keydown", openmainmenu)
+  window.addEventListener("keydown", function (event) { eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
+  window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
+}
 function launch(){
   entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space"])]
   background = [new backgroundSprite([player_scangrid, player_scannerblurb, tmpbgtile], "keyPressed", 0, 0)]
@@ -43,5 +48,6 @@ function launch(){
   ctx.fillText("update loop is now running!", 10, 80);
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo
   ctx.fillText("renderer running!", 10, 100);
+  background_music.play();
 
 };

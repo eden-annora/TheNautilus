@@ -12,9 +12,12 @@ var background_music = new Howl({
 });
 
 //will only play after you click something on the page
-background_music.play();
 
 
+var background_music_intro = new Howl({
+  src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot.mp3'],
+  volume: .2
+});
 
 //Thrusters
 var thruster_loop = new Howl({
