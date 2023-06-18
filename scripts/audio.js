@@ -24,8 +24,12 @@ var computer_boot_start = new Howl({
 
   //when starting audio file ends, begin the looping audio
   onend: function () {
+    if (mainmenu){
     computer_boot_loop.play();
+  }else{
+    computer_boot_end.play()
   }
+}
 });
 
 var computer_boot_loop = new Howl({
