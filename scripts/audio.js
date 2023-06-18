@@ -16,13 +16,6 @@ var background_music = new Howl({
 //will only play after you click something on the page
 
 
-//main menu computer-y sounds, now unused
-var background_music_intro = new Howl({
-  src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot.mp3'],
-  volume: .2
-});
-
-
 
 //Main menu computer-y sounds
 var computer_boot_start = new Howl({

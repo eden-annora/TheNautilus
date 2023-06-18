@@ -52,6 +52,7 @@ function launch() {
   ctx.fillText("renderer running!", 10, 100);
 
   //audio: end main menu sounds and play normal music
+  computer_boot_start.stop();
   computer_boot_loop.stop();
   computer_boot_end.play();
   background_music.play();
