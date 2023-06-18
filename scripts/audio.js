@@ -16,15 +16,17 @@ var background_music = new Howl({
 //will only play after you click something on the page
 
 
+//main menu computer-y sounds, now unused
 var background_music_intro = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot.mp3'],
   volume: .2
 });
 
 
-//TODO FIX BEFORE MERGE
+
+//Main menu computer-y sounds
 var computer_boot_start = new Howl({
-  src: ['https://raw.githubusercontent.com/eden-annora/TheNautilus/computer-bg-audio/audio/player/intro_computer_boot/computer_bg_start.mp3'],
+  src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_start.mp3'],
   volume: .2,
 
   //when starting audio file ends, begin the looping audio
@@ -34,15 +36,17 @@ var computer_boot_start = new Howl({
 });
 
 var computer_boot_loop = new Howl({
-  src: ['https://raw.githubusercontent.com/eden-annora/TheNautilus/computer-bg-audio/audio/player/intro_computer_boot/computer_bg_loop.mp3'],
+  src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_loop.mp3'],
   volume: .2,
   loop: true
 });
 
 var computer_boot_end = new Howl({
-  src: ['https://raw.githubusercontent.com/eden-annora/TheNautilus/computer-bg-audio/audio/player/intro_computer_boot/computer_bg_end.mp3'],
+  src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_end.mp3'],
   volume: .2
 });
+
+
 
 //Thrusters
 var thruster_loop = new Howl({

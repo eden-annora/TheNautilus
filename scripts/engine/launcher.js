@@ -21,18 +21,19 @@ window.addEventListener('load', function () {
   });
   window.addEventListener("keydown", openmainmenu);
   window.setInterval(update, 4);
-  
+
 
 });
-function openmainmenu(){
+function openmainmenu() {
   //computer boot sounds
   computer_boot_start.play()
+
   window.requestAnimationFrame(menu)
   window.removeEventListener("keydown", openmainmenu)
   window.addEventListener("keydown", function (event) { eventHandler.raiseEvent("keyPressed", new Object({ data: event })) }); // translating window events to my own events, makes it simpler to make things work together later.
   window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 }
-function launch(){
+function launch() {
   entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space"])]
   background = [new backgroundSprite([player_scangrid, player_scannerblurb, tmpbgtile], "keyPressed", 0, 0)]
 
@@ -50,7 +51,7 @@ function launch(){
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo
   ctx.fillText("renderer running!", 10, 100);
 
-  //audio
+  //audio: end main menu sounds and play normal music
   computer_boot_loop.stop();
   computer_boot_end.play();
   background_music.play();
