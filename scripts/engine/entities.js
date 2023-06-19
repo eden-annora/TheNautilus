@@ -1,21 +1,21 @@
 class surface {
-  constructor(X,Y,X1,Y1){
+  constructor(X, Y, X1, Y1) {
 
     this.pos = new Vector(X, Y);
     this.pos1 = new Vector(X1, Y1);
-    this.playerpos = new Vector(0,0)
+    this.playerpos = new Vector(0, 0)
     this.disttoplayer = 0
 
     eventHandler.bindListener(this, "playerMoved", function (target, data) {
-      target.playerpos.setXY(data.X,data.Y)
+      target.playerpos.setXY(data.X, data.Y)
       target.disttoplayer = distToLine(target.pos, target.pos1, target.playerpos)
-      if (target.disttoplayer < 5) {eventHandler.raiseEvent("playerCollides", target)}
+      if (target.disttoplayer < 5) { eventHandler.raiseEvent("playerCollides", target) }
     });
 
 
   }
   draw() {
-    if (debug){
+    if (debug) {
       let tpX = centerOfCanvas.X + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
       let tpY = centerOfCanvas.Y + (this.pos.Y - camera.pos.Y)
 
@@ -28,8 +28,8 @@ class surface {
       ctx.lineTo(tpX1, tpY1);
       ctx.stroke();
       ctx_text.fillText(this.disttoplayer, tpX, tpY);
-      }
     }
+  }
 }
 
 class gameTrigger {
@@ -165,7 +165,7 @@ class testenemy {
     this.enrageCircle = 250 // bounding radius for player detection
 
 
-    this.sporeAlertPos = new Vector(X,Y)
+    this.sporeAlertPos = new Vector(X, Y)
     this.sporeAlertPosAge = 0
 
     this.enraged = false // is the player close to me?
@@ -181,8 +181,8 @@ class testenemy {
       target.sporeAlertPos.X = data.X // if player gets close enough this is how we tell our freinds about them.
       target.sporeAlertPos.Y = data.Y
       target.sporeAlertPosAge = 0
-      })
-    
+    })
+
     eventHandler.bindListener(this, "playerMoved", function (target, data) { // when the player moves do checks to ensure its
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
       if (target.distanceToPlayer < target.enrageCircle) {
@@ -205,14 +205,14 @@ class testenemy {
 
       if ((target.sporeAlertPosAge) < 1000) {
 
-        target.sporeAlertPosAge ++
+        target.sporeAlertPosAge++
         let difX = (target.sporeAlertPos.X - target.pos.X)// we obtain numerous differences or deviations.
         let difY = (target.sporeAlertPos.Y - target.pos.Y)
 
         if (target.pos.dist(sporeAlertPos) < 1000) {
 
-        target.moveVector.X = difX * (Math.pow(difX, 2)) / 5000 - (target.vel.X) * 50 // curve math to define how hard we should be trying to move.
-        target.moveVector.Y = difY * (Math.pow(difY, 2)) / 5000 - (target.vel.Y) * 50
+          target.moveVector.X = difX * (Math.pow(difX, 2)) / 5000 - (target.vel.X) * 50 // curve math to define how hard we should be trying to move.
+          target.moveVector.Y = difY * (Math.pow(difY, 2)) / 5000 - (target.vel.Y) * 50
         }
       }
 
@@ -630,8 +630,7 @@ class Spore {
 
           if (Math.floor(Math.random() * 3) == 1 && sporeAlert) {
             eventHandler.raiseEvent("sporeCollisionAlert", new Object({ X: target.pos.X, Y: target.pos.Y }))
-            randomIndex = sporeAlerts[Math.floor(Math.random() * sporeAlerts.length)];
-            sporeHowlsAlert[randomIndex].play();
+            sporeHowlsAlert.play();
             target.animwrapper.trigger(target, "spore_soundwave")
           }
 

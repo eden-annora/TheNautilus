@@ -80,13 +80,8 @@ for (var i = 0; i < sporeCollisions.length; i++) {
   });
 }
 
-const sporeAlerts = ["https://eden-annora.github.io/TheNautilus/audio/collision/spore/alert.mp3"];
-var sporeHowlsAlert = {};
-
-for (var i = 0; i < sporeAlerts.length; i++) {
-  sporeHowlsAlert[sporeAlerts[i]] = new Howl({
-    src: [sporeAlerts[i]],
-    loop: false,
-    volume: .1
-  });
-}
+var sporeHowlsAlert = new Howl({
+  src: ["https://eden-annora.github.io/TheNautilus/audio/collision/spore/alert.mp3"],
+  loop: false,
+  volume: .1
+});
