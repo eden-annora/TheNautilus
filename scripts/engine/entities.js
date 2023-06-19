@@ -1,3 +1,37 @@
+class surface {
+  constructor(X,Y,X1,Y1){
+
+    this.pos = new Vector(X, Y);
+    this.pos1 = new Vector(X1, Y1);
+    this.playerpos = new Vector(0,0)
+    this.disttoplayer = 0
+
+    eventHandler.bindListener(this, "playerMoved", function (target, data) {
+      target.playerpos.setXY(data.X,data.Y)
+      target.disttoplayer = distToLine(target.pos, target.pos1, target.playerpos)
+      if (target.disttoplayer < 5) {eventHandler.raiseEvent("playerCollides", target)}
+    });
+
+
+  }
+  draw() {
+    if (debug){
+      let tpX = centerOfCanvas.X + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
+      let tpY = centerOfCanvas.Y + (this.pos.Y - camera.pos.Y)
+
+      let tpX1 = centerOfCanvas.X + (this.pos1.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
+      let tpY1 = centerOfCanvas.Y + (this.pos1.Y - camera.pos.Y)
+      ctx.strokeStyle = "#34ebba"
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(tpX, tpY);
+      ctx.lineTo(tpX1, tpY1);
+      ctx.stroke();
+      ctx_text.fillText(this.disttoplayer, tpX, tpY);
+      }
+    }
+}
+
 class gameTrigger {
   /**
    * Trigger that detects if player passes within
@@ -342,6 +376,11 @@ class Player {
     eventHandler.bindListener(this, "playerTakesDamage", function (target, data) {
       target.health -= data.damage
       if (target.health <= 0) { target.die() }
+    })
+
+
+    eventHandler.bindListener(this, "playerCollides", function (target, data) {
+      console.log("bonk")
     })
 
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {// bring in keypresses and convert them to 1 of 4 bools
