@@ -3,7 +3,7 @@
 //source needs to be a web url, local files *do not work*. 
 //Just grab the relative path and add it to the end of "https://eden-annora.github.io/TheNautilus/"
 
-//if on a branch other than main, add relative path to the end of "https://raw.githubusercontent.com/eden-annora/TheNautilus/"
+//if on a branch other than main, add relative path to the end of "https://raw.githubusercontent.com/eden-annora/TheNautilus/[branch name]/"
 
 
 //Background music
