@@ -400,11 +400,6 @@ class Player {
 
       if (Math.sign(target.vel.X) === Math.sign(data.normal.X)){newvelX = 0}
       if (Math.sign(target.vel.Y) === Math.sign(data.normal.Y)){newvelY = 0}
-
-      console.log("output OVX" + target.vel.X)
-      console.log("output OVY" + target.vel.Y)
-      console.log("output NVX" + newvelX)
-      console.log("output NVY" + newvelY)
       }
       
       
