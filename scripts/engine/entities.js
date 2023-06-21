@@ -395,8 +395,8 @@ class Player {
       let newvelY = target.vel.Y
 
       if (Math.sign(target.vel.X) === Math.sign(data.normal.X) || Math.sign(target.vel.Y) === Math.sign(data.normal.Y)){
-      target.pos.X = target.pos.X - target.vel.X * (DT + 5)
-      target.pos.Y = target.pos.Y - target.vel.Y * (DT + 5)
+      target.pos.X = target.pos.X - Math.sign(data.normal.X)/5
+      target.pos.Y = target.pos.Y - Math.sign(data.normal.Y)/5
 
       if (Math.sign(target.vel.X) === Math.sign(data.normal.X)){newvelX = 0}
       if (Math.sign(target.vel.Y) === Math.sign(data.normal.Y)){newvelY = 0}
