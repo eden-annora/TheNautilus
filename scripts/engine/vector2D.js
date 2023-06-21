@@ -59,6 +59,13 @@ class Vector {
     return Math.hypot(X, Y);
   }
 }
+function transformX(X){
+  return centerOfCanvas.X + (X - camera.pos.X)
+}
+function transformY(X){
+  return centerOfCanvas.Y + (X - camera.pos.Y)
+}
+
 function distToLine(V1, V2, POINT) { // black magic, all i know is that it works
   // V1 = B, V2 = A, point = E
   let AB_slopeX = V2.X - V1.X; let AB_slopeY = V2.Y - V1.Y; // slope of line segment AB
@@ -81,3 +88,4 @@ function distToLine(V1, V2, POINT) { // black magic, all i know is that it works
   }
   return reqAns;
 }
+  

@@ -41,14 +41,14 @@ function launch() {
     entities.push(new Spore(0, 0))
   }
   
-  for (let i = 0; i < 5; i++) {
-    entities.push(new testenemy(0, -500))
-  }
+  //for (let i = 0; i < 5; i++) {
+  //  entities.push(new testenemy(0, -500))
+  //}
   
   //romango gameTrigger testing
   entities.push(new gameTrigger(250, 250, 300, 300))
   //eden surface testing
-  entities.push(new surface(150, 150, 200, 200))
+  entities.push(new surface(100, 100, 500, 500))
 
   ctx.fillText("update loop is now running!", 10, 80);
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo

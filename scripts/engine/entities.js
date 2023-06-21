@@ -4,28 +4,39 @@ class surface {
     this.pos = new Vector(X, Y);
     this.pos1 = new Vector(X1, Y1);
     this.playerpos = new Vector(0, 0)
+    let DX = (X1-X)
+    let DY = (Y1-Y)
+    this.normal = new Vector(-DY,DX)
+    this.normal1 = new Vector(DY,-DX)
     this.disttoplayer = 0
 
     eventHandler.bindListener(this, "playerMoved", function (target, data) {
       target.playerpos.setXY(data.X, data.Y)
       target.disttoplayer = distToLine(target.pos, target.pos1, target.playerpos)
-      if (target.disttoplayer < 5) { eventHandler.raiseEvent("playerCollides", target) }
+      if (target.disttoplayer < 10) { eventHandler.raiseEvent("playerCollides", target) }
     });
 
 
   }
   draw() {
+    let tpX = transformX(this.pos.X)
+    let tpY = transformY(this.pos.Y)
+    let tpX1 = transformX(this.pos1.X)
+    let tpY1 = transformY(this.pos1.Y)
+    
     if (debug) {
-      let tpX = centerOfCanvas.X + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
-      let tpY = centerOfCanvas.Y + (this.pos.Y - camera.pos.Y)
-
-      let tpX1 = centerOfCanvas.X + (this.pos1.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relitave position to the player.
-      let tpY1 = centerOfCanvas.Y + (this.pos1.Y - camera.pos.Y)
       ctx.strokeStyle = "#34ebba"
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(tpX, tpY);
       ctx.lineTo(tpX1, tpY1);
+      ctx.stroke();
+
+      ctx.strokeStyle = "#ff0000"
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(transformX(this.normal.X * 10) + this.pos.X + (this.pos1.X - this.pos.X)/2,transformY(this.normal.Y * 10) + this.pos.Y + (this.pos1.Y - this.pos.Y)/2);
+      ctx.lineTo(transformX(this.pos.X) + (this.pos1.X - this.pos.X)/2,transformY(this.pos.Y) + (this.pos1.Y - this.pos.Y)/2);
       ctx.stroke();
       ctx_text.fillText(this.disttoplayer, tpX, tpY);
     }
@@ -380,7 +391,27 @@ class Player {
 
 
     eventHandler.bindListener(this, "playerCollides", function (target, data) {
-      console.log("bonk")
+      let newvelX = target.vel.X
+      let newvelY = target.vel.Y
+
+      if (Math.sign(target.vel.X) === Math.sign(data.normal.X) || Math.sign(target.vel.Y) === Math.sign(data.normal.Y)){
+      target.pos.X = target.pos.X - target.vel.X * (DT + 5)
+      target.pos.Y = target.pos.Y - target.vel.Y * (DT + 5)
+
+      if (Math.sign(target.vel.X) === Math.sign(data.normal.X)){newvelX = 0}
+      if (Math.sign(target.vel.Y) === Math.sign(data.normal.Y)){newvelY = 0}
+
+      console.log("output OVX" + target.vel.X)
+      console.log("output OVY" + target.vel.Y)
+      console.log("output NVX" + newvelX)
+      console.log("output NVY" + newvelY)
+      }
+      
+      
+      
+      target.vel.X = newvelX
+      target.vel.Y = newvelY
+
     })
 
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {// bring in keypresses and convert them to 1 of 4 bools
