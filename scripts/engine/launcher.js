@@ -61,6 +61,7 @@ function launch() {
 
   entities.push(new vent(600, 0, 600, -600))
 
+ 
 
   ctx.fillText("update loop is now running!", 10, 80);
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo

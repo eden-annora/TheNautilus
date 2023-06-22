@@ -59,7 +59,15 @@ class EventHandler {
       let event = this.eventlist[i];
       if (event) {// if the event isn't a null object, go find the matching entry in the callbacklist dict and run all the callbacks.
         let callbacklen = this.callbacklist[event.type].length;
-        for (let i = 0; i < callbacklen; i++) { this.callbacklist[event.type][i].triggerCallback(event.data) }
+        for (let i = 0; i < callbacklen; i++) {
+          if (this.callbacklist[event.type][i].dead) {
+            console.log("removed event listener with type " + event.type + " at index " + i)
+            this.callbacklist[event.type].splice(i, 1);
+            callbacklen --
+          } else {
+            this.callbacklist[event.type][i].triggerCallback(event.data)
+          }
+        }
       }
       this.eventlist.splice(i, 1);//remove event from list once all callbacks have been notified.
     }
@@ -79,6 +87,17 @@ class EventListener {// stores the object that added the listener, the callback 
     this.type = type;
     this.callback = callback;
     this.target = target;
+    this.dead = false
   }
-  triggerCallback(eventdata) { this.callback(this.target, eventdata) }
+  triggerCallback(eventdata) {
+  
+    if (this.callback) { this.callback(this.target, eventdata) }
+    else {console.log("non-existent callback called, there should be a deletion message shortly after this one. if there isnt. start worrying")}
+
+    if (this.target.dead) {
+      this.dead = true
+      this.target = null
+      this.callback = null
+    }
+  }
 }
