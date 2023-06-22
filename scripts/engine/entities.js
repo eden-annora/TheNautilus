@@ -7,13 +7,21 @@ class surface {
     let DX = (X1-X)
     let DY = (Y1-Y)
     this.normal = new Vector(-DY,DX)
-    this.normal1 = new Vector(DY,-DX)
+    this.middle = new Vector(this.pos.X + (this.pos1.X - this.pos.X)/2,this.pos.Y + (this.pos1.Y - this.pos.Y)/2)
+    this.radius = this.pos.dist(this.pos1)
     this.disttoplayer = 0
 
     eventHandler.bindListener(this, "playerMoved", function (target, data) {
       target.playerpos.setXY(data.X, data.Y)
-      target.disttoplayer = distToLine(target.pos, target.pos1, target.playerpos)
-      if (target.disttoplayer < 10) { eventHandler.raiseEvent("playerCollides", target) }
+      
+      target.disttoplayer = target.middle.dist(target.playerpos)
+
+      if (target.disttoplayer < target.radius){
+        target.disttoplayer = distToLine(target.pos, target.pos1, target.playerpos)
+        if (target.disttoplayer < 10) { eventHandler.raiseEvent("playerCollides", target) }
+      }
+      
+      
     });
 
 
@@ -32,14 +40,25 @@ class surface {
       ctx.lineTo(tpX1, tpY1);
       ctx.stroke();
 
-      ctx.strokeStyle = "#ff0000"
+      ctx.strokeStyle = "#ff000050"
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(transformX(this.normal.X * 10) + this.pos.X + (this.pos1.X - this.pos.X)/2,transformY(this.normal.Y * 10) + this.pos.Y + (this.pos1.Y - this.pos.Y)/2);
       ctx.lineTo(transformX(this.pos.X) + (this.pos1.X - this.pos.X)/2,transformY(this.pos.Y) + (this.pos1.Y - this.pos.Y)/2);
       ctx.stroke();
+      if (this.disttoplayer < this.radius){ctx.strokeStyle = "#00ff0050"}
+      ctx.beginPath();
+      ctx.arc(transformX(this.middle.X), transformY(this.middle.Y), this.radius, 0, 2 * Math.PI)
+      ctx.stroke();
+
       ctx_text.fillText(this.disttoplayer, tpX, tpY);
-    }
+      
+      if (this.disttoplayer < this.radius){
+        ctx_text.fillText("check type: dist to line", tpX, tpY+20)
+        } else {
+          ctx_text.fillText("check type: radius check", tpX, tpY+20)
+      }
+    }  
   }
 }
 

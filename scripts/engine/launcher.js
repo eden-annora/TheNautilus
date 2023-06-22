@@ -53,7 +53,7 @@ function launch() {
   entities.push(new surface(-1200, 0, -1000, 200))
   entities.push(new surface(-1000, -800, -1200, -600))
 
-  entities.push(new surface(-1000, 200, 1200, 200)) // floor and ceiling 
+  entities.push(new surface(-1000, 200, 1000, 200)) // floor and ceiling 
   entities.push(new surface(1000, -800, -1000, -800))
 
   entities.push(new surface(-1200, -600, -1200, 0)) // walls
