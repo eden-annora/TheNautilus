@@ -85,14 +85,14 @@ class scannable {
         ctx.lineTo(p1X, p1Y)
         ctx.stroke();
       } else {
-      ctx.drawImage(player_scannerblurb, centerOfCanvas.X - 15 + windowposX, windowposY + centerOfCanvas.Y - 15, 200, 200);
-      let count = this.content.length;
-      for (let i = 0; i < count; i++) {
-        let line = this.content[i];
-        ctx.fillStyle = "#34ebba";
-        ctx.fillText(line, windowposX + centerOfCanvas.X, windowposY + centerOfCanvas.Y + i * 10)
+        ctx.drawImage(player_scannerblurb, centerOfCanvas.X - 15 + windowposX, windowposY + centerOfCanvas.Y - 15, 200, 200);
+        let count = this.content.length;
+        for (let i = 0; i < count; i++) {
+          let line = this.content[i];
+          ctx.fillStyle = "#34ebba";
+          ctx.fillText(line, windowposX + centerOfCanvas.X, windowposY + centerOfCanvas.Y + i * 10)
+        }
       }
-    }
     } else {
       ctx.save();
       ctx.strokeStyle = "#34ebba50";
@@ -574,7 +574,7 @@ class Player {
     this.daccX = new Vector(-.25, 0);
     this.daccY = new Vector(0, -.25);
 
-    this.speedcap = new Vector(.7, .7)
+    this.speedcap = .7
 
     this.acc = new Vector(0.001, 0.001);
 
@@ -593,6 +593,7 @@ class Player {
     this.e = false
 
     this.boosttimer = 0
+    this.boostcap = 1
 
     this.regentimer = 0
     this.health = 10000
@@ -670,9 +671,10 @@ class Player {
       }
 
       if (target.boosttimer == 0) {
-        let scX = target.speedcap.X
-        let scY = target.speedcap.Y
-        target.vel.clamp(scX, -scX, scY, -scY)
+        if (target.vel.distXY(0, 0) > target.speedcap) {
+          target.vel.X *= .99
+          target.vel.Y *= .99
+        }
       }
 
       target.pos.add_OT(target.vel, DT);// move the player (this will get replaced later with a raiseEvent("Entity_requestMove,new Object({pos:player pos, requestedpos:player pos + player vel})"))
@@ -704,7 +706,10 @@ class Player {
       if (this.stored.distXY(0, 0) < .1) {
         if (this.vel.distXY(0, 0) > .1) {
           this.stored.setXY(this.vel.X, this.vel.Y)
-          this.stored.clamp(1, -1, 1, -1)
+          if (this.stored.distXY(0, 0) > this.boostcap) {
+            this.stored.X *= .99
+            this.stored.Y *= .99
+          }
           this.vel.setXY(0, 0)
           eventHandler.raiseEvent("shakeCamera", new Object({ Strength: 2, Duration: 50 }))
           this.animwrapper.trigger(this, "player_StoreMomentum")
