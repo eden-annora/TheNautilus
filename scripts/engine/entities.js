@@ -1,3 +1,114 @@
+class scannable {
+  constructor(X, Y, content) {
+    this.pos = new Vector(X, Y);
+    this.content = content
+    this.playerpos = new Vector(0, 0)
+    this.playerscanning = false
+    this.scanning = false
+    this.completion = 5000
+
+
+    eventHandler.bindListener(this, "playerMoved", function (target, data) { target.playerpos.setXY(data.X, data.Y); target.playerscanning = data.scanning });
+    eventHandler.bindListener(this, "physics_update", function (target, data) {
+      let dist = target.pos.dist(target.playerpos)
+      target.scanning = false
+      if (dist < 250 && target.playerscanning) { target.scanning = true }
+      if (target.scanning) { target.completion -= DT }
+    })
+  }
+  draw() {
+    let tpX = transformX(this.pos.X)
+    let tpY = transformY(this.pos.Y)
+    let playerX = transformX(this.playerpos.X)
+    let playerY = transformY(this.playerpos.Y)
+
+    let windowposX = (this.pos.X + ((this.playerpos.X))) - 100
+    let windowposY = (this.pos.Y + ((this.playerpos.Y))) - 100
+
+    ctx.lineWidth = 1;
+
+    if (this.scanning) {
+      let offset = ((Math.sin((-time) / 100) + 1) * 48);
+      ctx.drawImage(player_scangrid, tpX - 48, tpY - 48, 97, 97);
+      ctx.drawImage(player_scanline, tpX - 48 + offset, tpY - 48, 3, 97);
+      ctx.strokeStyle = "#34ebbaf0";
+      ctx.beginPath();
+      ctx.moveTo(playerX, playerY);
+      ctx.lineTo(tpX - 48, tpY - 48);
+      ctx.moveTo(playerX, playerY);
+      ctx.lineTo(tpX + 48, tpY - 48);
+      ctx.moveTo(playerX, playerY);
+      ctx.lineTo(tpX + 48, tpY + 48);
+      ctx.moveTo(playerX, playerY);
+      ctx.lineTo(tpX - 48, tpY + 48);
+      ctx.moveTo(playerX, playerY);
+      ctx.lineTo(tpX - 47 + offset, tpY + 48);
+      ctx.moveTo(playerX, playerY);
+      ctx.lineTo(tpX - 47 + offset, tpY - 48);
+      ctx.moveTo(playerX, playerY);
+      ctx.lineTo(tpX - 47 + offset, tpY - 49 + ((Math.sin((-time * 30) / 100) + 1) * 48));
+      ctx.stroke();
+
+      if (this.completion > 0) {
+        ctx.drawImage(player_scannerblurb, centerOfCanvas.X - 15 + windowposX, centerOfCanvas.Y - 15 + windowposY, 100, 119);
+        ctx.drawImage(player_scannerblurb, centerOfCanvas.X - 2 + windowposX, centerOfCanvas.Y + 5 + windowposY, 75, 75);
+        ctx.fillStyle = "#34ebba";
+        ctx_text.font = "12px Courier New"
+        ctx_text.fillText("SCANNING...", centerOfCanvas.X + windowposX, centerOfCanvas.Y + windowposY - 1);
+        ctx.fillStyle = "#34ebba";
+        ctx.fillRect(centerOfCanvas.X + windowposX, centerOfCanvas.Y + windowposY + 88, (((5000 - this.completion) / 5000) * 73), 8)
+        ctx_text.font = "16px Courier New"
+        ctx_text.fillText("[       ]", centerOfCanvas.X + windowposX - 7, centerOfCanvas.Y + windowposY + 96);
+
+        let tPP = ((Math.sin((time + 360) / 100) + 1) * 15)
+        let tPN = ((Math.sin((time - 360) / 100) + 1) * 15)
+        let tNP = ((Math.sin((-time + 360) / 100) + 1) * 15)
+        let tNN = ((Math.sin((-time - 360) / 100) + 1) * 15)
+
+        let p1X = (centerOfCanvas.X + tNN + 20) + windowposX
+        let p1Y = (centerOfCanvas.Y + tNP + 25) + 2 + windowposY
+        let p2X = (centerOfCanvas.X + tPP + 20) + windowposX
+        let p2Y = (centerOfCanvas.Y + tNN + 25) + 2 + windowposY
+        let p3X = (centerOfCanvas.X + tNN + 20) + windowposX
+        let p3Y = (centerOfCanvas.Y + tPP + 25) + 2 + windowposY
+        let p4X = (centerOfCanvas.X + tPP + 20) + windowposX
+        let p4Y = (centerOfCanvas.Y + tPN + 25) + 2 + windowposY
+        ctx.strokeStyle = "#34ebba";
+        ctx.beginPath();
+        ctx.moveTo(p1X, p1Y)
+        ctx.lineTo(p2X, p2Y)
+        ctx.moveTo(p2X, p2Y)
+        ctx.lineTo(p3X, p3Y)
+        ctx.moveTo(p3X, p3Y)
+        ctx.lineTo(p4X, p4Y)
+        ctx.moveTo(p4X, p4Y)
+        ctx.lineTo(p1X, p1Y)
+        ctx.stroke();
+      } else {
+      ctx.drawImage(player_scannerblurb, centerOfCanvas.X - 15 + windowposX, windowposY + centerOfCanvas.Y - 15, 200, 200);
+      let count = this.content.length;
+      for (let i = 0; i < count; i++) {
+        let line = this.content[i];
+        ctx.fillStyle = "#34ebba";
+        ctx.fillText(line, windowposX + centerOfCanvas.X, windowposY + centerOfCanvas.Y + i * 10)
+      }
+    }
+    } else {
+      ctx.save();
+      ctx.strokeStyle = "#34ebba50";
+      ctx.font = "12px Courier New";
+      ctx.globalAlpha = 0.3;
+      ctx.beginPath();
+      ctx.fillText("[OBJECT OF INTEREST]", tpX - 50, tpY - 80);
+      ctx.moveTo(tpX + 40, tpY - 77);
+      ctx.lineTo(tpX + 40, tpY - 45);
+      ctx.lineTo(tpX, tpY);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+}
+
 class vent {
   constructor(X, Y, X1, Y1) {
 
@@ -69,8 +180,8 @@ class vent {
       ctx.arc(transformX(this.middle.X), transformY(this.middle.Y), this.radius, 0, 2 * Math.PI);
       ctx.stroke();
 
-      
-      if (this.broken) {ctx_text.fillText("vent broken", transformX(this.middle.X), transformY(this.middle.Y) + 20)}
+
+      if (this.broken) { ctx_text.fillText("vent broken", transformX(this.middle.X), transformY(this.middle.Y) + 20) }
       else {
         ctx_text.fillText(this.disttoplayer, transformX(this.middle.X), transformY(this.middle.Y));
         if (this.disttoplayer < this.radius) {
@@ -113,12 +224,12 @@ class surface {
 
   }
   draw() {
-    let tpX = transformX(this.pos.X)
-    let tpY = transformY(this.pos.Y)
-    let tpX1 = transformX(this.pos1.X)
-    let tpY1 = transformY(this.pos1.Y)
-
     if (debug) {
+      let tpX = transformX(this.pos.X)
+      let tpY = transformY(this.pos.Y)
+      let tpX1 = transformX(this.pos1.X)
+      let tpY1 = transformY(this.pos1.Y)
+
       ctx.strokeStyle = "#34ebba"
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -461,6 +572,7 @@ class Player {
 
     camera.follow = this
 
+
     this.daccX = new Vector(-.25, 0);
     this.daccY = new Vector(0, -.25);
 
@@ -480,9 +592,11 @@ class Player {
     this.a = false
     this.s = false
     this.d = false
+    this.e = false
 
     this.boosttimer = 0
 
+    this.regentimer = 0
     this.health = 10000
     this.deadtimer = 0
 
@@ -520,6 +634,7 @@ class Player {
       if (keyevent.data.code == target.keys[2]) { target.s = true; }
       if (keyevent.data.code == target.keys[3]) { target.d = true; }
       if (keyevent.data.code == target.keys[4]) { target.AbilityTrigger(); }
+      if (keyevent.data.code == target.keys[5]) { target.e = true; }
 
     });
 
@@ -528,6 +643,7 @@ class Player {
       if (keyevent.data.code == target.keys[1]) { target.a = false; }
       if (keyevent.data.code == target.keys[2]) { target.s = false; }
       if (keyevent.data.code == target.keys[3]) { target.d = false; }
+      if (keyevent.data.code == target.keys[5]) { target.e = false; }
 
     });
 
@@ -567,7 +683,8 @@ class Player {
         X: target.pos.X,
         Y: target.pos.Y,
         VX: target.vel.X,
-        VY: target.vel.Y
+        VY: target.vel.Y,
+        scanning: target.e
       }))
     });
   }
@@ -641,6 +758,8 @@ class Player {
     else { ctx.globalAlpha = 0 }
     ctx.drawImage(player_glow, tpX, tpY, 50, 50);
     ctx.restore();
+
+    //if (this.e) { ctx.drawImage(player_glow, tpX, tpY, 50, 50); }
 
 
     if (storedpower > .1) { // supporting math for directional indicator, (X,Y to radians)

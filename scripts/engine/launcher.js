@@ -34,8 +34,8 @@ function openmainmenu() {
   window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 }
 function launch() {
-  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space"])]
-  background = [new backgroundSprite([player_scangrid, player_scannerblurb, tmpbgtile], "keyPressed", 0, 0)]
+  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space", "ShiftLeft"])]
+  //background = [new backgroundSprite([player_scangrid, player_scannerblurb, tmpbgtile], "keyPressed", 0, 0)]
 
   for (let i = 0; i < 100; i++) {
     entities.push(new Spore(0, 0))
@@ -45,6 +45,7 @@ function launch() {
   //  entities.push(new testenemy(0, -500))
   //}
   
+  entities.push(new scannable(0, 0, ["line 1","line 2","line 3"]))
   //romango gameTrigger testing
   entities.push(new gameTrigger(250, 250, 300, 300))
   //eden surface testing
