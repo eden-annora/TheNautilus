@@ -214,7 +214,7 @@ class surface {
 
       if (target.disttoplayer < target.radius) {
         target.disttoplayer = distToLine(target.pos, target.pos1, target.playerpos)
-        if (target.disttoplayer < 10) { eventHandler.raiseEvent("playerCollides", target) }
+        if (target.disttoplayer < 15) { eventHandler.raiseEvent("playerCollides", target) }
       }
     });
 
@@ -619,9 +619,7 @@ class Player {
         if (Math.sign(target.vel.X) === Math.sign(data.normal.X)) { newvelX = 0 }
         if (Math.sign(target.vel.Y) === Math.sign(data.normal.Y)) { newvelY = 0 }
       }
-
-
-
+      
       target.vel.X = newvelX
       target.vel.Y = newvelY
 
