@@ -135,7 +135,7 @@ class vent {
         if (target.disttoplayer < target.radius) {
           target.disttoplayer = distToLine(target.pos, target.pos1, target.playerpos)
           if (target.disttoplayer < 10 && !target.broken) {
-            if (target.playervel.distXY(0, 0) > .6) {
+            if (target.playervel.distXY(0, 0) > .68) {
               target.broken = true
               //play break sound here
               //spawn gibs / particle effects?
@@ -146,9 +146,8 @@ class vent {
       }
 
     });
-
-
   }
+
   draw() {
     let tpX = transformX(this.pos.X)
     let tpY = transformY(this.pos.Y)
@@ -530,11 +529,12 @@ class backgroundSprite { // a terrible and temporary implementation of a backgro
 }
 
 class animationwrapper { // a terrible and temporary implementation for animations.
-  constructor(X, Y) {
+  constructor(X, Y, ml) {
     this.pos = new Vector(X, Y)
     this.framecounter = 0
     this.name = null
     this.target
+    this.maxlength = ml
   }
 
   trigger(target, AnimName) {
@@ -548,7 +548,7 @@ class animationwrapper { // a terrible and temporary implementation for animatio
     if (this.framecounter <= 100 && this.target) {
       animations[this.name](this.target.pos, this.framecounter)
       this.framecounter += (deltatime / 16.777777777)
-      if (this.framecounter > 100) {
+      if (this.framecounter > this.maxlength) {
         this.framecounter = 0
         entities.splice(i, 1);
         this.target = null
@@ -566,7 +566,7 @@ class Player {
    */
   constructor(X, Y, Keys) {
 
-    this.animwrapper = new animationwrapper(0, 0)
+    this.animwrapper = new animationwrapper(0, 0, 50)
 
     camera.follow = this
 
@@ -847,7 +847,7 @@ class Spore {
 
   constructor(X, Y) {
 
-    this.animwrapper = new animationwrapper(0, 0)
+    this.animwrapper = new animationwrapper(0, 0, 100)
 
     this.age = 1000;
     this.brightness = 0;
