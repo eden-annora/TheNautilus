@@ -217,8 +217,6 @@ class surface {
         target.disttoplayer = distToLine(target.pos, target.pos1, target.playerpos)
         if (target.disttoplayer < 10) { eventHandler.raiseEvent("playerCollides", target) }
       }
-
-
     });
 
 
@@ -614,8 +612,8 @@ class Player {
       let newvelY = target.vel.Y
 
       if (Math.sign(target.vel.X) === Math.sign(data.normal.X) || Math.sign(target.vel.Y) === Math.sign(data.normal.Y)) {
-        target.pos.X = target.pos.X - Math.sign(data.normal.X) / 5
-        target.pos.Y = target.pos.Y - Math.sign(data.normal.Y) / 5
+        target.pos.X = target.pos.X - Math.sign(data.normal.X)
+        target.pos.Y = target.pos.Y - Math.sign(data.normal.Y)
 
         if (Math.sign(target.vel.X) === Math.sign(data.normal.X)) { newvelX = 0 }
         if (Math.sign(target.vel.Y) === Math.sign(data.normal.Y)) { newvelY = 0 }
