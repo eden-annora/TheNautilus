@@ -91,7 +91,7 @@ class EventListener {// stores the object that added the listener, the callback 
   }
   triggerCallback(eventdata) {
   
-    if (this.callback) { this.callback(this.target, eventdata) }
+    if (this.callback && !this.target.sleep) { this.callback(this.target, eventdata) }
     else {console.log("non-existent callback called, there should be a deletion message shortly after this one. if there isnt. start worrying")}
 
     if (this.target.dead) {
