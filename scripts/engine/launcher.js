@@ -11,9 +11,15 @@ ctx.font = "12px Courier New"
 ctx.fillText("loading...", 10, 20);
 
 window.addEventListener('load', function () {
+  // draw background art
+
+  let len = splashtexts.length;
+  ctx.fillText("THE NAUTILUS!", centerOfCanvas.X, centerOfCanvas.Y);
+  ctx.fillText(splashtexts[Math.floor(Math.random()*len)], centerOfCanvas.X, centerOfCanvas.Y+40);
+  
+    
   ctx.fillText("complete!", 10, 40);
   ctx.fillText("PRESS ANY KEY!", 10, 60);
-
 
   document.addEventListener("visibilitychange", function () { // when the window is out of focus stop the game from progressing physics updates. this stops the player from reaching relitivistic speeds due to DT buildup and the velocity not ever *actually* being zero due to how de-acceleration works.
     if (document.visibilityState === 'visible') { console.log('has focus, resuming game'); lastrun = performance.now(); focused = true }
