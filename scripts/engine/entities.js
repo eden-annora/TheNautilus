@@ -1,3 +1,134 @@
+function buildroom(X, Y, data) {
+  entities.push(new surface(X + 1000, Y + 200, X + 1200, Y + 0)) // corners
+  entities.push(new surface(X + 1200, Y + -600, X + 1000, Y + -800))
+  entities.push(new surface(X + -1200, Y + 0, X + -1000, Y + 200))
+  entities.push(new surface(X + -1000, Y + -800, X + -1200, Y + -600))
+
+  switch (data.downL) {
+    case "closed":
+      entities.push(new surface(X + -1000, Y + 200, X + 0, Y + 200))
+      break;
+    case "open":
+      entities.push(new surface(X + -1000, Y + 200, X + -700, Y + 200))
+      entities.push(new surface(X + -500, Y + 200, X + 0, Y + 200))
+
+      entities.push(new surface(X + -550, Y + 250, X + -500, Y + 200))
+      entities.push(new surface(X + -700, Y + 200, X + -650, Y + 250))
+
+      entities.push(new surface(X + -550, Y + 500, X + -550, Y + 250))
+      entities.push(new surface(X + -650, Y + 250, X + -650, Y + 500))
+      break;
+    case "vent":
+      entities.push(new surface(X + -1000, Y + 200, X + -700, Y + 200))
+      entities.push(new surface(X + -500, Y + 200, X + 0, Y + 200))
+
+      entities.push(new surface(X + -550, Y + 250, X + -500, Y + 200))
+      entities.push(new surface(X + -700, Y + 200, X + -650, Y + 250))
+
+      entities.push(new surface(X + -550, Y + 500, X + -550, Y + 250))
+      entities.push(new surface(X + -650, Y + 250, X + -650, Y + 500))
+
+      entities.push(new vent(X + -650, Y + 250, X + -550, Y + 250))
+      break;
+    default:
+  }
+
+  switch (data.downR) {
+    case "closed":
+      entities.push(new surface(X + 0, Y + 200, X + 1000, Y + 200))
+      break;
+    case "open":
+      entities.push(new surface(X + 0, Y + 200, X + 500, Y + 200))
+      entities.push(new surface(X + 700, Y + 200, X + 1000, Y + 200))
+
+      entities.push(new surface(X + 500, Y + 200, X + 550, Y + 250))
+      entities.push(new surface(X + 650, Y + 250, X + 700, Y + 200))
+
+      entities.push(new surface(X + 550, Y + 250, X + 550, Y + 500))
+      entities.push(new surface(X + 650, Y + 500, X + 650, Y + 250))
+      break;
+    case "vent":
+      entities.push(new surface(X + 0, Y + 200, X + 500, Y + 200))
+      entities.push(new surface(X + 700, Y + 200, X + 1000, Y + 200))
+
+      entities.push(new surface(X + 500, Y + 200, X + 550, Y + 250))
+      entities.push(new surface(X + 650, Y + 250, X + 700, Y + 200))
+
+      entities.push(new surface(X + 550, Y + 250, X + 550, Y + 500))
+      entities.push(new surface(X + 650, Y + 500, X + 650, Y + 250))
+
+      entities.push(new vent(X + 550, Y + 250, X + 650, Y + 250))
+      break;
+    default:
+  }
+
+  switch (data.upL) {
+    case "closed":
+      entities.push(new surface(X + 0, Y + -800, X + -1000, Y + -800))
+      break;
+    case "open":
+      entities.push(new surface(X + -700, Y + -800, X + -1000, Y + -800))
+      entities.push(new surface(X + 0, Y + -800, X + -500, Y + -800))
+
+      entities.push(new surface(X + -500, Y + -800, X + -550, Y + -850))
+      entities.push(new surface(X + -650, Y + -850, X + -700, Y + -800))
+
+      entities.push(new surface(X + -550, Y + -850, X + -550, Y + -1100))
+      entities.push(new surface(X + -650, Y + -1100, X + -650, Y + -850))
+      break;
+    case "vent":
+      entities.push(new surface(X + -700, Y + -800, X + -1000, Y + -800))
+      entities.push(new surface(X + 0, Y + -800, X + -500, Y + -800))
+
+      entities.push(new surface(X + -500, Y + -800, X + -550, Y + -850))
+      entities.push(new surface(X + -650, Y + -850, X + -700, Y + -800))
+
+      entities.push(new surface(X + -550, Y + -850, X + -550, Y + -1100))
+      entities.push(new surface(X + -650, Y + -1100, X + -650, Y + -850))
+
+      entities.push(new vent(X + -550, Y + -850, X + -650, Y + -850))
+      break;
+    default:
+  }
+
+  switch (data.upR) {
+    case "closed":
+      entities.push(new surface(X + 1000, Y + -800, X + 0, Y + -800))
+      break;
+    case "open":
+      entities.push(new surface(X + 500, Y + -800, X + 0, Y + -800))
+      entities.push(new surface(X + 1000, Y + -800, X + 700, Y + -800))
+
+      entities.push(new surface(X + 550, Y + -850, X + 500, Y + -800))
+      entities.push(new surface(X + 700, Y + -800, X + 650, Y + -850))
+
+      entities.push(new surface(X + 550, Y + -1100, X + 550, Y + -850))
+      entities.push(new surface(X + 650, Y + -850, X + 650, Y + -1100))
+      break;
+    case "vent":
+      entities.push(new surface(X + 500, Y + -800, X + 0, Y + -800))
+      entities.push(new surface(X + 1000, Y + -800, X + 700, Y + -800))
+
+      entities.push(new surface(X + 550, Y + -850, X + 500, Y + -800))
+      entities.push(new surface(X + 700, Y + -800, X + 650, Y + -850))
+
+      entities.push(new surface(X + 550, Y + -1100, X + 550, Y + -850))
+      entities.push(new surface(X + 650, Y + -850, X + 650, Y + -1100))
+
+      entities.push(new vent(X + 650, Y + -850, X + 550, Y + -850))
+      break;
+    default:
+  }
+
+  if (data.left == "closed") {
+    entities.push(new surface(X + -1200, Y + -600, X + -1200, Y + 0)) // walls
+  }
+  if (data.right == "closed") {
+    entities.push(new surface(X + 1200, Y + 0, X + 1200, Y + -600))
+  }
+
+}
+
 class scannable {
   constructor(X, Y, content) {
     this.pos = new Vector(X, Y);
@@ -236,14 +367,14 @@ class surface {
 
       ctx.strokeStyle = "#ff000050"
       ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(transformX(this.normal.X * 10) + this.pos.X + (this.pos1.X - this.pos.X) / 2, transformY(this.normal.Y * 10) + this.pos.Y + (this.pos1.Y - this.pos.Y) / 2);
-      ctx.lineTo(transformX(this.pos.X) + (this.pos1.X - this.pos.X) / 2, transformY(this.pos.Y) + (this.pos1.Y - this.pos.Y) / 2);
-      ctx.stroke();
-      if (this.disttoplayer < this.radius) { ctx.strokeStyle = "#00ff0050" }
-      ctx.beginPath();
-      ctx.arc(transformX(this.middle.X), transformY(this.middle.Y), this.radius, 0, 2 * Math.PI)
-      ctx.stroke();
+      //ctx.beginPath();
+      //ctx.moveTo(transformX(this.normal.X * 10) + this.pos.X + (this.pos1.X - this.pos.X) / 2, transformY(this.normal.Y * 10) + this.pos.Y + (this.pos1.Y - this.pos.Y) / 2);
+      //ctx.lineTo(transformX(this.pos.X) + (this.pos1.X - this.pos.X) / 2, transformY(this.pos.Y) + (this.pos1.Y - this.pos.Y) / 2);
+      //ctx.stroke();
+      //if (this.disttoplayer < this.radius) { ctx.strokeStyle = "#00ff0050" }
+      //ctx.beginPath();
+      //ctx.arc(transformX(this.middle.X), transformY(this.middle.Y), this.radius, 0, 2 * Math.PI)
+      //ctx.stroke();
 
       ctx_text.fillText(this.disttoplayer, transformX(this.middle.X), transformY(this.middle.Y));
 
@@ -574,7 +705,7 @@ class Player {
     this.daccX = new Vector(-.25, 0);
     this.daccY = new Vector(0, -.25);
 
-    this.speedcap = .7
+    this.speedcap = 1.4
 
     this.acc = new Vector(0.001, 0.001);
 
@@ -596,15 +727,22 @@ class Player {
     this.boostcap = 1
 
     this.regentimer = 0
-    this.health = 10000
+    this.health = 100
+    this.iframes = 0
     this.deadtimer = 0
+    this.lastdamage = 0
 
     this.MoveKeyHeldX = false
     this.MoveKeyHeldY = false
 
     eventHandler.bindListener(this, "playerTakesDamage", function (target, data) {
-      target.health -= data.damage
-      if (target.health <= 0) { target.die() }
+      if (target.iframes <= 0) {
+        target.health -= data.damage
+        target.iframes = 250
+        target.lastdamage = data.damage
+        if (target.health <= 0) { target.die() }
+
+      }
     })
 
 
@@ -619,7 +757,7 @@ class Player {
         if (Math.sign(target.vel.X) === Math.sign(data.normal.X)) { newvelX = 0 }
         if (Math.sign(target.vel.Y) === Math.sign(data.normal.Y)) { newvelY = 0 }
       }
-      
+
       target.vel.X = newvelX
       target.vel.Y = newvelY
 
@@ -667,6 +805,9 @@ class Player {
       if (target.deadtimer > 0) {
         target.deadtimer--
       }
+      if (target.iframes > -400) {
+        target.iframes--
+      }
 
       if (target.boosttimer == 0) {
         if (target.vel.distXY(0, 0) > target.speedcap) {
@@ -688,10 +829,11 @@ class Player {
   }
   die() {  // oh no! our table! it's broken! (player died... imagine losing)
     focused = false
+    this.deadtimer = 100
     this.vel.setXY(0, 0);
     this.stored.setXY(0, 0)
     this.pos.setXY(0, 0);
-    this.health = 10000
+    this.health = 100
     eventHandler.raiseEvent("player_died", new Object({
       X: this.pos.X,
       Y: this.pos.Y,
@@ -788,6 +930,77 @@ class Player {
       ctx.arc(tpX + 25, tpY + 25, 60 + storedpower * 12, (this.releasedir - .1), (this.releasedir + .1))
       ctx.stroke();
     }
+
+
+    if (this.iframes > 10) {
+      for (let i = 0; i < 100; i++) {
+        let tmp = i + Math.sin(this.iframes)
+        ctx.strokeStyle = "#ff00ff25"
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(tpX + 25, tpY + 25, 45, tmp * 2, tmp * 2)
+        ctx.arc(tpX + 25, tpY + 25, 45, tmp * 10, tmp * 10)
+        ctx.stroke();
+      }
+    }
+
+    if (this.iframes > -400) {
+      ctx.save();
+      ctx.globalAlpha = (((Math.sin(time / 25)) / 5) + .8);
+
+      ctx.strokeStyle = "#ff0000"
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, 60, 2 / 25, 1 / 25)
+      ctx.arc(tpX + 25, tpY + 25, 65, 2 / 25, 1 / 25)
+      ctx.stroke();
+      ctx.strokeStyle = "#ff000050"
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, 60, 2 / 25, 1 / 25)
+      ctx.arc(tpX + 25, tpY + 25, 65, 2 / 25, 1 / 25)
+      ctx.stroke();
+
+      for (let i = 0; i < (this.health + Math.max(Math.min(1, (this.iframes - 150) / 50), 0) * this.lastdamage); i++) {
+        ctx.strokeStyle = "#ff0090"
+        ctx.lineWidth = 1;
+
+        if (i >= this.health) {
+          ctx.strokeStyle = "#0000ff"
+          ctx.lineWidth = 1;
+        }
+
+        ctx.beginPath();
+        ctx.arc(tpX + 25, tpY + 25, 60, (i) / 16, i / 16)
+        ctx.arc(tpX + 25, tpY + 25, 65, (i) / 16, i / 16)
+        ctx.stroke();
+        ctx.strokeStyle = "#ff009050"
+        ctx.lineWidth = 5;
+
+        if (i >= this.health) {
+          ctx.strokeStyle = "#0000ff"
+          ctx.lineWidth = 5;
+        }
+
+        ctx.beginPath();
+        ctx.arc(tpX + 25, tpY + 25, 60, (i) / 16, i / 16)
+        ctx.arc(tpX + 25, tpY + 25, 65, (i) / 16, i / 16)
+        ctx.stroke();
+      }
+
+      for (let i = 0; i < 10; i++) {
+        let tmp = -time / 100 + (i * .16)
+        ctx.strokeStyle = "#ff0000" + (((10 - i) * .1) * 90).toFixed()
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(tpX + 25, tpY + 25, 0, tmp, tmp)
+        ctx.arc(tpX + 25, tpY + 25, 65, tmp, tmp)
+        ctx.stroke();
+      }
+
+    }
+
+    ctx.restore();
 
     if (debug) {
       ctx.strokeStyle = "#ff0000"
@@ -916,11 +1129,11 @@ class Spore {
   draw() {
     ctx.save();
     ctx.globalAlpha = this.brightness;
-    ctx.drawImage(particle_Spore,this.pos.X - (this.Depth * camera.pos.X) + centerOfCanvas.X - 5,this.pos.Y - (this.Depth * camera.pos.Y) + centerOfCanvas.Y - 5, ((this.Depth)) *10, ((this.Depth)) * 10);
+    ctx.drawImage(particle_Spore, this.pos.X - (this.Depth * camera.pos.X) + centerOfCanvas.X - 5, this.pos.Y - (this.Depth * camera.pos.Y) + centerOfCanvas.Y - 5, ((this.Depth)) * 10, ((this.Depth)) * 10);
     if (this.timeoffset > 0) {
       this.timeoffset -= 25
       ctx.globalAlpha = 2 * this.brightness
-      ctx.drawImage(sporeflash, this.pos.X - (this.Depth * camera.pos.X) + centerOfCanvas.X - 15,this.pos.Y - (this.Depth * camera.pos.Y) + centerOfCanvas.Y - 15, ((this.Depth)) *30, ((this.Depth)) * 30);
+      ctx.drawImage(sporeflash, this.pos.X - (this.Depth * camera.pos.X) + centerOfCanvas.X - 15, this.pos.Y - (this.Depth * camera.pos.Y) + centerOfCanvas.Y - 15, ((this.Depth)) * 30, ((this.Depth)) * 30);
     }
     ctx.restore();
   }
@@ -1001,6 +1214,7 @@ class ExternalKeyListeners {// menu buttons that need to work even if the player
 
     eventHandler.bindListener(this, "keyPressed", function (target, keyevent) {
       if (keyevent.data.code == "KeyB") { debug = !debug }
+      if (keyevent.data.code == "KeyC") { eventHandler.raiseEvent("playerTakesDamage", new Object({ damage: 1 })) }
       if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu }
       if (keyevent.data.code == "Escape") { focused = !focused; }
       if (keyevent.data.code == "KeyM") { muteMusic = !muteMusic }

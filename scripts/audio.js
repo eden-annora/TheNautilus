@@ -10,7 +10,7 @@
 var background_music = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/ambient_music/magic_forest.mp3'],
   loop: true,
-  volume: .2
+  volume: .1
 });
 
 //will only play after you click something on the page
@@ -20,7 +20,7 @@ var background_music = new Howl({
 //Main menu computer-y sounds
 var computer_boot_start = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_start.mp3'],
-  volume: .2,
+  volume: .1,
 
   //when starting audio file ends, begin the looping audio
   onend: function () {
@@ -30,13 +30,13 @@ var computer_boot_start = new Howl({
 
 var computer_boot_loop = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_loop.mp3'],
-  volume: .2,
+  volume: .1,
   loop: true
 });
 
 var computer_boot_end = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_end.mp3'],
-  volume: .2
+  volume: .1
 });
 
 
@@ -45,12 +45,12 @@ var computer_boot_end = new Howl({
 var thruster_loop = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_loopable.mp3"],
   loop: true,
-  volume: .7
+  volume: .3
 });
 
 var thruster_end = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_end.mp3"],
-  volume: .7
+  volume: .3
 });
 
 
@@ -58,12 +58,12 @@ var thruster_end = new Howl({
 //Abilities
 var ability_boost = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/boost.mp3"],
-  volume: .3
+  volume: .1
 });
 
 var ability_charge = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/charge.mp3"],
-  volume: .3
+  volume: .1
 });
 
 

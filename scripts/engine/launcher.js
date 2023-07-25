@@ -51,26 +51,44 @@ function launch() {
   
 
   
-  //for (let i = 0; i < 5; i++) {
-  //  entities.push(new testenemy(0, -500))
-  //}
+  for (let i = 0; i < 5; i++) {
+    entities.push(new testenemy(0, -500))
+  }
   
   entities.push(new scannable(0, 0, ["line 1","line 2","line 3"]))
   //romango gameTrigger testing
   entities.push(new gameTrigger(250, 250, 300, 300))
-  //eden surface testing
-  entities.push(new surface(1000, 200, 1200, 0)) // corners
-  entities.push(new surface(1200, -600, 1000, -800))
-  entities.push(new surface(-1200, 0, -1000, 200))
-  entities.push(new surface(-1000, -800, -1200, -600))
+  //eden room testing
+  buildroom(0,0,{
+    upL:"vent",
+    upR:"vent",
 
-  entities.push(new surface(-1000, 200, 1000, 200)) // floor and ceiling 
-  entities.push(new surface(1000, -800, -1000, -800))
+    downL:"vent",
+    downR:"vent",
 
-  entities.push(new surface(-1200, -600, -1200, 0)) // walls
-  entities.push(new surface(1200, 0, 1200, -600))
+    left:"closed",
+    right:"closed"
+  })
+  buildroom(1200,-1500,{
+    upL:"closed",
+    upR:"closed",
 
-  entities.push(new vent(600, 0, 600, -600))
+    downL:"open",
+    downR:"closed",
+
+    left:"open",
+    right:"closed"
+  })
+  buildroom(-1200,-1500,{
+    upL:"closed",
+    upR:"closed",
+
+    downL:"closed",
+    downR:"open",
+
+    left:"closed",
+    right:"open"
+  })
 
  
 
