@@ -852,6 +852,7 @@ class Spore {
     this.pos = new Vector(X, Y);
     this.vel = new Vector(0, 0);
     this.veldif = new Vector(0, 0)
+    this.Depth = Math.random()
     this.timeoffset = 0
 
     this.distanceToPlayer = 0
@@ -859,7 +860,7 @@ class Spore {
       target.distanceToPlayer = target.pos.distXY(data.X, data.Y);
       target.brightness = ((Math.sin((-(time + target.timeoffset) + target.distanceToPlayer) / 100) + 1) + target.brightness * 20) / 21
 
-      if (target.distanceToPlayer < 20 && target.brightness > .2) {
+      if (target.distanceToPlayer < 20 && target.brightness > .2 && target.Depth > .9) {
         target.timeoffset = 2500
         target.vel.X = -(data.X - target.pos.X) * Spore.#spore_forcemodifier.X + data.VX * .5
         target.vel.Y = -(data.Y - target.pos.Y) * Spore.#spore_forcemodifier.Y + data.VY * .5
@@ -915,11 +916,11 @@ class Spore {
   draw() {
     ctx.save();
     ctx.globalAlpha = this.brightness;
-    ctx.drawImage(particle_Spore, this.pos.X - camera.pos.X + centerOfCanvas.X - 5, this.pos.Y - camera.pos.Y + centerOfCanvas.Y - 5, 10, 10);
+    ctx.drawImage(particle_Spore,this.pos.X - (this.Depth * camera.pos.X) + centerOfCanvas.X - 5,this.pos.Y - (this.Depth * camera.pos.Y) + centerOfCanvas.Y - 5, ((this.Depth)) *10, ((this.Depth)) * 10);
     if (this.timeoffset > 0) {
       this.timeoffset -= 25
       ctx.globalAlpha = 2 * this.brightness
-      ctx.drawImage(sporeflash, this.pos.X - camera.pos.X + centerOfCanvas.X - 15, this.pos.Y - camera.pos.Y + centerOfCanvas.Y - 15, 30, 30);
+      ctx.drawImage(sporeflash, this.pos.X - (this.Depth * camera.pos.X) + centerOfCanvas.X - 15,this.pos.Y - (this.Depth * camera.pos.Y) + centerOfCanvas.Y - 15, ((this.Depth)) *30, ((this.Depth)) * 30);
     }
     ctx.restore();
   }

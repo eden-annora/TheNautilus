@@ -40,12 +40,16 @@ function openmainmenu() {
   window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 }
 function launch() {
-  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space", "ShiftLeft"])]
+  
   //background = [new backgroundSprite([player_scangrid, player_scannerblurb, tmpbgtile], "keyPressed", 0, 0)]
 
+  entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space", "ShiftLeft"])]
+
   for (let i = 0; i < 100; i++) {
-    entities.push(new Spore(0, 0))
+    entities.unshift(new Spore(0, 0))
   }
+  
+
   
   //for (let i = 0; i < 5; i++) {
   //  entities.push(new testenemy(0, -500))
