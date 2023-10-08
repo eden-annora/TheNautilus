@@ -32,7 +32,6 @@ window.addEventListener('load', function () {
 });
 function openmainmenu() {
   //computer boot sounds
-  computer_boot_start.play()
 
   window.requestAnimationFrame(menu)
   window.removeEventListener("keydown", openmainmenu)

@@ -1,128 +1,214 @@
-var menufadeout = 100
+var menufadeout = 1000
 var menutimer = 0
 var mainmenu = true
-var boxlength = 0
+var skipintro = false
+var diskvel = .001
 var signalstrength = 12
 var lastframe = 0
+var shrink = 1
+var irisdilation = 0
+var diskpos = []
+
+for (let i = 0; i < 5; i++) {
+    diskpos[i] = 0
+}
+
 function menu(DT) {
 
-    menutimer += (DT - lastframe)/3
+    menutimer = (DT - lastframe) / 3
     lastframe = DT
 
     ctx.clearRect(0, 0, canvas.width, canvas.height) // clear the screen
     ctx_text.clearRect(0, 0, canvas.width, canvas.height)
-    let X = centerOfCanvas.X - 420
-    let Y = centerOfCanvas.Y + 50
+    let X = centerOfCanvas.X
+    let Y = centerOfCanvas.Y
     ctx.lineWidth = "6";
-    ctx.strokeStyle = "#34ebba80"
+    ctx.strokeStyle = "#6f00ff80"
     ctx.beginPath();
     ctx.rect(5, 5, canvas.width - 10, canvas.height - 10);
     ctx.stroke();
-    ctx.strokeStyle = "#34ebba40"
+    ctx.strokeStyle = "#6f00ff40"
     for (let i = 0; i < canvas.height / 5; i++) {
         ctx.beginPath();
         ctx.rect(10, 10 + i * 5, canvas.width - 20, 2);
         ctx.stroke();
     }
-    let screenflicker = (Math.floor(Math.random() * 50) + 150).toString(16)
-    X += (Math.random() - .5)
-    Y += (Math.random() - .5)
-    ctx_text.fillStyle = "#00ffc8" + screenflicker
-    ctx_text.font = "20px Courier New"
+    let screenflicker = (Math.floor(Math.random() * 100) + 150).toString(16)
+
 
     if (!mainmenu) {
-        menufadeout --
-    } else {
-
-        for (let i = 0; i < 2; i++) {
-            if (i == 1) {
-                ctx_text.fillStyle = "#00ffc825"
-                ctx_text.font = "19.5px Courier New"
-                X = X + 10
-            }
-            if (menutimer < 1500) {
-            if (menutimer > 50) { ctx_text.fillText("     SYSTEM BUILT BY AURORA COMPUTER CONTROL SYSTEMS", X, Y - 340); boxlength += 80 }
-            if (menutimer > 50) { ctx_text.fillText("     _____   _____          ", X, Y - 308); boxlength += 80 }
-            if (menutimer > 50) { ctx_text.fillText("                            REMOTE WAKE SIGNAL DETECTED...", X, Y - 320); boxlength += 80 }
-            if (menutimer > 100) { ctx_text.fillText("    .     . .     .         BOOTING UP", X, Y - 300) }
-            if (menutimer > 200) { ctx_text.fillText("    | ._. | | ._. |         CHECKING FOR BAD BLOCKS...", X, Y - 280); boxlength += 20 }
-            if (menutimer > 900) { ctx_text.fillText("                                                        [DONE]", X, Y - 280); boxlength += 20 }
-            if (menutimer > 300) { ctx_text.fillText("    | !_| |_|_|_! |         PREFORMING PREBOOT CHECKS [            ]", X, Y - 260); boxlength += 20 }
-            if (menutimer > 700) { ctx_text.fillText("                                                       ||    ", X, Y - 260); boxlength += 20 }
-            if (menutimer > 800) { ctx_text.fillText("                                                         ||    ", X, Y - 260); boxlength += 20 }
-            if (menutimer > 1000) { ctx_text.fillText("                                                           ||||    ", X, Y - 260); boxlength += 20 }
-            if (menutimer > 1200) { ctx_text.fillText("                                                               ||||", X, Y - 260); boxlength += 20 }
-            if (menutimer > 1200) { ctx_text.fillText("                                                                     [DONE]", X, Y - 260); boxlength += 20 }
-            if (menutimer > 300) { ctx_text.fillText("    !___| |_______!         ", X, Y - 240); boxlength += 20 }
-            if (menutimer > 300) { ctx_text.fillText("    .___|_|_| |___.         ", X, Y - 220); boxlength += 20 }
-            if (menutimer > 300) { ctx_text.fillText("    | ._____| |_. |         ", X, Y - 200); boxlength += 20 }
-            if (menutimer > 300) { ctx_text.fillText("    | !_! | | !_! |         ", X, Y - 180); boxlength += 20 }
-            if (menutimer > 300) { ctx_text.fillText("    !_____! !_____!         INCOMING DATA...", X, Y - 160); boxlength += 20 }
-            if (menutimer > 300) { ctx_text.fillText("                            LAUNCHING ROOT/USR/ADMN/MESSAGE_RECEIVER.ACE", X, Y - 180); boxlength += 20 }
-            if (menutimer > 300) { ctx_text.fillText("                            LAUNCHING MESSAGEVIEWER.AURORA_COMPUTERS_EXECUTABLE", X, Y - 200);}
+        if (menufadeout == 1000) {
+            computer_boot_start.play();
         }
-            if (menutimer < 3000 && menutimer > 1500) { ctx_text.fillText("=== PLEASE WAIT == RECIEVING TRANSMISSION == SIGNAL STRENGTH:" + ((signalstrength * 999 + (Math.random() * 1000)) / 1000).toFixed(2) + " ===", X, Y - 500); boxlength = 100 }
-            if (menutimer > 3000) { ctx_text.fillText("============================ [ COMPLETE ] ============================", X, Y - 500); boxlength = 100 }
-
-            if (menutimer > 1550) { ctx_text.fillText("                    THIS TRANSMISSION IS PROPERTY OF:", X, Y - 480); boxlength += 20 }
-            if (menutimer > 1600) { ctx_text.fillText("                   AURORA HAZARDOUS LIFE RESEARCH ORG.", X, Y - 460); boxlength += 20 }
-
-
-            if (menutimer > 1650) { ctx_text.fillText("         REDISTRIBUTION OUTSIDE OF THE INTENDED NETWORK IS ILLEGAL", X, Y - 420); boxlength += 20 }
-            if (menutimer > 1700) { ctx_text.fillText("               UNDER CLAUSE 2-B OF THE EMPLOYEE HANDBOOK", X, Y - 400); boxlength += 20 }
-            if (menutimer > 1750) { ctx_text.fillText("              AND PUNISHABLE AS STATED WITHIN THE SECTION", X, Y - 380); boxlength += 20 }
-
-            if (menutimer > 1800) { ctx_text.fillText("=======================================================================", X, Y - 360); boxlength += 20 }
-
-
-            if (menutimer > 2000) { ctx_text.fillText("     _____   _____          ", X, Y - 308); boxlength += 80 }
-            if (menutimer > 2025) { ctx_text.fillText("    .     . .     .         Attention team 8.", X, Y - 300) }
-            if (menutimer > 2050) { ctx_text.fillText("    | ._. | | ._. |         You have been tasked with an ", X, Y - 280); boxlength += 20 }
-            if (menutimer > 2075) { ctx_text.fillText("    | !_| |_|_|_! |         information extraction mission.", X, Y - 260); boxlength += 20 }
-            if (menutimer > 2100) { ctx_text.fillText("    !___| |_______!         on derelict: NAU-0506, The Nautilus.", X, Y - 240); boxlength += 20 }
-            if (menutimer > 2125) { ctx_text.fillText("    .___|_|_| |___.         ", X, Y - 220); boxlength += 20 }
-            if (menutimer > 2150) { ctx_text.fillText("    | ._____| |_. |         Due to the ships location inside of a", X, Y - 200); boxlength += 20 }
-            if (menutimer > 2175) { ctx_text.fillText("    | !_! | | !_! |         deadzone you will have to be within", X, Y - 180); boxlength += 20 }
-            if (menutimer > 2200) { ctx_text.fillText("    !_____! !_____!         weapons range to get a good signal.", X, Y - 160); boxlength += 20 }
-
-
-            if (menutimer > 2250) { ctx_text.fillText("MISSION BRIEFING:", X, Y - 90); boxlength += 70 }
-            if (menutimer > 2275) { ctx_text.fillText("External scans show that what appears to be an organic material has ", X, Y - 75); boxlength += 20 }
-            if (menutimer > 2300) { ctx_text.fillText("permeated the entireity of NAU-0506's superstructure.", X, Y - 60); boxlength += 20 }
-            if (menutimer > 2325) { ctx_text.fillText("find out why they went radio silent.", X, Y - 45); boxlength += 20 }
-            if (menutimer > 2350) { ctx_text.fillText("extract a sample of the biomaterial", X, Y - 30); boxlength += 20 }
-
-            if (menutimer > 2375) { ctx_text.fillText("MISSION OBJECTIVES:", X, Y); boxlength += 20 }
-            if (menutimer > 2400) { ctx_text.fillText("#0: AVOID CAUSING ANY DISTURBANCE AT ALL COSTS", X, Y + 20); boxlength += 40 }
-            if (menutimer > 2425) { ctx_text.fillText("#1: ACQUIRE A BIOLOGICAL SAMPLE FROM THE PLANT MATTER WITHIN.", X, Y + 60); boxlength += 40 }
-            if (menutimer > 2450) { ctx_text.fillText("#2: GAIN ACCESS TO THE SHIPS BLACKBOX LOGS AND DOWNLOAD THEM.", X, Y + 100); boxlength += 40 }
-            if (menutimer > 2475) { ctx_text.fillText("#3: SCAN OBJECTS OF INTEREST WITH THE WIDEBAND MATERIAL ANALYZER.", X, Y + 140); boxlength += 40 }
-
-            if (menutimer > 2500) {
-                boxlength += 60
-                ctx_text.fillText("           [TRANSMISSION HANDSHAKE COMPLETED SUCCESSFULLY]", X, Y + 200);
-
-                if (Math.floor(DT / 500) % 2 == 0) {
-                    ctx_text.fillStyle = "#00ffc850"
-                }
-                ctx_text.fillText("                          [ PRESS SPACE ]", X, Y + 240);
-            }
+        ctx_text.fillStyle = "#e600ff" + screenflicker
+        ctx_text.font = "20px Courier New"
+        let scrolloffset = 0
+        if (menufadeout > 700) {
+            scrolloffset = Y + menufadeout - 700
+        } else {
+            scrolloffset = Y
         }
+
+
+
+        if (menufadeout < 900) { ctx_text.fillText("ATTEMTING HANDSHAKE WITH MAINTENENCE NETWORK...", X - 800, scrolloffset); }
+        if (menufadeout < 800) { ctx_text.fillText("HANDSHAKE FAILED: [NET_ERROR: INVALID CREDENTIALS. CHECKSUM NOT PASSED. LOCAL DATA CORRUPTION DETECTED.]", X - 800, scrolloffset + 25); }
+        if (menufadeout < 700) { ctx_text.fillText("HANDSHAKE FAILED: [NET_ERROR: NETWORK QUARANTINE IS NOW IN EFFECT.]", X - 800, scrolloffset + 50); }
+        if (menufadeout < 600) { ctx_text.fillText("ATTEMPTING BOOT WITHOUT NETWORK ========================================================================", X - 800, scrolloffset + 75); }
+        if (menufadeout < 500) { ctx_text.fillText("Loading servo calibration file...............", X - 800, scrolloffset + 100); }
+        if (menufadeout < 400) { ctx_text.fillText("Loading drivers for hive coordination........", X - 800, scrolloffset + 125); }
+        if (menufadeout < 300) { ctx_text.fillText("Loading drivers for solo limb coordination...", X - 800, scrolloffset + 150); }
+        if (menufadeout < 300) { ctx_text.fillText("Attempting to connect to hive coordinator....", X - 800, scrolloffset + 175); }
+        if (menufadeout < 600) { ctx_text.fillText("Launching SensorSuite(110.5302.52215.4) - ", X - 800, scrolloffset + 225); }
+
+        if (menufadeout < 600) { ctx_text.fillText("ATTEMPTING BOOT WITHOUT NETWORK ========================================================================", X - 800, scrolloffset + 250); }
+        ctx_text.fillStyle = "#00ff91"
+        if (menufadeout < 400) { ctx_text.fillText("                                              [COMPLETE: ALL SERVOS PASSED DIAGNOSTICS]", X - 800, scrolloffset + 100); }
+        if (menufadeout < 350) { ctx_text.fillText("                                              [COMPLETE: HIVE MESH-NETWORK DRIVERS LOADED]", X - 800, scrolloffset + 125); }
+        if (menufadeout < 300) { ctx_text.fillText("                                              [COMPLETE: LIMB COORDINATOR HAS PASSED DIAGNOSTICS]", X - 800, scrolloffset + 150); }
+
+        if (menufadeout < 300) {
+            if (menufadeout > 200) { ctx_text.fillText("                                              [WAITING FOR DRIVERS TO COME ONLINE... STATUS : OFFLINE]", X - 800, scrolloffset + 175); }
+            else { ctx_text.fillStyle = "#fc034a"; ctx_text.fillText("                                              [FAILED: MODULE LOCKOUT IS IN EFFECT DUE TO CORRUPTED LOCAL DATA.]", X - 800, scrolloffset + 175); }
+        }
+
+        if (menufadeout < 600) {
+            if (menufadeout > 100) { ctx_text.fillStyle = "#fc034a"; ctx_text.fillText("                                          [OFFLINE]", X - 800, scrolloffset + 225); }
+            else { ctx_text.fillStyle = "#00ff91"; ctx_text.fillText("                                          [ONLINE]", X - 800, scrolloffset + 225); }
+        }
+
+        if (menufadeout < 1000) {
+            ctx_text.font = "30px Courier New"
+            ctx_text.fillStyle = "#00ff91"
+            if (Math.floor(menufadeout / 8) % 2 == 0) { ctx_text.fillStyle = "#00ff9175" }
+            ctx.lineWidth = "6";
+            ctx.strokeStyle = "#6f00ff"
+            ctx.beginPath();
+            ctx.rect(X - 805, Y - 85, 1610, 400);
+            ctx.stroke();
+            ctx.fillStyle = "#00000099"
+            ctx.fillRect(X - 805, Y - 85, 1610, 400);
+            ctx_text.fillText("[CRITICAL: REPORT TO A HIVE REPAIR STATION NOW TO REPAIR SYSTEM FILES]", X - 800, Y - 50);
+            ctx_text.fillText("[CRITICAL: REPORT TO A HIVE REPAIR STATION NOW TO REPAIR SYSTEM FILES]", X - 800, Y + 300);
+        }
+
+        if (menufadeout > 995) {
+            X += (centerOfCanvas.X - 800) - Math.random() * 100
+            Y += (centerOfCanvas.Y - 400) - Math.random() * 100
+            shrink = Math.random()
+        } else {
+            X = centerOfCanvas.X
+            Y = centerOfCanvas.Y - 300
+            shrink = .9
+        }
+
+
+        menufadeout -= menutimer / 5
+        if (menufadeout < 200) { diskvel += diskvel / (menutimer + (Math.random() - .5)) / 2500 } else { diskvel -= (menutimer) / 10000 }
+
+    }
+    ctx.fillStyle = "#00000099"
+
+    ctx.beginPath();
+    ctx.arc(X, Y, shrink * 225, 0, 2 * Math.PI);
+    ctx.stroke()
+    ctx.fill();
+
+    for (let i = 0; i < 5; i++) {
+        let radiusmodifier = 25 * i
+        ctx.lineWidth = "1";
+
+        diskpos[i] += (i / 50) + (diskvel * (menutimer))
+
+        let radius = 225 - radiusmodifier
+
+
+        ctx.beginPath();
+        ctx.arc(X, Y, shrink * radius, (diskpos[i] - 2 / 3 * Math.PI), (diskpos[i] - 2 / 3 * Math.PI) - 5.2);
+        ctx.stroke();
+        ctx.fill()
+        ctx.beginPath();
+        ctx.arc(X, Y, shrink * radius, (diskpos[i] - 4 / 3 * Math.PI), (diskpos[i] - 4 / 3 * Math.PI) - 5.2);
+        ctx.stroke();
+        ctx.fill()
+        ctx.beginPath();
+        ctx.arc(X, Y, shrink * radius, (diskpos[i] - 2 * Math.PI), (diskpos[i] - 2 * Math.PI) - 5.2);
+        ctx.stroke();
+        ctx.fill()
+
+        ctx.strokeStyle = "#00ff91"
+        irisdilation += (Math.random() - .5)
+        if (irisdilation > 65) { irisdilation = 65 }
+        if (irisdilation < 55) { irisdilation = 55 }
+
+
+        for (let b = 0; b < 50; b++) {
+            ctx.beginPath();
+            ctx.arc(X, Y, shrink * (100 + (i / 5) * 15), ((diskpos[i] * .05) + (b / (i * 20)) * Math.PI), ((diskpos[i] * .05) + (b / (i * 20)) * Math.PI));
+            ctx.arc(X, Y, shrink * (100 + (i / 5) * 20), ((diskpos[i] * .05) + (b / (i * 20)) * Math.PI), ((diskpos[i] * .05) + (b / (i * 20)) * Math.PI));
+            ctx.stroke()
+        }
+
+        for (let b = 0; b < 50; b++) {
+            ctx.beginPath();
+            ctx.arc(X, Y, shrink * (100 + (i / 5) * 15), ((diskpos[i] * .07) + (b / (i * 25)) * Math.PI), ((diskpos[i] * .07) + (b / (i * 25)) * Math.PI));
+            ctx.arc(X, Y, shrink * (100 + (i / 5) * 20), ((diskpos[i] * .07) + (b / (i * 25)) * Math.PI), ((diskpos[i] * .07) + (b / (i * 25)) * Math.PI));
+            ctx.stroke()
+        }
+
+        for (let b = 0; b < 25; b++) {
+            ctx.beginPath();
+            ctx.arc(X, Y, shrink * (60 + i * 10), (diskpos[i] * .05 + b / 25 * Math.PI), (diskpos[i] * .05 + b / 25 * Math.PI));
+            ctx.arc(X, Y, shrink * (irisdilation + i * 10), (diskpos[i] * .05 + b / 25 * Math.PI), (diskpos[i] * .05 + b / 25 * Math.PI));
+            ctx.stroke()
+        }
+
+        for (let b = 0; b < 25; b++) {
+            ctx.beginPath();
+            ctx.arc(X, Y, shrink * (70 + i * 5), (diskpos[i] * .05 + b / 20 * Math.PI), (diskpos[i] * .05 + b / 20 * Math.PI));
+            ctx.arc(X, Y, shrink * (65 + i * 5), (diskpos[i] * .05 + b / 20 * Math.PI), (diskpos[i] * .05 + b / 20 * Math.PI));
+            ctx.stroke()
+        }
+
+        for (let b = 0; b < 50; b++) {
+            ctx.beginPath();
+            ctx.arc(X, Y, shrink * (210 + (i / 5) * 15), ((diskpos[i] * .07) + (b / (i * 25)) * Math.PI), ((diskpos[i] * .07) + (b / (i * 25)) * Math.PI));
+            ctx.arc(X, Y, shrink * (210 + (i / 5) * 20), ((diskpos[i] * .07) + (b / (i * 25)) * Math.PI), ((diskpos[i] * .07) + (b / (i * 25)) * Math.PI));
+            ctx.stroke()
+        }
+
+        for (let b = 0; b < 50; b++) {
+            ctx.beginPath();
+            ctx.arc(X, Y, shrink * (210 + (i / 5) * 15), ((diskpos[i] * .1) + (b / (i * 15)) * Math.PI), ((diskpos[i] * .1) + (b / (i * 15)) * Math.PI));
+            ctx.arc(X, Y, shrink * (210 + (i / 5) * 20), ((diskpos[i] * .1) + (b / (i * 15)) * Math.PI), ((diskpos[i] * .1) + (b / (i * 15)) * Math.PI));
+            ctx.stroke()
+        }
+
+
+
+
+    }
+    if (menufadeout < 0) {
+        menufadeout = 0
     }
 
-    if (menufadeout < 100) { ctx_text.fillText("aw", X, Y - 500); }
-    if (menufadeout < 98) { ctx_text.fillText("  ai", X, Y - 500); }
-    if (menufadeout < 96) { ctx_text.fillText("    ti", X, Y - 500); }
-    if (menufadeout < 94) { ctx_text.fillText("      ng ", X, Y - 500); }
-    if (menufadeout < 92) { ctx_text.fillText("         ra", X, Y - 500); }
-    if (menufadeout < 90) { ctx_text.fillText("           di", X, Y - 500); }
-    if (menufadeout < 88) { ctx_text.fillText("             o l", X, Y - 500); }
-    if (menufadeout < 86) { ctx_text.fillText("                ink", X, Y - 500); }
-    if (menufadeout < 84) { ctx_text.fillText("                   .", X, Y - 500); }
-    if (menufadeout < 82) { ctx_text.fillText("                    .", X, Y - 500); }
-    if (menufadeout < 80) { ctx_text.fillText("                     .", X, Y - 500); }
-    if (menufadeout < 50) { ctx_text.fillText("CONNECTING!", X, Y - 480); }
-    if (menufadeout > 0) {
+
+
+    if (mainmenu) {
+        ctx_text.fillStyle = "#ff00a6" + screenflicker
+        ctx_text.font = (shrink * 25).toString() + "px Courier New"
+
+        ctx_text.fillText("[PLEASE REPORT TO AN UPDATE STATION ASAP] --- [PRESS SPACE TO CONTINUE BOOT PROCESS]", X - shrink * 600, Y + shrink * 500);
+        ctx_text.fillText("AURORA Bio-Intellegence SUBSYSTEM PROTOCOL #33104 [MAINTENENCE]", X - shrink * 600, Y + shrink * 300);
+        ctx_text.fillText("PHYSICAL SYSTEMS MAINTENENCE ROBOT PREBOOTLOADER", X - shrink * 600, Y + shrink * 350);
+        ctx_text.fillText("[BIOS VER : 1.2.440023] [SWARM PROTOCOL: MK-3] [SER# : 37877489233]", X - shrink * 600, Y + shrink * 400);
+        ctx_text.fillText("[WARNING: BIOS OUTDATED... NETWORK UPDATE FAILED: UPDATE REQ DENIED BY MESH NETWORK]", X - shrink * 600, Y + shrink * 450);
+        ctx_text.font = "50px Courier New"
+        ctx_text.fillText("AURORA BIO-COMPUTER SYSTEMS LTD.", X - 470, Y - 350);
+        ctx_text.fillText("SYS ID: CC-001-MTNC", X - 470, Y - 300);
+    } 
+
+    if (!skipintro) {
         window.requestAnimationFrame(menu);
     } else {
         console.log("the game should be running now")

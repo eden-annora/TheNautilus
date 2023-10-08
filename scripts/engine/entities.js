@@ -1218,7 +1218,7 @@ class ExternalKeyListeners {// menu buttons that need to work even if the player
       if (keyevent.data.code == "KeyH") { helpmenu = !helpmenu }
       if (keyevent.data.code == "Escape") { focused = !focused; }
       if (keyevent.data.code == "KeyM") { muteMusic = !muteMusic }
-      if (keyevent.data.code == "Space") { mainmenu = false }
+      if (keyevent.data.code == "Space") { if (!mainmenu) {skipintro = true} else {mainmenu = false;} console.log(mainmenu); console.log(skipintro);}
     });
   }
 }
