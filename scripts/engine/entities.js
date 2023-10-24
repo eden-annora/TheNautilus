@@ -419,6 +419,124 @@ class gameTrigger {
   }
 }
 
+class WormSegment {
+  constructor(X, Y, length) {
+    this.daccX = new Vector(-.025, 0);
+    this.daccY = new Vector(0, -.025);
+
+    this.speedcap = new Vector(1, 1)
+
+    this.acc = new Vector(0.002, 0.002);
+
+    this.moveVector = new Vector(0, 0);
+    this.pos = new Vector(X, Y);
+    this.vel = new Vector(0, 0);
+    
+    this.normal = new Vector(0,0)
+    
+    if (length > 1) {
+      this.segment = new WormSegment(X, Y, length - 1)
+      console.log("created worm segment #" + length)
+    } else {
+      this.segment = null
+    }
+    this.segmentnumber = length
+  }
+  update(segmentSize,parentposition) {
+    let DX = (parentposition.X - this.pos.X)
+    let DY = (parentposition.Y - this.pos.Y)
+    this.normal.setXY(DX/100, DY/100)
+    //let dir = Math.atan2(DY, DX)
+
+    this.error = segmentSize - this.pos.distXY(parentposition.X, parentposition.Y)
+
+    //console.log(this.segmentnumber + " | " + this.error + " | " + this.pos.getXY())
+    let force = -this.error/10
+    if (this.segment){this.segment.update(segmentSize,this.pos)}
+
+    this.vel.applyforceToDest_OT(this.vel, this.daccX, DT)
+    this.vel.applyforceToDest_OT(this.vel, this.daccY, DT)
+
+    this.vel.X = ((this.normal.X*force) + (this.vel.X*9))/10
+    this.vel.Y = ((this.normal.Y*force) + (this.vel.Y*9))/10
+    this.vel.clamp(2,-2,2,-2)
+    this.pos.add_OT(this.vel, DT);
+
+
+  }
+
+  draw(segmentSize,parentposition) {
+    let tpX = centerOfCanvas.X + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relative position to the player.
+    let tpY = centerOfCanvas.Y + (this.pos.Y - camera.pos.Y)
+
+    if (debug) {
+      ctx.lineWidth = "1";
+      ctx.strokeStyle = "#00ff00";
+      ctx.beginPath();
+      ctx.arc(tpX, tpY, segmentSize/2, 0, 2 * 3.14)
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(tpX, tpY);
+      ctx.lineTo(tpX+this.normal.X*30*Math.sign(this.error), tpY+this.normal.Y*30*Math.sign(this.error));
+      ctx.stroke();
+    }
+    if (this.segment != null){this.segment.draw(segmentSize,this.pos)}
+  }
+}
+
+class WormHead {
+  /**
+   * 
+   * @param {*} X  pos X
+   * @param {*} Y  pos Y 
+   */
+  constructor(X, Y, length) {
+
+    this.daccX = new Vector(-.25, 0);
+    this.daccY = new Vector(0, -.25);
+
+    this.speedcap = new Vector(.9, .9)
+
+    this.acc = new Vector(0.002, 0.002);
+
+    this.moveVector = new Vector(0, 0);
+    this.pos = new Vector(X, Y);
+    this.vel = new Vector(0, 0);
+
+    this.length = length
+
+    this.segmentSize = 80 // bounding radius for the legs
+
+    this.segment = new WormSegment(X, Y, length - 1)
+
+    eventHandler.bindListener(this, "playerMoved", function (target, data) { // when the player moves do checks to ensure its
+      target.pos.X = data.X;
+      target.pos.Y = data.Y;
+    })
+
+    eventHandler.bindListener(this, "physics_update", function (target, data) {
+      target.moveVector.setXY(0, 0);
+      target.segment.update(target.segmentSize, target.pos)
+    });
+
+  }
+  draw() {
+    let tpX = centerOfCanvas.X - 25 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relative position to the player.
+    let tpY = centerOfCanvas.Y - 25 + (this.pos.Y - camera.pos.Y)
+
+    if (debug) {
+      ctx.lineWidth = "1";
+      ctx.strokeStyle = "#00ff00";
+      ctx.beginPath();
+      ctx.arc(tpX + 25, tpY + 25, this.segmentSize/2, 0, 2 * 3.14)
+      ctx.stroke();
+    }
+
+    this.segment.draw(this.segmentSize, this.pos)
+  }
+}
+
+
 class enemyleg {
   /**
    * a single leg? bit? piece? of the blob enemy
@@ -629,7 +747,6 @@ class testenemy {
     }
   }
 }
-
 
 class backgroundSprite { // a terrible and temporary implementation of a background sprite.
   constructor(images, swaplistener, posX, posY) {

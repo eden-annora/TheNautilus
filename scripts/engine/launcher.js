@@ -15,9 +15,9 @@ window.addEventListener('load', function () {
 
   let len = splashtexts.length;
   ctx.fillText("THE NAUTILUS!", centerOfCanvas.X, centerOfCanvas.Y);
-  ctx.fillText(splashtexts[Math.floor(Math.random()*len)], centerOfCanvas.X, centerOfCanvas.Y+40);
-  
-    
+  ctx.fillText(splashtexts[Math.floor(Math.random() * len)], centerOfCanvas.X, centerOfCanvas.Y + 40);
+
+
   ctx.fillText("complete!", 10, 40);
   ctx.fillText("PRESS ANY KEY!", 10, 60);
 
@@ -40,7 +40,7 @@ function openmainmenu() {
   window.addEventListener("keyup", function (event) { eventHandler.raiseEvent("keyReleased", new Object({ data: event })) });
 }
 function launch() {
-  
+
   //background = [new backgroundSprite([player_scangrid, player_scannerblurb, tmpbgtile], "keyPressed", 0, 0)]
 
   entities = [new Player(0, 0, ["KeyW", "KeyA", "KeyS", "KeyD", "Space", "ShiftLeft"])]
@@ -48,49 +48,47 @@ function launch() {
   for (let i = 0; i < 100; i++) {
     entities.unshift(new Spore(0, 0))
   }
-  
 
-  
-  for (let i = 0; i < 5; i++) {
-    entities.push(new testenemy(0, -500))
-  }
-  
-  entities.push(new scannable(0, 0, ["line 1","line 2","line 3"]))
+
+
+    entities.push(new WormHead(0, -500, 50))
+
+  entities.push(new scannable(0, 0, ["line 1", "line 2", "line 3"]))
   //romango gameTrigger testing
   entities.push(new gameTrigger(250, 250, 300, 300))
   //eden room testing
-  buildroom(0,0,{
-    upL:"vent",
-    upR:"vent",
+  buildroom(0, 0, {
+    upL: "vent",
+    upR: "vent",
 
-    downL:"vent",
-    downR:"vent",
+    downL: "vent",
+    downR: "vent",
 
-    left:"closed",
-    right:"closed"
+    left: "closed",
+    right: "closed"
   })
-  buildroom(1200,-1500,{
-    upL:"closed",
-    upR:"closed",
+  buildroom(1200, -1500, {
+    upL: "closed",
+    upR: "closed",
 
-    downL:"open",
-    downR:"closed",
+    downL: "open",
+    downR: "closed",
 
-    left:"open",
-    right:"closed"
+    left: "open",
+    right: "closed"
   })
-  buildroom(-1200,-1500,{
-    upL:"closed",
-    upR:"closed",
+  buildroom(-1200, -1500, {
+    upL: "closed",
+    upR: "closed",
 
-    downL:"closed",
-    downR:"open",
+    downL: "closed",
+    downR: "open",
 
-    left:"closed",
-    right:"open"
+    left: "closed",
+    right: "open"
   })
 
- 
+
 
   ctx.fillText("update loop is now running!", 10, 80);
   window.requestAnimationFrame(draw);//wooooo dynamic framerate based off the users refreshrate wooooooo
