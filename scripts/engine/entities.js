@@ -431,9 +431,9 @@ class WormSegment {
     this.moveVector = new Vector(0, 0);
     this.pos = new Vector(X, Y);
     this.vel = new Vector(0, 0);
-
-    this.normal = new Vector(0, 0)
-
+    
+    this.normal = new Vector(0,0)
+    
     if (length > 1) {
       this.segment = new WormSegment(X, Y, length - 1)
       console.log("created worm segment #" + length)
@@ -442,30 +442,30 @@ class WormSegment {
     }
     this.segmentnumber = length
   }
-  update(segmentSize, parentposition) {
+  update(segmentSize,parentposition) {
     let DX = (parentposition.X - this.pos.X)
     let DY = (parentposition.Y - this.pos.Y)
-    this.normal.setXY(DX / 100, DY / 100)
+    this.normal.setXY(DX/100, DY/100)
     //let dir = Math.atan2(DY, DX)
 
     this.error = segmentSize - this.pos.distXY(parentposition.X, parentposition.Y)
 
     //console.log(this.segmentnumber + " | " + this.error + " | " + this.pos.getXY())
-    let force = -this.error / 10
-    if (this.segment) { this.segment.update(segmentSize, this.pos) }
+    let force = -this.error/10
+    if (this.segment){this.segment.update(segmentSize,this.pos)}
 
     this.vel.applyforceToDest_OT(this.vel, this.daccX, DT)
     this.vel.applyforceToDest_OT(this.vel, this.daccY, DT)
 
-    this.vel.X = ((this.normal.X * force) + (this.vel.X * 9)) / 10
-    this.vel.Y = ((this.normal.Y * force) + (this.vel.Y * 9)) / 10
-    this.vel.clamp(2, -2, 2, -2)
+    this.vel.X = ((this.normal.X*force) + (this.vel.X*9))/10
+    this.vel.Y = ((this.normal.Y*force) + (this.vel.Y*9))/10
+    this.vel.clamp(2,-2,2,-2)
     this.pos.add_OT(this.vel, DT);
 
 
   }
 
-  draw(segmentSize, parentposition) {
+  draw(segmentSize,parentposition) {
     let tpX = centerOfCanvas.X + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relative position to the player.
     let tpY = centerOfCanvas.Y + (this.pos.Y - camera.pos.Y)
 
@@ -473,14 +473,14 @@ class WormSegment {
       ctx.lineWidth = "1";
       ctx.strokeStyle = "#00ff00";
       ctx.beginPath();
-      ctx.arc(tpX, tpY, segmentSize / 2, 0, 2 * 3.14)
+      ctx.arc(tpX, tpY, segmentSize/2, 0, 2 * 3.14)
       ctx.stroke();
       ctx.beginPath();
       ctx.moveTo(tpX, tpY);
-      ctx.lineTo(tpX + this.normal.X * 30 * Math.sign(this.error), tpY + this.normal.Y * 30 * Math.sign(this.error));
+      ctx.lineTo(tpX+this.normal.X*30*Math.sign(this.error), tpY+this.normal.Y*30*Math.sign(this.error));
       ctx.stroke();
     }
-    if (this.segment != null) { this.segment.draw(segmentSize, this.pos) }
+    if (this.segment != null){this.segment.draw(segmentSize,this.pos)}
   }
 }
 
@@ -507,8 +507,7 @@ class WormHead {
 
     this.segmentSize = 80 // bounding radius for the legs
 
-    this.segment = new WormSegment(X, Y, length - 1);
-
+    this.segment = new WormSegment(X, Y, length - 1)
 
     eventHandler.bindListener(this, "playerMoved", function (target, data) { // when the player moves do checks to ensure its
       target.pos.X = data.X;
@@ -529,7 +528,7 @@ class WormHead {
       ctx.lineWidth = "1";
       ctx.strokeStyle = "#00ff00";
       ctx.beginPath();
-      ctx.arc(tpX + 25, tpY + 25, this.segmentSize / 2, 0, 2 * 3.14)
+      ctx.arc(tpX + 25, tpY + 25, this.segmentSize/2, 0, 2 * 3.14)
       ctx.stroke();
     }
 
@@ -820,12 +819,12 @@ class Player {
     camera.follow = this
 
 
-    this.daccX = new Vector(-.5, 0);
-    this.daccY = new Vector(0, 0);
+    this.daccX = new Vector(-.25, 0);
+    this.daccY = new Vector(0, -.25);
 
-    this.speedcap = .5
+    this.speedcap = 1.4
 
-    this.acc = new Vector(0.003, 0.003);
+    this.acc = new Vector(0.001, 0.001);
 
     this.moveVector = new Vector(0, 0);
     this.pos = new Vector(X, Y);
@@ -840,11 +839,6 @@ class Player {
     this.s = false
     this.d = false
     this.e = false
-
-    this.Up = false
-
-    this.grounded = false
-    this.jumpaxis = new Vector(0, 0)
 
     this.boosttimer = 0
     this.boostcap = 1
@@ -879,18 +873,10 @@ class Player {
 
         if (Math.sign(target.vel.X) === Math.sign(data.normal.X)) { newvelX = 0 }
         if (Math.sign(target.vel.Y) === Math.sign(data.normal.Y)) { newvelY = 0 }
-
-         
-
-        target.grounded = true
-        target.jumpaxis.setXY(data.normal.X, data.normal.Y)
       }
 
       target.vel.X = newvelX
       target.vel.Y = newvelY
-      target.jumpaxis.setXY(data.normal.X, data.normal.Y)
-      target.jumpaxis.clamp(1, -1, 1, -1)
-      target.jumpaxis.multXY(.9, .9)
 
     })
 
@@ -899,7 +885,7 @@ class Player {
       if (keyevent.data.code == target.keys[1]) { target.a = true; }
       if (keyevent.data.code == target.keys[2]) { target.s = true; }
       if (keyevent.data.code == target.keys[3]) { target.d = true; }
-      if (keyevent.data.code == target.keys[4]) { target.Up = true; }
+      if (keyevent.data.code == target.keys[4]) { target.AbilityTrigger(); }
       if (keyevent.data.code == target.keys[5]) { target.e = true; }
 
     });
@@ -909,7 +895,6 @@ class Player {
       if (keyevent.data.code == target.keys[1]) { target.a = false; }
       if (keyevent.data.code == target.keys[2]) { target.s = false; }
       if (keyevent.data.code == target.keys[3]) { target.d = false; }
-      if (keyevent.data.code == target.keys[4]) { target.Up = false; }
       if (keyevent.data.code == target.keys[5]) { target.e = false; }
 
     });
@@ -919,25 +904,20 @@ class Player {
       target.MoveKeyHeldX = false // used later to determine whether thruster audio should be playing or not
       target.MoveKeyHeldY = false
 
-      if (!target.grounded) { target.vel.Y += .01 }
-      if (target.grounded && target.Up) { target.grounded = false; target.pos.sub(target.jumpaxis); target.vel.sub(target.jumpaxis) }
-
-
-
       if (target.w) { target.moveVector.addXY(0, -1); target.MoveKeyHeldY = true }// 4 bools to a vector and one bool
       if (target.s) { target.moveVector.addXY(0, 1); target.MoveKeyHeldY = true }
       if (target.a) { target.moveVector.addXY(-1, 0); target.MoveKeyHeldX = true }
       if (target.d) { target.moveVector.addXY(1, 0); target.MoveKeyHeldX = true }
 
-      if (!target.MoveKeyHeldX && target.groudned) { target.moveVector.applyforceToDest_OT(target.vel, target.daccX, DT) }
-      if (!target.MoveKeyHeldY && target.groudned) { target.moveVector.applyforceToDest_OT(target.vel, target.daccY, DT) }
+      if (!target.MoveKeyHeldX && target.boosttimer < 1) { target.moveVector.applyforceToDest_OT(target.vel, target.daccX, DT) }
+      if (!target.MoveKeyHeldY && target.boosttimer < 1) { target.moveVector.applyforceToDest_OT(target.vel, target.daccY, DT) }
 
       if (target.boosttimer > 0) { target.boosttimer -= 1 }
       if ((target.MoveKeyHeldX || target.MoveKeyHeldY) && target.boosttimer < 600) { target.boosttimer = 0 }
 
       //apply the auto de accelleration to the player
       target.moveVector.clamp(1, -1, 1, -1) //clamp vector from values +1 to -1
-       target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT); // apply a force to the veloctiy based on the moveVector and the acceleration constant.
+      target.vel.applyforceToDest_OT(target.moveVector, target.acc, DT); // apply a force to the veloctiy based on the moveVector and the acceleration constant.
 
       if (target.deadtimer > 0) {
         target.deadtimer--
