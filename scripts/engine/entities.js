@@ -720,6 +720,8 @@ class testenemy {
   draw() {
     let tpX = centerOfCanvas.X - 25 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relative position to the player.
     let tpY = centerOfCanvas.Y - 25 + (this.pos.Y - camera.pos.Y)
+    
+    ctx.drawImage(sporemonster, tpX, tpY, 20, 20);
 
     let len = this.legs.length;
     for (let i = 0; i < len; i++) {

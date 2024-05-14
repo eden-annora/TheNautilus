@@ -51,7 +51,12 @@ function launch() {
 
 
 
-    entities.push(new WormHead(0, -500, 50))
+  for (let i = 0; i < 10; i++) {
+    entities.push(new testenemy(0, -500))
+  } 
+  
+  //entities.push(new WormHead(0, -500, 50))
+    
 
   entities.push(new scannable(0, 0, ["line 1", "line 2", "line 3"]))
   //romango gameTrigger testing
