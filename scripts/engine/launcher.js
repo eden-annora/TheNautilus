@@ -12,35 +12,20 @@ ctx.fillText("loading...", 10, 20);
 
 window.addEventListener('load', function () {
   // draw background art
-
-
-  //TODO: Roman needs to clean this code up
-
-
-  //old implementation
-  //let len = splashtexts.length;
   ctx.fillText("THE NAUTILUS!", centerOfCanvas.X, centerOfCanvas.Y);
-  //ctx.fillText(splashtexts[Math.floor(Math.random() * len)], centerOfCanvas.X, centerOfCanvas.Y + 40);
 
+  //TODO: Roman needs to improve this shit code
 
   //roman experimental implementation
 
   splashtext()
   async function splashtext() {
-    const response = await fetch("https://raw.githubusercontent.com/eden-annora/TheNautilus/splashtext-as-text-file/scripts/splashtext.txt");
+    const response = await fetch("https://eden-annora.github.io/TheNautilus/scripts/splashtext.txt");
     const splashtexts = await response.text();
 
     split_splashtexts = splashtexts.split('\n') // makes all the items in the list
-
-    //console.log(split_splashtexts)
-
-    randomNum = Math.floor(Math.random() * split_splashtexts.length)
-
-    //console.log(randomNum)
-
+    randomNum = Math.floor(Math.random() * split_splashtexts.length) // gets you a random number between 0 and the length of the list
     randomsplash = split_splashtexts[randomNum] // gets you the random line!
-
-    //console.log(randomsplash)
 
     ctx.fillText(randomsplash, centerOfCanvas.X, centerOfCanvas.Y + 40);
   }
