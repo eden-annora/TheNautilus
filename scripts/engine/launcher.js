@@ -23,9 +23,9 @@ window.addEventListener('load', function () {
     const response = await fetch("https://eden-annora.github.io/TheNautilus/scripts/splashtext.txt");
     const splashtexts = await response.text();
 
-    split_splashtexts = splashtexts.split('\n') // makes all the items in the list
-    randomNum = Math.floor(Math.random() * split_splashtexts.length) // gets you a random number between 0 and the length of the list
-    randomsplash = split_splashtexts[randomNum] // gets you the random line!
+    let split_splashtexts = splashtexts.split('\n') // makes all the items in the list
+    let randomNum = Math.floor(Math.random() * split_splashtexts.length) // gets you a random number between 0 and the length of the list
+    let randomsplash = split_splashtexts[randomNum] // gets you the random line!
 
     ctx.fillText(randomsplash, centerOfCanvas.X, centerOfCanvas.Y + 40);
   }
