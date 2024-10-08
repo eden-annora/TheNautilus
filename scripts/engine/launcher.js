@@ -12,10 +12,23 @@ ctx.fillText("loading...", 10, 20);
 
 window.addEventListener('load', function () {
   // draw background art
-
-  let len = splashtexts.length;
   ctx.fillText("THE NAUTILUS!", centerOfCanvas.X, centerOfCanvas.Y);
-  ctx.fillText(splashtexts[Math.floor(Math.random() * len)], centerOfCanvas.X, centerOfCanvas.Y + 40);
+
+  //TODO: Roman needs to improve this shit code
+
+  //roman experimental implementation
+
+  splashtext()
+  async function splashtext() {
+    const response = await fetch("https://eden-annora.github.io/TheNautilus/scripts/splashtext.txt");
+    const splashtexts = await response.text();
+
+    let split_splashtexts = splashtexts.split('\n') // makes all the items in the list
+    let randomNum = Math.floor(Math.random() * split_splashtexts.length) // gets you a random number between 0 and the length of the list
+    let randomsplash = split_splashtexts[randomNum] // gets you the random line!
+
+    ctx.fillText(randomsplash, centerOfCanvas.X, centerOfCanvas.Y + 40);
+  }
 
 
   ctx.fillText("complete!", 10, 40);
@@ -53,10 +66,10 @@ function launch() {
 
   for (let i = 0; i < 10; i++) {
     entities.push(new testenemy(0, -500))
-  } 
-  
+  }
+
   //entities.push(new WormHead(0, -500, 50))
-    
+
 
   entities.push(new scannable(0, 0, ["line 1", "line 2", "line 3"]))
   //romango gameTrigger testing
