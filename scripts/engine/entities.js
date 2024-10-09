@@ -431,9 +431,9 @@ class WormSegment {
     this.moveVector = new Vector(0, 0);
     this.pos = new Vector(X, Y);
     this.vel = new Vector(0, 0);
-    
-    this.normal = new Vector(0,0)
-    
+
+    this.normal = new Vector(0, 0)
+
     if (length > 1) {
       this.segment = new WormSegment(X, Y, length - 1)
       console.log("created worm segment #" + length)
@@ -442,30 +442,30 @@ class WormSegment {
     }
     this.segmentnumber = length
   }
-  update(segmentSize,parentposition) {
+  update(segmentSize, parentposition) {
     let DX = (parentposition.X - this.pos.X)
     let DY = (parentposition.Y - this.pos.Y)
-    this.normal.setXY(DX/100, DY/100)
+    this.normal.setXY(DX / 100, DY / 100)
     //let dir = Math.atan2(DY, DX)
 
     this.error = segmentSize - this.pos.distXY(parentposition.X, parentposition.Y)
 
     //console.log(this.segmentnumber + " | " + this.error + " | " + this.pos.getXY())
-    let force = -this.error/10
-    if (this.segment){this.segment.update(segmentSize,this.pos)}
+    let force = -this.error / 10
+    if (this.segment) { this.segment.update(segmentSize, this.pos) }
 
     this.vel.applyforceToDest_OT(this.vel, this.daccX, DT)
     this.vel.applyforceToDest_OT(this.vel, this.daccY, DT)
 
-    this.vel.X = ((this.normal.X*force) + (this.vel.X*9))/10
-    this.vel.Y = ((this.normal.Y*force) + (this.vel.Y*9))/10
-    this.vel.clamp(2,-2,2,-2)
+    this.vel.X = ((this.normal.X * force) + (this.vel.X * 9)) / 10
+    this.vel.Y = ((this.normal.Y * force) + (this.vel.Y * 9)) / 10
+    this.vel.clamp(2, -2, 2, -2)
     this.pos.add_OT(this.vel, DT);
 
 
   }
 
-  draw(segmentSize,parentposition) {
+  draw(segmentSize, parentposition) {
     let tpX = centerOfCanvas.X + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relative position to the player.
     let tpY = centerOfCanvas.Y + (this.pos.Y - camera.pos.Y)
 
@@ -473,14 +473,14 @@ class WormSegment {
       ctx.lineWidth = "1";
       ctx.strokeStyle = "#00ff00";
       ctx.beginPath();
-      ctx.arc(tpX, tpY, segmentSize/2, 0, 2 * 3.14)
+      ctx.arc(tpX, tpY, segmentSize / 2, 0, 2 * 3.14)
       ctx.stroke();
       ctx.beginPath();
       ctx.moveTo(tpX, tpY);
-      ctx.lineTo(tpX+this.normal.X*30*Math.sign(this.error), tpY+this.normal.Y*30*Math.sign(this.error));
+      ctx.lineTo(tpX + this.normal.X * 30 * Math.sign(this.error), tpY + this.normal.Y * 30 * Math.sign(this.error));
       ctx.stroke();
     }
-    if (this.segment != null){this.segment.draw(segmentSize,this.pos)}
+    if (this.segment != null) { this.segment.draw(segmentSize, this.pos) }
   }
 }
 
@@ -528,7 +528,7 @@ class WormHead {
       ctx.lineWidth = "1";
       ctx.strokeStyle = "#00ff00";
       ctx.beginPath();
-      ctx.arc(tpX + 25, tpY + 25, this.segmentSize/2, 0, 2 * 3.14)
+      ctx.arc(tpX + 25, tpY + 25, this.segmentSize / 2, 0, 2 * 3.14)
       ctx.stroke();
     }
 
@@ -720,7 +720,7 @@ class testenemy {
   draw() {
     let tpX = centerOfCanvas.X - 25 + (this.pos.X - camera.pos.X) // set transforms for the center of the canvas, the image width, and cameras relative position to the player.
     let tpY = centerOfCanvas.Y - 25 + (this.pos.Y - camera.pos.Y)
-    
+
     ctx.drawImage(sporemonster, tpX, tpY, 20, 20);
 
     let len = this.legs.length;
@@ -783,7 +783,7 @@ class animationwrapper { // a terrible and temporary implementation for animatio
     this.pos = new Vector(X, Y)
     this.framecounter = 0
     this.name = null
-    this.target
+    //this.target
     this.maxlength = ml
   }
 
@@ -1159,13 +1159,9 @@ class Player {
         thruster_loop.play()
       }
     }
-    else {
-      //end constant loop and play tail end of sound
-      if (thruster_loop.playing()) {
-        thruster_loop.stop()
-        thruster_end.play();
-      }
-
+    else if (thruster_loop.playing()) { //end constant loop and play tail end of sound
+      thruster_loop.stop()
+      thruster_end.play();
     }
   }
 }
@@ -1199,7 +1195,7 @@ class Spore {
 
         //spore collision audio 
         if (target.age < 1000) {// if we collide with a spore, play the noise and then immediatley set the spores age to 1000, this prevents further sounds from playing from that spore preventing overlapping sounds.
-          var randomIndex = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
+          let randomIndex = sporeCollisions[Math.floor(Math.random() * sporeCollisions.length)];
 
           target.veldif.X = (data.VX - target.vel.X)
           target.veldif.Y = (data.VY - target.vel.Y)
