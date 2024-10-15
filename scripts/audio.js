@@ -7,7 +7,7 @@
 
 
 //Background music
-var background_music = new Howl({
+let background_music = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/ambient_music/magic_forest.mp3'],
   loop: true,
   volume: .1
@@ -18,7 +18,7 @@ var background_music = new Howl({
 
 
 //Main menu computer-y sounds
-var computer_boot_start = new Howl({
+let computer_boot_start = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_start.mp3'],
   volume: .1,
 
@@ -28,13 +28,13 @@ var computer_boot_start = new Howl({
   }
 });
 
-var computer_boot_loop = new Howl({
+let computer_boot_loop = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_loop.mp3'],
   volume: .1,
   loop: true
 });
 
-var computer_boot_end = new Howl({
+let computer_boot_end = new Howl({
   src: ['https://eden-annora.github.io/TheNautilus/audio/player/intro_computer_boot/computer_bg_end.mp3'],
   volume: .1
 });
@@ -42,13 +42,13 @@ var computer_boot_end = new Howl({
 
 
 //Thrusters
-var thruster_loop = new Howl({
+let thruster_loop = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_loopable.mp3"],
   loop: true,
   volume: .3
 });
 
-var thruster_end = new Howl({
+let thruster_end = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/thruster/thruster_end.mp3"],
   volume: .3
 });
@@ -56,12 +56,12 @@ var thruster_end = new Howl({
 
 
 //Abilities
-var ability_boost = new Howl({
+let ability_boost = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/boost.mp3"],
   volume: .1
 });
 
-var ability_charge = new Howl({
+let ability_charge = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/player/charge.mp3"],
   volume: .1
 });
@@ -70,17 +70,17 @@ var ability_charge = new Howl({
 
 //Spore collision sounds
 const sporeCollisions = ["https://eden-annora.github.io/TheNautilus/audio/collision/spore/1.mp3", "https://eden-annora.github.io/TheNautilus/audio/collision/spore/2.mp3", "https://eden-annora.github.io/TheNautilus/audio/collision/spore/3.mp3"];
-var sporeHowls = {};
+let sporeHowls = {};
 
-for (var i = 0; i < sporeCollisions.length; i++) {
-  sporeHowls[sporeCollisions[i]] = new Howl({
-    src: [sporeCollisions[i]],
+for (const element of sporeCollisions) {
+  sporeHowls[element] = new Howl({
+    src: [element],
     loop: false,
     volume: .1
   });
 }
 
-var sporeHowlsAlert = new Howl({
+let sporeHowlsAlert = new Howl({
   src: ["https://eden-annora.github.io/TheNautilus/audio/collision/spore/alert.mp3"],
   loop: false,
   volume: .1

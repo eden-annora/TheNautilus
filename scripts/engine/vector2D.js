@@ -59,10 +59,10 @@ class Vector {
     return Math.hypot(X, Y);
   }
 }
-function transformX(X){
+function transformX(X) {
   return centerOfCanvas.X + (X - camera.pos.X)
 }
-function transformY(X){
+function transformY(X) {
   return centerOfCanvas.Y + (X - camera.pos.Y)
 }
 
@@ -81,11 +81,16 @@ function distToLine(V1, V2, POINT) { // black magic, all i know is that it works
   //set default answer
   let reqAns = 0
 
-  if (AB_BE > 0) { reqAns = POINT.dist(V2) } else {// am i on a line that could be perpendicular to the defined line segment?
-    if (AB_AE < 0) { reqAns = POINT.dist(V1) } else {
-      reqAns = (Math.abs(AB_slopeX * AE_slopeY - AB_slopeY * AE_slopeX)) / (Math.sqrt((AB_slopeX * AB_slopeX) + (AB_slopeY * AB_slopeY)))
-    }
+  if (AB_BE > 0) {
+    reqAns = POINT.dist(V2)
+
+  } else if (AB_AE < 0) // am i on a line that could be perpendicular to the defined line segment?
+  {
+    reqAns = POINT.dist(V1)
+
+  } else {
+    reqAns = (Math.abs(AB_slopeX * AE_slopeY - AB_slopeY * AE_slopeX)) / (Math.sqrt((AB_slopeX * AB_slopeX) + (AB_slopeY * AB_slopeY)))
+
   }
   return reqAns;
 }
-  
